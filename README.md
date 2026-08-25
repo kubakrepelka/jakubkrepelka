@@ -69,10 +69,28 @@ I inferred these; confirm them in `index.html`:
 | Footer Instagram | `instagram.com/kubakrepelka` | Inferred from a local IG export folder — **verify** |
 | Footer Facebook | `facebook.com/kubakrepelka` | **Guessed** — almost certainly needs changing |
 
+## Raw masters (Git LFS)
+
+The four 1080p Seedance masters in `assets/` (~85 MB) are versioned with
+**Git LFS**, not plain git. They aren't needed to run the site — only to
+re-run `npm run media` — but they can't be regenerated identically, since
+generation isn't deterministic.
+
+Cloning this repo without git-lfs installed gets you 133-byte pointer files
+instead of video. Install it first:
+
+```bash
+brew install git-lfs && git lfs install
+```
+
+Then `git clone` (or `git lfs pull` in an existing clone) fetches the real
+files. GitHub's free tier covers this comfortably — 85 MB against a 1 GB
+storage and 1 GB/month bandwidth allowance.
+
 ## Structure
 
 ```
-assets/            raw 1080p clips from Higgsfield (not served)
+assets/            raw 1080p clips from Higgsfield — Git LFS, not served
 public/frames/hero 144 JPEG orbit frames
 public/video/      builder / creator / closer background clips (~0.7–1.4 MB each)
 src/main.js        Lenis + ScrollTrigger, frame scrub, kinetic type

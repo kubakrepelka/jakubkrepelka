@@ -1,10 +1,3 @@
 node_modules
 dist
 .DS_Store
-
-# Raw 1080p Seedance masters (~85 MB) — NOT needed to run the site.
-# The derived frames (public/frames/hero) and background clips
-# (public/video) ARE committed, so a fresh clone runs as-is.
-# Only `npm run media` needs these. To version them, delete the line
-# below and use Git LFS — plain git is a poor home for binary masters.
-assets/*.mp4
