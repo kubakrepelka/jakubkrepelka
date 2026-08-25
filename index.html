@@ -3,9 +3,15 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Jakub Křepelka — weby, aplikace a AI nástroje</title>
-<meta name="description" content="Jakub Křepelka — stavím weby, aplikace a AI nástroje. Statické weby, parallax animace a scroll-cinematic zážitky pro živnostníky a malé firmy." />
+<title data-i18n="meta.title">Jakub Křepelka — weby, aplikace a AI řešení</title>
+<meta name="description" data-i18n-content="meta.desc" content="Jakub Křepelka — tvořím weby, aplikace a AI řešení pro firmy i jednotlivce. Návrh, závazná cena předem, spuštění na vaší doméně a starost o web i potom." />
 <meta name="theme-color" content="#050505" />
+
+<link rel="icon" href="/favicon.ico" sizes="48x48" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -28,12 +34,29 @@
 
 <!-- ── nav ────────────────────────────────────────────────────── -->
 <header class="nav" id="nav">
-  <a class="nav__mark" href="#hero" data-link>JK<i></i></a>
-  <nav class="nav__links">
-    <a href="#build" data-link>Postavíme</a>
-    <a href="#work" data-link>Práce</a>
-    <a href="#finale" data-link class="nav__cta">Kontakt</a>
+  <a class="nav__mark" href="/#hero" data-link>JK<i></i></a>
+
+  <nav class="nav__links" data-i18n-label="nav.menu" aria-label="Menu">
+    <a href="/" data-i18n="nav.home">Domů</a>
+    <a href="/zamereni/" data-i18n="nav.focus">Zaměření</a>
+    <a href="/reference/" data-i18n="nav.refs">Reference</a>
+    <a href="/blog/" data-i18n="nav.blog">Blog</a>
+    <a href="/faq/" data-i18n="nav.faq">FAQ</a>
+    <div class="lang" role="group" data-i18n-label="nav.lang" aria-label="Volba jazyka">
+      <button class="lang__btn" type="button" data-lang="cs" data-i18n-label="nav.lang.cs" aria-label="Přepnout do češtiny">CS</button>
+      <span class="lang__sep" aria-hidden="true">/</span>
+      <button class="lang__btn" type="button" data-lang="en" data-i18n-label="nav.lang.en" aria-label="Switch to English">EN</button>
+    </div>
   </nav>
+
+  <a class="btn btn--sm btn--primary nav__cta" href="mailto:jk.krepjak@gmail.com?subject=Popt%C3%A1vka%20webu" data-contact>
+    <span data-i18n="nav.cta">Nezávazná poptávka</span>
+  </a>
+
+  <button class="nav__burger" type="button" data-menu aria-expanded="false"
+          data-i18n-label="nav.menu.open" aria-label="Otevřít menu">
+    <span></span><span></span>
+  </button>
 </header>
 
 <main id="main">
@@ -58,7 +81,7 @@
 
       <!-- rides above the punch layer so the pitch is always legible -->
       <p class="hero__sub" id="heroSub">
-        <span>I build websites, apps and AI tools</span>
+        <span data-i18n="hero.sub">Tvořím weby, aplikace a AI řešení</span>
       </p>
 
       <div class="hero__hud" aria-hidden="true">
@@ -67,29 +90,29 @@
       </div>
 
       <div class="hero__cue" id="heroCue" aria-hidden="true">
-        <span>SCROLL</span><b></b>
+        <span data-i18n="hero.scroll">Scroll</span><b></b>
       </div>
     </div>
   </section>
 
-  <!-- ══ 02 · STATS ═════════════════════════════════════════════ -->
+  <!-- ══ 02 · STATS — what I commit to, not work I haven't done ══ -->
   <section class="stats" id="stats">
     <div class="stats__grid">
       <div class="stat" data-stat>
-        <div class="stat__val" data-count="10" data-suffix="+">0</div>
-        <div class="stat__label">websites built</div>
+        <div class="stat__val" data-count="24" data-i18n-suffix="stat.1.suffix" data-suffix=" h">0</div>
+        <div class="stat__label" data-i18n="stat.1.label">první odpověď na poptávku</div>
       </div>
       <div class="stat" data-stat>
-        <div class="stat__val" data-scramble="∞">∞</div>
-        <div class="stat__label">scroll-cinematic webs</div>
+        <div class="stat__val" data-i18n-scramble="stat.2.scramble" data-scramble="0 Kč">0 Kč</div>
+        <div class="stat__label" data-i18n="stat.2.label">úvodní konzultace a návrh</div>
       </div>
       <div class="stat" data-stat>
-        <div class="stat__val" data-count="6">0</div>
-        <div class="stat__label">web apps for companies</div>
+        <div class="stat__val" data-count="14" data-i18n-suffix="stat.3.suffix" data-suffix=" dní">0</div>
+        <div class="stat__label" data-i18n="stat.3.label">typicky od zadání ke spuštění</div>
       </div>
       <div class="stat" data-stat>
-        <div class="stat__val stat__val--sm" data-scramble="iOS/Android">iOS/Android</div>
-        <div class="stat__label">shipped multiple apps</div>
+        <div class="stat__val" data-count="100" data-i18n-suffix="stat.4.suffix" data-suffix=" %">0</div>
+        <div class="stat__label" data-i18n="stat.4.label">kód na míru, žádné šablony</div>
       </div>
     </div>
   </section>
@@ -101,7 +124,7 @@
     </div>
   </div>
 
-  <!-- ══ 03 · POSTAVÍME — pinned over clip 2 ════════════════════ -->
+  <!-- ══ 03 · ZAMĚŘENÍ — pinned over clip 2 ═════════════════════ -->
   <section class="chapter chapter--build" id="build">
     <div class="chapter__sticky">
       <video class="chapter__video" data-vid src="/video/builder.mp4" muted loop playsinline preload="auto"></video>
@@ -109,31 +132,45 @@
 
       <div class="chapter__inner">
         <div class="chapter__head">
-          <span class="eyebrow">02 — SLUŽBY</span>
-          <h2 class="chapter__title" data-split-words>POSTAVÍME</h2>
+          <span class="eyebrow" data-i18n="focus.eyebrow">02 — Digitální partner</span>
+          <h2 class="chapter__title" data-split-words data-i18n="focus.title">Zaměření</h2>
         </div>
 
         <ol class="build__list">
           <li class="build__item" data-reveal>
             <span class="build__num">01</span>
             <div class="build__body">
-              <h3>WEBOVÉ STRÁNKY</h3>
-              <p>pro živnostníky a malé firmy — bez agentury</p>
+              <h3><a class="build__link" href="/zamereni/#weby" data-i18n="focus.1.h">Webové stránky</a></h3>
+              <p data-i18n="focus.1.p">pro firmy i jednotlivce</p>
             </div>
+            <span class="build__end"><i class="build__go" aria-hidden="true">→</i></span>
           </li>
           <li class="build__item" data-reveal>
             <span class="build__num">02</span>
             <div class="build__body">
-              <h3>APLIKACE</h3>
-              <p>e-shopy, rezervace, objednávky nebo katalog</p>
+              <h3><a class="build__link" href="/zamereni/#aplikace" data-i18n="focus.2.h">Aplikace</a></h3>
+              <p data-i18n="focus.2.p">e-shopy, rezervace, objednávky nebo katalog</p>
             </div>
+            <span class="build__end"><i class="build__go" aria-hidden="true">→</i></span>
           </li>
           <li class="build__item" data-reveal>
             <span class="build__num">03</span>
             <div class="build__body">
-              <h3>AI AUTOMATIZACE</h3>
-              <p>ušetření času na opakujících se úkolech</p>
+              <h3><a class="build__link" href="/zamereni/#ai-automatizace" data-i18n="focus.3.h">AI automatizace</a></h3>
+              <p data-i18n="focus.3.p">ušetření času na opakujících se úkolech</p>
             </div>
+            <span class="build__end"><i class="build__go" aria-hidden="true">→</i></span>
+          </li>
+          <li class="build__item build__item--soon" data-reveal>
+            <span class="build__num">04</span>
+            <div class="build__body">
+              <h3><a class="build__link" href="/zamereni/#ai-skoleni" data-i18n="focus.4.h">AI školení</a></h3>
+              <p data-i18n="focus.4.p">připravuji</p>
+            </div>
+            <span class="build__end">
+              <span class="build__tag" data-i18n="focus.soon">Již brzy</span>
+              <i class="build__go" aria-hidden="true">→</i>
+            </span>
           </li>
         </ol>
       </div>
@@ -143,77 +180,86 @@
   <!-- ══ marquee ════════════════════════════════════════════════ -->
   <div class="marquee" data-marquee data-dir="-1">
     <div class="marquee__track">
-      <span>STATICKÉ WEBY</span><b>◆</b><span>PARALLAX</span><b>◆</b><span>SCROLL-CINEMATIC</span><b>◆</b><span>E-SHOPY</span><b>◆</b><span>REZERVACE</span><b>◆</b><span>AI AGENTI</span><b>◆</b><span>AUTOMATIZACE</span><b>◆</b><span>iOS</span><b>◆</b><span>ANDROID</span><b>◆</b>
+      <span data-i18n="mq.1">Statické weby</span><b>◆</b><span data-i18n="mq.2">Parallax</span><b>◆</b><span data-i18n="mq.3">Scroll-cinematic</span><b>◆</b><span data-i18n="mq.4">E-shopy</span><b>◆</b><span data-i18n="mq.5">Rezervace</span><b>◆</b><span data-i18n="mq.6">AI agenti</span><b>◆</b><span data-i18n="mq.7">Automatizace</span><b>◆</b><span>iOS</span><b>◆</b><span>ANDROID</span><b>◆</b>
     </div>
   </div>
 
-  <!-- ══ 04 · WORK — over clip 3 ════════════════════════════════ -->
-  <section class="chapter chapter--work" id="work">
+  <!-- ══ 04 · POSTUP — over clip 3 ══════════════════════════════ -->
+  <section class="chapter chapter--process" id="process">
     <div class="chapter__sticky">
       <video class="chapter__video" data-vid src="/video/creator.mp4" muted loop playsinline preload="auto"></video>
       <div class="chapter__scrim" aria-hidden="true"></div>
 
       <div class="chapter__inner">
         <div class="chapter__head">
-          <span class="eyebrow">03 — PRÁCE</span>
-          <h2 class="chapter__title" data-split-words>CO STAVÍM</h2>
+          <span class="eyebrow" data-i18n="process.eyebrow">03 — Postup</span>
+          <h2 class="chapter__title" data-split-words data-i18n="process.title">Spolupráce</h2>
         </div>
 
-        <div class="work__list">
-          <a class="work__item" href="#finale" data-link data-reveal>
-            <span class="work__idx">A</span>
-            <h3 class="work__title">Statické jednoduché weby</h3>
-            <p class="work__pitch">Rychlé, čisté, levné. Vaše firma online během pár dní.</p>
-            <span class="work__arrow" aria-hidden="true">→</span>
-            <span class="work__line" aria-hidden="true"></span>
-          </a>
-          <a class="work__item" href="#finale" data-link data-reveal>
-            <span class="work__idx">B</span>
-            <h3 class="work__title">Parallax animované weby</h3>
-            <p class="work__pitch">Vrstvy, které se hýbou se scrollem. Web, co působí draze.</p>
-            <span class="work__arrow" aria-hidden="true">→</span>
-            <span class="work__line" aria-hidden="true"></span>
-          </a>
-          <a class="work__item" href="#finale" data-link data-reveal>
-            <span class="work__idx">C</span>
-            <h3 class="work__title">Scroll-cinematic weby</h3>
-            <p class="work__pitch">Filmová režie ve scrollu. Přesně jako tenhle web.</p>
-            <span class="work__arrow" aria-hidden="true">→</span>
-            <span class="work__line" aria-hidden="true"></span>
-          </a>
-        </div>
+        <ol class="flow">
+          <li class="flow__item" data-reveal>
+            <span class="flow__num">01</span>
+            <h3 class="flow__title" data-i18n="process.1.h">Krátký hovor nebo schůzka</h3>
+            <p class="flow__pitch" data-i18n="process.1.p">V klidu probereme, co potřebujete a co od webu čekáte. Nezávazně a bez závazků.</p>
+          </li>
+          <li class="flow__item" data-reveal>
+            <span class="flow__num">02</span>
+            <h3 class="flow__title" data-i18n="process.2.h">Připravím návrh</h3>
+            <p class="flow__pitch" data-i18n="process.2.p">Řešení, obsah i struktura a závazná cena předem.</p>
+          </li>
+          <li class="flow__item" data-reveal>
+            <span class="flow__num">03</span>
+            <h3 class="flow__title" data-i18n="process.3.h">Postavíme</h3>
+            <p class="flow__pitch" data-i18n="process.3.p">Web nebo aplikace na míru. Vy se zatím věnujete své práci.</p>
+          </li>
+          <li class="flow__item" data-reveal>
+            <span class="flow__num">04</span>
+            <h3 class="flow__title" data-i18n="process.4.h">Společně doladíme</h3>
+            <p class="flow__pitch" data-i18n="process.4.p">Ukážeme si hotové řešení a doladíme detaily, dokud nebudete spokojení.</p>
+          </li>
+          <li class="flow__item" data-reveal>
+            <span class="flow__num">05</span>
+            <h3 class="flow__title" data-i18n="process.5.h">Spustíme</h3>
+            <p class="flow__pitch" data-i18n="process.5.p">Web na vaší doméně, hotový k použití.</p>
+          </li>
+          <li class="flow__item" data-reveal>
+            <span class="flow__num">06</span>
+            <h3 class="flow__title" data-i18n="process.6.h">Postaráme se</h3>
+            <p class="flow__pitch" data-i18n="process.6.p">Zůstávám s vámi. Hosting, zálohy i budoucí úpravy jedou dál, ať máte klid.</p>
+          </li>
+        </ol>
       </div>
     </div>
   </section>
 
-  <!-- ══ 05 · FINALE — over clip 4 ══════════════════════════════ -->
+  <!-- ══ 05 · FINÁLE — over clip 4 ══════════════════════════════ -->
   <section class="chapter chapter--finale" id="finale">
     <div class="chapter__sticky">
       <video class="chapter__video" data-vid src="/video/closer.mp4" muted loop playsinline preload="auto"></video>
       <div class="chapter__scrim chapter__scrim--soft" aria-hidden="true"></div>
 
       <div class="chapter__inner finale__inner">
-        <span class="eyebrow">04 — KONTAKT</span>
-        <h2 class="finale__title" data-split-words>Chcete webové stránky jako tyhle?</h2>
+        <span class="eyebrow" data-i18n="finale.eyebrow">04 — Kontakt</span>
+        <h2 class="finale__title" data-split-words data-i18n="finale.title">Váš web nemusí být jen představa!</h2>
 
         <div class="finale__ctas">
-          <a class="btn btn--primary" href="mailto:jk.krepjak@gmail.com?subject=Chci%20web%20jako%20tenhle">
-            <span>Pojďme do toho</span><i aria-hidden="true">→</i>
+          <a class="btn btn--primary" data-contact data-i18n-href="finale.mail" href="mailto:jk.krepjak@gmail.com?subject=Popt%C3%A1vka%20webu">
+            <span data-i18n="finale.cta1">Pojďme do toho</span><i aria-hidden="true">→</i>
           </a>
-          <a class="btn btn--ghost" href="#build" data-link>
-            <span>Jak to funguje</span>
+          <a class="btn btn--ghost" href="/reference/">
+            <span data-i18n="finale.cta2">Reference</span>
           </a>
         </div>
 
         <footer class="footer">
           <div class="footer__links">
             <a href="https://instagram.com/kubakrepelka" target="_blank" rel="noopener noreferrer">Instagram</a>
-            <a href="https://facebook.com/kubakrepelka" target="_blank" rel="noopener noreferrer">Facebook</a>
-            <a href="mailto:jk.krepjak@gmail.com">E-mail</a>
+            <a href="mailto:jk.krepjak@gmail.com" data-i18n="footer.email">E-mail</a>
+            <button type="button" class="footer__btn" data-cookie-open data-i18n="footer.cookies">Cookies</button>
           </div>
           <div class="footer__meta">
             <span>© <i id="year">2026</i> Jakub Křepelka</span>
-            <span class="footer__built">Built with scroll, not slides.</span>
+            <span class="footer__built" data-i18n="footer.built">Postaveno scrollem, ne slidy.</span>
           </div>
         </footer>
       </div>

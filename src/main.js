@@ -7,6 +7,8 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
+import { initChrome } from './chrome.js';
+
 gsap.registerPlugin(ScrollTrigger);
 
 const FRAME_COUNT = 144;                       // hero orbit frames — keep in sync with scripts/build-media.mjs
@@ -35,14 +37,19 @@ gsap.ticker.lagSmoothing(0);
    (resize, font swap, late media) restores a stale scroll position */
 ScrollTrigger.addEventListener('refresh', () => lenis.resize());
 
-/* anchor links routed through Lenis */
-document.querySelectorAll('[data-link]').forEach(a => {
-  a.addEventListener('click', e => {
-    const id = a.getAttribute('href');
-    if (!id?.startsWith('#')) return;
-    e.preventDefault();
-    lenis.scrollTo(id, { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) });
-  });
+/* anchor links routed through Lenis — the nav is shared with the other
+   pages, so its hrefs are absolute (`/#build`) and have to be matched
+   against this page before they count as in-page jumps */
+const scrollToId = id => lenis.scrollTo(id, { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) });
+
+document.addEventListener('click', e => {
+  const a = e.target.closest('[data-link]');
+  if (!a) return;
+  const url = new URL(a.getAttribute('href'), location.href);
+  if (url.pathname !== location.pathname || !url.hash) return;   // a real navigation
+  if (!document.querySelector(url.hash)) return;
+  e.preventDefault();
+  scrollToId(url.hash);
 });
 
 /* ═══ 1 · HERO — 360° orbit scrubbed onto a canvas ══════════════ */
@@ -152,6 +159,33 @@ function splitWords(el) {
   });
 }
 
+/* headlines are torn into per-word shells for the mask reveal, so a
+   language switch has to rebuild them: kill the old trigger, re-split the
+   fresh text, hand it a new one. Sections already scrolled past re-fire
+   immediately, which reads as the headline landing again */
+const splitTriggers = new WeakMap();
+
+function initSplitWords(el) {
+  splitTriggers.get(el)?.kill();
+  const words = splitWords(el);
+  gsap.set(words, { yPercent: 115 });
+  const tw = gsap.to(words, {
+    yPercent: 0,
+    ease: 'power3.out',
+    duration: 1.1,
+    stagger: .07,
+    scrollTrigger: { trigger: el.closest('.chapter') || el, start: 'top 55%', once: true },
+  });
+  splitTriggers.set(el, tw.scrollTrigger);
+}
+
+/* what a stat reads once its animation has landed — also what a language
+   switch has to repaint, since the unit is part of the string */
+function statFinal(val) {
+  if (val.dataset.count) val.textContent = val.dataset.count + (val.dataset.suffix || '');
+  else if (val.dataset.scramble) val.textContent = val.dataset.scramble;
+}
+
 /* ═══ 3 · build the timelines ═══════════════════════════════════ */
 function buildScene() {
   /* ── hero: orbit + name ───────────────────────────────────── */
@@ -229,16 +263,20 @@ function buildScene() {
 
         if (val.dataset.count) {
           const target = Number(val.dataset.count);
-          const suffix = val.dataset.suffix || '';
           const o = { n: 0 };
           gsap.to(o, {
             n: target,
             duration: 1.9,
             ease: 'power2.out',
-            onUpdate: () => { val.textContent = Math.round(o.n) + (o.n >= target ? suffix : ''); },
+            /* the suffix is read live — a language switch mid-count lands
+               on the next tick rather than freezing the old unit */
+            onUpdate: () => {
+              val.textContent = Math.round(o.n) + (o.n >= target ? (val.dataset.suffix || '') : '');
+            },
+            onComplete: () => { stat.dataset.done = '1'; statFinal(val); },
           });
         } else if (val.dataset.scramble) {
-          scramble(val, val.dataset.scramble);
+          scramble(val, () => { stat.dataset.done = '1'; });
         }
       },
     });
@@ -266,19 +304,9 @@ function buildScene() {
   });
 
   /* ── chapter headings ─────────────────────────────────────── */
-  document.querySelectorAll('[data-split-words]').forEach(el => {
-    const words = splitWords(el);
-    gsap.set(words, { yPercent: 115 });
-    gsap.to(words, {
-      yPercent: 0,
-      ease: 'power3.out',
-      duration: 1.1,
-      stagger: .07,
-      scrollTrigger: { trigger: el.closest('.chapter'), start: 'top 55%', once: true },
-    });
-  });
+  document.querySelectorAll('[data-split-words]').forEach(initSplitWords);
 
-  /* ── POSTAVÍME: one item at a time, scrubbed ──────────────── */
+  /* ── ZAMĚŘENÍ: one item at a time, scrubbed ───────────────── */
   const buildItems = document.querySelectorAll('.build__item');
   gsap.set(buildItems, { yPercent: 60, opacity: 0 });
   gsap.timeline({
@@ -292,19 +320,19 @@ function buildScene() {
       stagger: .16,
     }, .12);
 
-  /* ── WORK: same treatment ─────────────────────────────────── */
-  const workItems = document.querySelectorAll('.work__item');
-  gsap.set(workItems, { yPercent: 55, opacity: 0 });
+  /* ── POSTUP: six steps, same treatment ────────────────────── */
+  const flowItems = document.querySelectorAll('.flow__item');
+  gsap.set(flowItems, { yPercent: 45, opacity: 0 });
   gsap.timeline({
-    scrollTrigger: { trigger: '.chapter--work', start: 'top top', end: 'bottom bottom', scrub: .6 },
+    scrollTrigger: { trigger: '.chapter--process', start: 'top top', end: 'bottom bottom', scrub: .6 },
   })
-    .to(workItems, {
+    .to(flowItems, {
       yPercent: 0,
       opacity: 1,
       ease: 'power2.out',
-      duration: .18,
-      stagger: .16,
-    }, .14);
+      duration: .16,
+      stagger: .11,
+    }, .12);
 
   /* ── FINALE ───────────────────────────────────────────────── */
   gsap.from('.finale__ctas, .footer', {
@@ -336,31 +364,35 @@ function buildScene() {
     });
   });
 
-  /* ── nav hides on the way down, returns on the way up ─────── */
-  const nav = document.getElementById('nav');
-  ScrollTrigger.create({
-    start: '200 top',
-    end: 'max',
-    onUpdate: self => {
-      nav.classList.toggle('is-hidden', self.direction === 1 && self.scroll() > 400);
-    },
+  /* ── language switch: rebuild whatever JS took apart ──────── */
+  document.addEventListener('langchange', () => {
+    document.querySelectorAll('[data-split-words]').forEach(initSplitWords);
+    document.querySelectorAll('[data-stat]').forEach(stat => {
+      const val = stat.querySelector('.stat__val');
+      if (stat.dataset.done) statFinal(val);
+      else if (val.dataset.scramble) val.textContent = val.dataset.scramble;
+    });
+    ScrollTrigger.refresh();
   });
 
   ScrollTrigger.refresh();
 }
 
 /* ── glyph scramble for the non-numeric stats ───────────────── */
-function scramble(el, final) {
+/* the target is re-read every tick, so a language switch landing mid-scramble
+   resolves to the new string instead of finishing on the old one */
+function scramble(el, done) {
   const pool = '▚▞ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/∞◆';
-  const chars = Array.from(final);
   let tick = 0;
   const total = 34;
   const id = setInterval(() => {
     tick++;
+    const final = el.dataset.scramble || '';
+    const chars = Array.from(final);
     el.textContent = chars
       .map((c, i) => (tick / total) * chars.length > i ? c : pool[(Math.random() * pool.length) | 0])
       .join('');
-    if (tick >= total) { clearInterval(id); el.textContent = final; }
+    if (tick >= total) { clearInterval(id); el.textContent = final; done?.(); }
   }, 34);
 }
 
@@ -368,7 +400,9 @@ function scramble(el, final) {
 if (import.meta.env?.DEV) Object.assign(window, { __lenis: lenis, __st: ScrollTrigger, __state: state });
 
 /* ═══ 4 · boot ══════════════════════════════════════════════════ */
-document.getElementById('year').textContent = String(new Date().getFullYear());
+/* chrome first — everything downstream splits, counts or measures the
+   text it produces. The cookie bar waits for the loader to clear */
+const { cookies } = initChrome({ deferCookies: true });
 
 const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
 window.addEventListener('resize', debounce(() => {
@@ -390,6 +424,12 @@ preload().then(() => {
       loader.remove();
       lenis.start();
       ScrollTrigger.refresh();
+      /* arrived from /zamereni/ with a hash — the browser's own jump was undone
+         by the loader gate, so make it again now the page is measurable */
+      if (location.hash && document.querySelector(location.hash)) {
+        lenis.scrollTo(location.hash, { immediate: true });
+      }
+      cookies.maybeOpen();                 // never over the loader
     },
   });
   tl.to('.loader__inner', { opacity: 0, y: -20, duration: .5, ease: 'power2.in' })

@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "media": "node scripts/build-media.mjs"
+    "media": "node scripts/build-media.mjs",
+    "favicon": "node scripts/build-favicon.mjs"
   },
   "keywords": [],
   "author": "",
