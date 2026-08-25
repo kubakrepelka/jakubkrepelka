@@ -346,13 +346,33 @@ ol, ul { padding: 0; list-style: none; }
   pointer-events: none;
 }
 
+/* the name and the pitch live in different stacking layers — the name sits
+   behind the subject, the pitch in front — so they can't be laid out by the
+   same flow. These share the measurements instead, and .hero__type reserves
+   exactly the room the pitch block occupies. */
+.hero {
+  --name-size:  clamp(3.4rem, 15.5vw, 16rem);
+  --sub-size:   clamp(1.05rem, 2.55vw, 2.85rem);
+  --sub-lead:   1.16;
+  --sub-lines:  1;
+  --sub-bottom: clamp(6.2rem, 12.5vh, 8rem);
+  /* pitch block + the emerald rule above it + the slack the name's .8
+     line-height lets its glyphs overflow by (~.08em) */
+  --sub-clear: calc(
+    var(--sub-bottom)
+    + var(--sub-size) * var(--sub-lead) * var(--sub-lines)
+    + var(--name-size) * .08
+    + 2.6rem
+  );
+}
+
 .hero__type {
   position: absolute;
   inset: 0;
   z-index: 3;
   display: flex;
   flex-direction: column;
-  padding: clamp(3.5rem, 8.5vh, 6rem) var(--gut) clamp(7rem, 15.5vh, 10rem);
+  padding: clamp(3.5rem, 8.5vh, 6rem) var(--gut) var(--sub-clear);
   pointer-events: none;
 }
 
@@ -366,7 +386,7 @@ ol, ul { padding: 0; list-style: none; }
   letter-spacing: -.04em;
   line-height: .8;
   text-transform: uppercase;
-  font-size: clamp(3.4rem, 15.5vw, 16rem);
+  font-size: var(--name-size);
   text-align: center;
 }
 .hero__line { display: block; white-space: nowrap; }
@@ -380,28 +400,33 @@ ol, ul { padding: 0; list-style: none; }
   .char { text-shadow: 0 4px 28px rgba(0,0,0,.85); }
 }
 
+/* the pitch — second thing you read after the name, so it carries real
+   size. Display face condensed just enough that the whole sentence still
+   lands on one line down to tablet width. */
 .hero__sub {
   position: absolute;
   z-index: 6;
   left: 50%;
-  bottom: clamp(4.4rem, 9.5vh, 6.4rem);
+  bottom: var(--sub-bottom);
+  width: min(94vw, 76rem);
   transform: translateX(-50%);
   text-align: center;
   text-shadow: 0 2px 20px rgba(0,0,0,.92), 0 0 40px rgba(0,0,0,.7);
-  font-family: var(--mono);
-  font-size: clamp(.66rem, 1.15vw, .88rem);
-  letter-spacing: .32em;
+  font-family: var(--display);
+  font-variation-settings: 'wdth' 84, 'wght' 600;
+  font-size: var(--sub-size);
+  line-height: var(--sub-lead);
+  letter-spacing: .015em;
   text-transform: uppercase;
-  color: var(--cream-70);
-  white-space: nowrap;
-  overflow: hidden;
+  text-wrap: balance;
+  color: var(--cream);
 }
 .hero__sub span { display: inline-block; will-change: transform; }
 .hero__sub::before {
   content: '';
   position: absolute;
-  left: 50%; top: -.85rem;
-  width: 2.4rem; height: 1px;
+  left: 50%; top: -1.15rem;
+  width: 3.2rem; height: 2px;
   transform: translateX(-50%);
   background: var(--emerald);
 }
@@ -463,11 +488,20 @@ ol, ul { padding: 0; list-style: none; }
       radial-gradient(92% 48% at 50% 52%, rgba(5,5,5,.44) 0%, rgba(5,5,5,.74) 100%),
       linear-gradient(to bottom, rgba(5,5,5,.62) 0%, rgba(5,5,5,.22) 24%, rgba(5,5,5,.24) 58%, rgba(5,5,5,.95) 100%);
   }
-  .hero__sub {
-    font-size: .55rem;
-    letter-spacing: .18em;
-    bottom: clamp(3.4rem, 7.5vh, 4.6rem);
+  /* wraps to two lines here, so it sits a touch lower and tighter to
+     stay clear of the second name line */
+  .hero {
+    --sub-size:   clamp(1rem, 5.2vw, 1.35rem);
+    --sub-lead:   1.14;
+    --sub-lines:  2;
+    --sub-bottom: clamp(4.2rem, 8.5vh, 6rem);
   }
+  .hero__sub {
+    font-variation-settings: 'wdth' 88, 'wght' 600;
+    letter-spacing: .01em;
+    width: min(88vw, 30rem);
+  }
+  .hero__sub::before { top: -.85rem; width: 2.6rem; }
   .hero__cue span { display: none; }
   .hero__cue b { height: 1.6rem; }
 }

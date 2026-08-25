@@ -35,7 +35,7 @@ export const dict = {
     'nav.lang.en': 'Switch to English',
 
     /* ── 01 hero ──────────────────────────────────────────── */
-    'hero.sub': 'Tvořím weby, aplikace a AI řešení',
+    'hero.sub': 'Tvorba webových stránek, aplikací a AI řešení',
     'hero.scroll': 'Scroll',
 
     /* ── 02 stats — sliby, ne reference ───────────────────── */
@@ -249,7 +249,7 @@ export const dict = {
     'nav.lang.en': 'Switch to English',
 
     /* ── 01 hero ──────────────────────────────────────────── */
-    'hero.sub': 'I build websites, apps and AI solutions',
+    'hero.sub': 'Web development, apps and AI solutions',
     'hero.scroll': 'Scroll',
 
     /* ── 02 stats — promises, not a track record ──────────── */
