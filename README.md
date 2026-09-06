@@ -199,5 +199,6 @@ scripts/build-media.mjs     ffmpeg pipeline
 scripts/build-favicon.mjs   JK mark → svg / ico / png
 ```
 
-Fonts: Archivo (variable, `wdth` axis for condensed display) + JetBrains Mono,
-both with `latin-ext` for Czech diacritics.
+Fonts: Archivo (variable, `wdth` axis for condensed display) for the display
+type, Instrument Sans for running text, Spline Sans Mono for the technical
+labels — all three with `latin-ext` for Czech diacritics.
