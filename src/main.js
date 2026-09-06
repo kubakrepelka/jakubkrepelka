@@ -24,9 +24,9 @@ const LAST = SHOTS.length - 1;
 
 /* ── smooth scroll ──────────────────────────────────────────── */
 const lenis = new Lenis({
-  lerp: 0.085,
-  wheelMultiplier: 1,
-  touchMultiplier: 1.6,
+  lerp: 0.13,                 // higher = catches up to the wheel sooner
+  wheelMultiplier: 1.3,
+  touchMultiplier: 1.9,
   smoothWheel: true,
 });
 
@@ -40,7 +40,7 @@ ScrollTrigger.addEventListener('refresh', () => lenis.resize());
 /* anchor links routed through Lenis — the nav is shared with the other
    pages, so its hrefs are absolute (`/#build`) and have to be matched
    against this page before they count as in-page jumps */
-const scrollToId = id => lenis.scrollTo(id, { duration: 1.6, easing: t => 1 - Math.pow(1 - t, 4) });
+const scrollToId = id => lenis.scrollTo(id, { duration: 1, easing: t => 1 - Math.pow(1 - t, 4) });
 
 document.addEventListener('click', e => {
   const a = e.target.closest('[data-link]');
@@ -172,8 +172,8 @@ function initSplitWords(el) {
   const tw = gsap.to(words, {
     yPercent: 0,
     ease: 'power3.out',
-    duration: 1.1,
-    stagger: .07,
+    duration: .72,
+    stagger: .045,
     scrollTrigger: { trigger: el.closest('.chapter') || el, start: 'top 55%', once: true },
   });
   splitTriggers.set(el, tw.scrollTrigger);
@@ -259,14 +259,14 @@ function buildScene() {
       once: true,
       onEnter: () => {
         stat.classList.add('is-in');
-        gsap.from(stat, { y: 34, opacity: 0, duration: 1, ease: 'power3.out' });
+        gsap.from(stat, { y: 34, opacity: 0, duration: .6, ease: 'power3.out' });
 
         if (val.dataset.count) {
           const target = Number(val.dataset.count);
           const o = { n: 0 };
           gsap.to(o, {
             n: target,
-            duration: 1.9,
+            duration: 1.05,
             ease: 'power2.out',
             /* the suffix is read live — a language switch mid-count lands
                on the next tick rather than freezing the old unit */
@@ -310,36 +310,36 @@ function buildScene() {
   const buildItems = document.querySelectorAll('.build__item');
   gsap.set(buildItems, { yPercent: 60, opacity: 0 });
   gsap.timeline({
-    scrollTrigger: { trigger: '.chapter--build', start: 'top top', end: 'bottom bottom', scrub: .6 },
+    scrollTrigger: { trigger: '.chapter--build', start: 'top top', end: 'bottom bottom', scrub: .3 },
   })
     .to(buildItems, {
       yPercent: 0,
       opacity: 1,
       ease: 'power2.out',
-      duration: .18,
-      stagger: .16,
-    }, .12);
+      duration: .15,
+      stagger: .14,
+    }, .08);
 
   /* ── POSTUP: six steps, same treatment ────────────────────── */
   const flowItems = document.querySelectorAll('.flow__item');
   gsap.set(flowItems, { yPercent: 45, opacity: 0 });
   gsap.timeline({
-    scrollTrigger: { trigger: '.chapter--process', start: 'top top', end: 'bottom bottom', scrub: .6 },
+    scrollTrigger: { trigger: '.chapter--process', start: 'top top', end: 'bottom bottom', scrub: .3 },
   })
     .to(flowItems, {
       yPercent: 0,
       opacity: 1,
       ease: 'power2.out',
-      duration: .16,
-      stagger: .11,
-    }, .12);
+      duration: .13,
+      stagger: .095,
+    }, .08);
 
   /* ── FINALE ───────────────────────────────────────────────── */
   gsap.from('.finale__ctas, .footer', {
     y: 40,
     opacity: 0,
-    duration: 1.1,
-    stagger: .12,
+    duration: .7,
+    stagger: .08,
     ease: 'power3.out',
     scrollTrigger: { trigger: '.chapter--finale', start: 'top 35%', once: true },
   });
@@ -384,7 +384,7 @@ function buildScene() {
 function scramble(el, done) {
   const pool = '▚▞ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/∞◆';
   let tick = 0;
-  const total = 34;
+  const total = 22;
   const id = setInterval(() => {
     tick++;
     const final = el.dataset.scramble || '';
@@ -393,7 +393,7 @@ function scramble(el, done) {
       .map((c, i) => (tick / total) * chars.length > i ? c : pool[(Math.random() * pool.length) | 0])
       .join('');
     if (tick >= total) { clearInterval(id); el.textContent = final; done?.(); }
-  }, 34);
+  }, 26);
 }
 
 /* dev handles — used by the scroll/perf harness, harmless in prod */
