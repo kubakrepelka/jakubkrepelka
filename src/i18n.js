@@ -100,7 +100,7 @@ export const dict = {
 
     /* ── cookies ──────────────────────────────────────────── */
     'cookie.title': 'Cookies',
-    'cookie.text': 'Zatím tu neběží žádná analytika ani reklamní cookies — jen to nutné, aby web fungoval. Až měření spustím, bude se řídit tím, co si tu zvolíte.',
+    'cookie.text': 'Měřím jen anonymní návštěvnost, bez cookies a bez reklamních skriptů. Když zvolíte jen nutné, neměřím ani to.',
     'cookie.accept': 'Souhlasím',
     'cookie.decline': 'Jen nutné',
 
@@ -314,7 +314,7 @@ export const dict = {
 
     /* ── cookies ──────────────────────────────────────────── */
     'cookie.title': 'Cookies',
-    'cookie.text': 'No analytics or advertising cookies run here yet — only what the site needs to work. When I do switch measurement on, it will follow whatever you choose here.',
+    'cookie.text': 'I measure anonymous traffic only — no cookies, no advertising scripts. Choose essential only and I do not measure at all.',
     'cookie.accept': 'Accept',
     'cookie.decline': 'Essential only',
 

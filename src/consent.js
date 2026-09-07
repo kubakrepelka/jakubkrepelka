@@ -2,14 +2,10 @@
    COOKIE CONSENT
    ═══════════════════════════════════════════════════════════════
 
-   Nothing is measured yet — the site sets no analytics or advertising
-   cookies today. This exists so that when measurement is switched on,
-   the choice is already asked for, stored and honoured rather than
-   bolted on afterwards.
-
-   To actually turn analytics on: drop the snippet into `enable()` below.
-   It runs when consent is granted (either freshly, or on the next visit
-   from the stored answer) and never runs otherwise.
+   Measurement is Vercel Web Analytics, and it is gated on this file.
+   It starts when consent is granted (either freshly, or on the next
+   visit from the stored answer) and never runs otherwise — `enable()`
+   below is the single place it is switched on.
 
    The bar injects its own markup, so every page gets it by importing
    this — there's no copy of it in any HTML file.
@@ -28,12 +24,21 @@ export const consent = {
 };
 
 /* ── the analytics hook ──────────────────────────────────────── */
+/* Vercel Web Analytics — cookieless, and reached only from here, so a
+   visitor who declines never fetches a byte of it. The import is dynamic
+   for that reason: Vite splits it into its own chunk, requested the moment
+   consent is granted and never before.
+
+   `inject()` counts the current page view. This is a multi-page site, so
+   every later navigation is a fresh document that counts itself — there is
+   no client-side routing to report. In dev it logs to the console instead
+   of sending, and in production it needs Web Analytics enabled on the
+   Vercel project. */
 let running = false;
 function enable() {
   if (running) return;
   running = true;
-  /* ▸ analytics snippet goes here (Plausible, GA4, …). Until then the
-       consent is simply recorded, and nothing is loaded either way. */
+  import('@vercel/analytics').then(({ inject }) => inject());
 }
 
 const html = `
@@ -41,7 +46,7 @@ const html = `
   <div class="cookie__inner">
     <div class="cookie__copy">
       <p class="cookie__title" id="cookieTitle" data-i18n="cookie.title">Cookies</p>
-      <p class="cookie__text" data-i18n="cookie.text">Zatím tu neběží žádná analytika ani reklamní cookies — jen to nutné, aby web fungoval.</p>
+      <p class="cookie__text" data-i18n="cookie.text">Měřím jen anonymní návštěvnost, bez cookies a bez reklamních skriptů.</p>
     </div>
     <div class="cookie__actions">
       <button class="btn btn--sm btn--primary" type="button" data-consent="granted" data-i18n="cookie.accept">Souhlasím</button>
