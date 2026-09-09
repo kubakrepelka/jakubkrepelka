@@ -7,14 +7,22 @@
    <dialog> instead — so the form is the path, and the plain mailto
    stays the fallback if the script never runs.
 
-   There's no backend. On submit the answers are folded into a prefilled
-   mail and the visitor's own client sends it. Point ENDPOINT at a form
-   service (Formspree, a serverless function, whatever) and it POSTs the
-   JSON there instead, no other change needed.
+   There's still no backend of our own. Submissions POST as JSON to
+   Web3Forms, which forwards them to MAIL. The access key is public by
+   design — it only names the mailbox a message lands in, it reads
+   nothing back — so it belongs in client code. Free plan: 250 a month.
+
+   If that request fails — offline, blocked, service down, slow — the
+   handler hands the answers to the visitor's own mail client instead,
+   prefilled, so nothing they typed is lost.
    ═══════════════════════════════════════════════════════════════ */
 
-const ENDPOINT = null;                    // e.g. 'https://formspree.io/f/xxxx'
-const MAIL = 'jk.krepjak@gmail.com';
+import { dict, lang } from './i18n.js';
+
+const ENDPOINT   = 'https://api.web3forms.com/submit';
+const ACCESS_KEY = 'bc2f1fed-cd3e-4a72-9bff-b34305ecd12e';   // public key from the Web3Forms dashboard
+const MAIL       = 'info@jkweby.cz';
+const TIMEOUT    = 10000;               // ms — past this we stop waiting and open the mail client
 
 const html = `
 <dialog class="modal" id="contact">
@@ -42,6 +50,10 @@ const html = `
                   data-i18n-ph="form.msg.ph" placeholder="Potřebuji web pro…"></textarea>
       </label>
 
+      <!-- honeypot: no visitor can see or tab into it, a bot ticks it and
+           Web3Forms drops the submission on its side -->
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
       <div class="modal__actions">
         <button class="btn btn--primary" type="submit" data-send>
           <span data-i18n="form.send">Odeslat</span><i aria-hidden="true">→</i>
@@ -54,9 +66,9 @@ const html = `
     </div>
 
     <div class="modal__pane" data-pane="done" hidden>
-      <p class="eyebrow" data-i18n="form.sent.eyebrow">Odesláno</p>
-      <h2 class="modal__title" data-i18n="form.sent.title">Otevřel se váš e-mail</h2>
-      <p class="modal__text" data-i18n="form.sent.text">Zpráva je předvyplněná ve vašem e-mailovém klientovi — stačí ji odeslat.</p>
+      <p class="eyebrow" data-i18n="form.ok.eyebrow">Odesláno</p>
+      <h2 class="modal__title" data-i18n="form.ok.title">Zpráva je na cestě</h2>
+      <p class="modal__text" data-i18n="form.ok.text">Přišla mi do schránky. Ozvu se do 24 hodin.</p>
       <p class="modal__alt">
         <span data-i18n="form.or">Nebo mi napište přímo:</span>
         <a href="mailto:${MAIL}">${MAIL}</a>
@@ -67,6 +79,58 @@ const html = `
     </div>
   </form>
 </dialog>`;
+
+/* the two ways this can end, as i18n keys: the POST went through, or the
+   visitor's own mail client took over */
+const ENDING = {
+  ok:   ['form.ok.eyebrow',   'form.ok.title',   'form.ok.text'],
+  mail: ['form.sent.eyebrow', 'form.sent.title', 'form.sent.text'],
+};
+
+/* re-labels an element *and* re-keys it, so a later language switch
+   re-translates whichever ending is on screen */
+function paint(el, key) {
+  if (!el) return;
+  el.dataset.i18n = key;
+  const v = dict[lang]?.[key] ?? dict.cs[key];
+  if (v != null) el.textContent = v;
+}
+
+async function post(data) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), TIMEOUT);
+  try {
+    const res = await fetch(ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        ...data,                        // name · email · message (+ botcheck, if a bot ticked it)
+        access_key: ACCESS_KEY,
+        from_name: data.name,
+        replyto: data.email,            // hitting Reply in the inbox writes back to them
+        subject: lang === 'en'
+          ? `Website enquiry — ${data.name}`
+          : `Poptávka z webu — ${data.name}`,
+      }),
+      signal: ctrl.signal,
+    });
+    const out = await res.json().catch(() => ({}));
+    return res.ok && out.success === true;
+  } catch {
+    return false;                       // offline, blocked, aborted — the caller falls back
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function handOver(data) {
+  const subject = lang === 'en'
+    ? `Website enquiry — ${data.name}`
+    : `Poptávka z webu — ${data.name}`;
+  const body = `${data.message}\n\n—\n${data.name}\n${data.email}`;
+  window.location.href =
+    `mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
 
 export function initContact() {
   document.body.insertAdjacentHTML('beforeend', html);
@@ -81,6 +145,14 @@ export function initContact() {
   const show = which => {
     panes.form.hidden = which !== 'form';
     panes.done.hidden = which !== 'done';
+  };
+
+  const finish = kind => {
+    const [eyebrow, title, text] = ENDING[kind];
+    paint(panes.done.querySelector('.eyebrow'), eyebrow);
+    paint(panes.done.querySelector('.modal__title'), title);
+    paint(panes.done.querySelector('.modal__text'), text);
+    show('done');
   };
 
   const open = () => {
@@ -115,26 +187,19 @@ export function initContact() {
 
     const data = Object.fromEntries(new FormData(form));
     const btn = form.querySelector('[data-send]');
-    btn.disabled = true;
+    const label = btn.querySelector('span');
 
-    if (ENDPOINT) {
-      try {
-        await fetch(ENDPOINT, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(data),
-        });
-      } catch { /* fall through to the mail client */ }
-    } else {
-      const subject = `Poptávka z webu — ${data.name}`;
-      const body = `${data.message}\n\n—\n${data.name}\n${data.email}`;
-      window.location.href =
-        `mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    }
+    btn.disabled = true;
+    paint(label, 'form.sending');
+
+    const sent = await post(data);
 
     btn.disabled = false;
+    paint(label, 'form.send');
     form.reset();
-    show('done');
+
+    if (sent) finish('ok');
+    else { handOver(data); finish('mail'); }
   });
 
   return { open, close };

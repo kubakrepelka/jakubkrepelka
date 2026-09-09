@@ -159,10 +159,21 @@ Every primary CTA carries `data-contact` on top of a working `mailto:` href.
 `src/contact.js` intercepts the click and opens a native `<dialog>` with the
 form; without JS the plain mailto still works.
 
-There's no backend: on submit the answers are folded into a prefilled mail and
-the visitor's own client sends it. **To post somewhere instead**, set `ENDPOINT`
-at the top of `src/contact.js` to a form service or function URL — it'll POST
-the JSON there and nothing else needs changing.
+There's no backend of our own: on submit the answers POST as JSON to
+[Web3Forms](https://web3forms.com), which mails them to `info@jkweby.cz`. The
+`ACCESS_KEY` at the top of `src/contact.js` is public by design — it only names
+the mailbox a message lands in — so it belongs in client code. Free plan caps at
+250 submissions a month; the dashboard is where you change the recipient, add an
+autoresponder or plug in Slack/Sheets.
+
+Two endings, both real: the POST succeeds and the pane says so (`form.ok.*`), or
+it fails — offline, blocked, service down, slower than the 10 s timeout — and the
+answers go to the visitor's own mail client, prefilled, under the older
+`form.sent.*` copy. A hidden `botcheck` checkbox rides along as a honeypot;
+Web3Forms drops anything that arrives with it ticked.
+
+**To move to another service**, swap `ENDPOINT` and the payload keys in `post()`
+at the top of `src/contact.js` — everything else is service-agnostic.
 
 ## Favicon
 
