@@ -34,7 +34,9 @@ export const dict = {
     'nav.lang.cs': 'Přepnout do češtiny',
     'nav.lang.en': 'Switch to English',
 
-    /* ── 01 hero ──────────────────────────────────────────── */
+    /* ── 01 hero — the mark and the byline are names, so both languages
+       carry them unchanged; only the pitch below them translates ─ */
+    'hero.byline': 'Jakub Křepelka',
     'hero.sub': 'Tvorba webových stránek, aplikací a AI řešení',
     'hero.scroll': 'Scroll',
 
@@ -249,6 +251,7 @@ export const dict = {
     'nav.lang.en': 'Switch to English',
 
     /* ── 01 hero ──────────────────────────────────────────── */
+    'hero.byline': 'Jakub Křepelka',
     'hero.sub': 'Web development, apps and AI solutions',
     'hero.scroll': 'Scroll',
 

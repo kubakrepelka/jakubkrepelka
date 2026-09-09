@@ -22,6 +22,12 @@ const SHOTS = [];
 for (let i = 0; i < FRAME_COUNT; i += NARROW ? 2 : 1) SHOTS.push(i);
 const LAST = SHOTS.length - 1;
 
+/* hero mark entry: how far the glyphs stretch along their travel, and how far
+   the tail of a word drags behind its leading edge. Both are dialled back on a
+   phone, where every pixel they take is a pixel of travel they cost. */
+const SMEAR = NARROW ? 1.06 : 1.12;
+const LAG   = NARROW ? 0.07 : 0.14;
+
 /* ── smooth scroll ──────────────────────────────────────────── */
 const lenis = new Lenis({
   lerp: 0.13,                 // higher = catches up to the wheel sooner
@@ -125,23 +131,57 @@ function preload() {
 }
 
 /* ═══ 2 · kinetic type ══════════════════════════════════════════ */
-/* split a line into per-character shells, remembering how far each
-   one has to travel so the whole word "tracks in" on the compositor */
+/* split a line into per-character shells, remembering which way its half of
+   the mark comes in from — JK from the left, WEBY from the right — so the two
+   travel toward each other and lock together over the subject.
+
+   Travel is measured off the viewport rather than the type, and stops short of
+   the edges: at rest the halves sit apart on their own sides of the frame
+   instead of off-screen, so the page still reads as a poster before anyone
+   scrolls. Trailing glyphs start a touch further out, so each word stretches on
+   the way in and compresses as it lands. */
 function splitChars(el) {
+  const dir = el.dataset.from === 'right' ? 1 : -1;
   const text = el.textContent.trim();
   const chars = Array.from(text);
   const fs = parseFloat(getComputedStyle(el).fontSize) || 120;
+  const entry = markEntry(el, fs);
   el.textContent = '';
   const n = chars.length;
   return chars.map((c, i) => {
     const span = document.createElement('span');
     span.className = 'char';
     span.textContent = c === ' ' ? ' ' : c;
-    // rest-state offset scales with the fluid display size so it never overflows
-    span._spread = (i - (n - 1) / 2) * fs * 0.17;
+    /* 0 at the leading edge of this word's travel, 1 at its tail: the leading
+       glyph starts nearest its locked spot, the tail furthest out, so the word
+       stretches on the way in and compresses as it lands */
+    const tail = dir < 0 ? (n - 1 - i) / Math.max(1, n - 1) : i / Math.max(1, n - 1);
+    span._x0 = dir * (entry.x + tail * fs * LAG);
+    span._y0 = dir * entry.y;
     el.appendChild(span);
     return span;
   });
+}
+
+/* where a half sits before the scroll starts.
+
+   The lateral travel is capped by whatever room is left beside the locked mark,
+   gutter included: a half sliced by the frame edge reads as a bug, not as a
+   word waiting to arrive. On a phone that room is nearly nothing — the mark
+   already takes most of the width — which is what the vertical component is
+   for. There the two halves come together mostly down the long axis instead,
+   and the entry stays a diagonal either way. */
+function markEntry(el, fs) {
+  const type = el.closest('.hero__type');
+  const gut = (type && parseFloat(getComputedStyle(type).paddingLeft)) || 24;
+  /* the smear widens the line too, so the room is measured against the
+     stretched width, not the resting one */
+  const room = (window.innerWidth - el.getBoundingClientRect().width * SMEAR) / 2
+             - gut - fs * LAG;
+  return {
+    x: Math.max(0, Math.min(window.innerWidth * 0.28, room)),
+    y: window.innerHeight * (NARROW ? 0.085 : 0.03),
+  };
 }
 
 function splitWords(el) {
@@ -188,20 +228,29 @@ function statFinal(val) {
 
 /* ═══ 3 · build the timelines ═══════════════════════════════════ */
 function buildScene() {
-  /* ── hero: orbit + name ───────────────────────────────────── */
-  const heroChars = [...document.querySelectorAll('.hero__line')].flatMap(splitChars);
+  /* ── hero: orbit + mark ───────────────────────────────────── */
+  const heroHalves = [...document.querySelectorAll('.hero__line')].map(el => ({
+    chars: splitChars(el),
+    dir: el.dataset.from === 'right' ? 1 : -1,
+  }));
+  const heroChars = heroHalves.flatMap(h => h.chars);
+  const heroByline = document.getElementById('heroByline');
   const heroSub = document.querySelector('#heroSub span');
   const cue = document.getElementById('heroCue');
   const degOut = document.getElementById('orbitDeg');
 
   gsap.set(heroChars, {
-    yPercent: 18,
+    x: (i, el) => el._x0,
+    y: (i, el) => el._y0,
+    /* stretched along the direction of travel — reads as speed, and it
+       squares up as the halves settle */
+    scaleX: SMEAR,
     // phones have no punch layer, so the resting ghost has to hold its own
     // against a lit subject rather than a black void
-    opacity: NARROW ? .55 : .28,
-    x: (i, el) => el._spread,
+    opacity: NARROW ? .5 : .26,
     filter: NARROW ? 'blur(5px)' : 'blur(9px)',
   });
+  gsap.set(heroByline, { y: 18, opacity: 0 });   /* hairlines and word together */
   gsap.set(heroSub, { yPercent: 0, opacity: .55 });
 
   const hero = gsap.timeline({
@@ -226,21 +275,33 @@ function buildScene() {
     },
   }, 0);
 
-  /* name tracks in letter by letter across the first third */
-  hero.to(heroChars, {
-    yPercent: 0,
-    opacity: 1,
-    x: 0,
-    filter: 'blur(0px)',
-    ease: 'power3.out',
-    duration: .30,
-    stagger: { each: .0075, from: 'start' },
-  }, .04);
+  /* the two halves close on each other across the first third and lock.
 
-  hero.to(heroSub, { opacity: 1, ease: 'power2.out', duration: .10 }, .30);
+     One tween per half, because the stagger has to run along each word's own
+     direction of travel: the glyph at its leading edge settles first and the
+     rest drag in behind it. Staggering the six glyphs as one list instead pairs
+     them by distance from the middle of the list — which falls inside WEBY, not
+     between the words — so W and E would set off together and arrive glued. */
+  heroHalves.forEach(({ chars, dir }) => {
+    hero.to(chars, {
+      x: 0,
+      y: 0,
+      scaleX: 1,
+      opacity: 1,
+      filter: 'blur(0px)',
+      ease: 'power3.out',
+      duration: .30,
+      stagger: { each: .014, from: dir < 0 ? 'end' : 'start' },
+    }, .04);
+  });
+
+  /* and only once they have — the byline signs the finished mark, so it
+     can't arrive before there is a mark to sign */
+  hero.to(heroByline, { y: 0, opacity: 1, ease: 'power2.out', duration: .09 }, .34);
+  hero.to(heroSub, { opacity: 1, ease: 'power2.out', duration: .10 }, .40);
 
   /* and lets go again before the stats take over */
-  hero.to('.hero__type', { opacity: 0, y: -60, ease: 'power2.in', duration: .12 }, .86);
+  hero.to('.hero__type, .hero__byline', { opacity: 0, y: -60, ease: 'power2.in', duration: .12 }, .86);
 
   /* scroll cue retires once you've engaged */
   ScrollTrigger.create({

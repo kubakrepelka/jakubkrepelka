@@ -350,21 +350,37 @@ ol, ul { padding: 0; list-style: none; }
   pointer-events: none;
 }
 
-/* the name and the pitch live in different stacking layers — the name sits
+/* the mark and the pitch live in different stacking layers — the mark sits
    behind the subject, the pitch in front — so they can't be laid out by the
    same flow. These share the measurements instead, and .hero__type reserves
-   exactly the room the pitch block occupies. */
+   exactly the room the block below it occupies. */
 .hero {
-  --name-size:  clamp(3.4rem, 15.5vw, 16rem);
+  /* JK is two glyphs, WEBY is four. Set at one size the top line would read as
+     a stub over a bar, so the width axis does the levelling: JK runs wide,
+     WEBY condensed, and one dial drives both. Measured, 'wdth' 118 gives two
+     glyphs 1.628em of ink where four condensed ones take 2.072em — 1.273×
+     lands the two lines on the same width at every viewport. The 30vh ceiling
+     keeps the stack inside a short window instead of running under the nav. */
+  --mark-weby:  min(clamp(3.6rem, 16.5vw, 17rem), 30vh);
+  --mark-jk:    calc(var(--mark-weby) * 1.273);
+  --mark-gap:   clamp(.1rem, 1.1vh, .9rem);
+  --name-size:  var(--mark-weby);
   --sub-size:   clamp(1.05rem, 2.55vw, 2.85rem);
   --sub-lead:   1.16;
   --sub-lines:  1;
   --sub-bottom: clamp(6.2rem, 12.5vh, 8rem);
-  /* pitch block + the emerald rule above it + the slack the name's .8
+  --byline-size:  clamp(.64rem, 1.05vw, .88rem);
+  --byline-gap:   clamp(1.5rem, 3.2vh, 2.4rem);
+  /* pitch block + the byline above it + the slack the mark's .8
      line-height lets its glyphs overflow by (~.08em) */
-  --sub-clear: calc(
+  --byline-bottom: calc(
     var(--sub-bottom)
     + var(--sub-size) * var(--sub-lead) * var(--sub-lines)
+    + var(--byline-gap)
+  );
+  --sub-clear: calc(
+    var(--byline-bottom)
+    + var(--byline-size) * 1.4
     + var(--name-size) * .08
     + 2.6rem
   );
@@ -384,16 +400,36 @@ ol, ul { padding: 0; list-style: none; }
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  justify-content: space-between;
+  /* the halves close into one block, not two lines parked at either end of
+     the frame — the lock has to look like a lock */
+  justify-content: center;
+  gap: var(--mark-gap);
+  align-items: center;
   font-family: var(--display);
   font-variation-settings: 'wdth' 64, 'wght' 900;
-  letter-spacing: -.04em;
   line-height: .8;
   text-transform: uppercase;
-  font-size: var(--name-size);
   text-align: center;
 }
 .hero__line { display: block; white-space: nowrap; }
+
+/* wide and a size up — two glyphs have to carry a whole line.
+   The margin cancels the trailing letter-space: tracking is added after the
+   last glyph too, so a negative value leaves the ink hanging off the right of
+   the box and the flex centring lands it off-axis. Measured back to centre. */
+.hero__line--jk {
+  font-size: var(--mark-jk);
+  font-variation-settings: 'wdth' 118, 'wght' 900;
+  letter-spacing: -.015em;
+  margin-right: .015em;
+}
+/* condensed — four glyphs on the same measure as the two above */
+.hero__line--weby {
+  font-size: var(--mark-weby);
+  font-variation-settings: 'wdth' 60, 'wght' 900;
+  letter-spacing: -.035em;
+  margin-right: .045em;         /* tracking, plus W's heavier left sidebearing */
+}
 
 /* per-character shells produced by JS */
 .char {
@@ -426,13 +462,47 @@ ol, ul { padding: 0; list-style: none; }
   color: var(--cream);
 }
 .hero__sub span { display: inline-block; will-change: transform; }
-.hero__sub::before {
-  content: '';
+
+/* the rule that used to sit here was decoration; now it carries the name.
+   Two hairlines running into it read as a credit line rather than a second
+   headline, which keeps WEBY the loudest thing on the screen. */
+.hero__byline {
   position: absolute;
-  left: 50%; top: -1.15rem;
-  width: 3.2rem; height: 2px;
-  transform: translateX(-50%);
-  background: var(--emerald);
+  z-index: 6;
+  /* centred by the flex row spanning the full width, not by a translate: the
+     hero timeline animates this element's transform on the way out, and GSAP
+     bakes any existing translate into a fixed pixel matrix when it does — which
+     then stops tracking the element's width across a resize or a language
+     switch. Nothing to bake this way. */
+  left: 0;
+  right: 0;
+  bottom: var(--byline-bottom);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: clamp(.8rem, 1.8vw, 1.4rem);
+  white-space: nowrap;
+  font-family: var(--mono);
+  font-size: var(--byline-size);
+  font-variation-settings: 'wght' 500;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--emerald);
+  text-shadow: 0 2px 18px rgba(0,0,0,.9);
+  pointer-events: none;
+}
+.hero__byline span {
+  display: inline-block;
+  text-indent: .34em;          /* claw back the trailing letter-space */
+  will-change: transform, opacity;
+}
+.hero__byline::before,
+.hero__byline::after {
+  content: '';
+  height: 2px;
+  width: clamp(1.8rem, 6vw, 4.2rem);
+  background: currentColor;
+  opacity: .55;
 }
 
 /* HUD */
@@ -492,20 +562,27 @@ ol, ul { padding: 0; list-style: none; }
       radial-gradient(92% 48% at 50% 52%, rgba(5,5,5,.44) 0%, rgba(5,5,5,.74) 100%),
       linear-gradient(to bottom, rgba(5,5,5,.62) 0%, rgba(5,5,5,.22) 24%, rgba(5,5,5,.24) 58%, rgba(5,5,5,.95) 100%);
   }
-  /* wraps to two lines here, so it sits a touch lower and tighter to
-     stay clear of the second name line */
+  /* the pitch wraps to two lines here, so it sits lower and tighter to stay
+     clear of WEBY. The mark goes the other way: two and four glyphs can take
+     far more of the width than a surname could. */
   .hero {
+    --mark-weby:  min(clamp(3.6rem, 33vw, 12rem), 26vh);
+    --mark-gap:   clamp(.1rem, .8vh, .6rem);
     --sub-size:   clamp(1rem, 5.2vw, 1.35rem);
     --sub-lead:   1.14;
     --sub-lines:  2;
     --sub-bottom: clamp(4.2rem, 8.5vh, 6rem);
+    --byline-size:  clamp(.6rem, 2.6vw, .74rem);
+    --byline-gap:   clamp(1.1rem, 2.4vh, 1.7rem);
   }
   .hero__sub {
     font-variation-settings: 'wdth' 88, 'wght' 600;
     letter-spacing: .01em;
     width: min(88vw, 30rem);
   }
-  .hero__sub::before { top: -.85rem; width: 2.6rem; }
+  .hero__byline { gap: .7rem; }
+  .hero__byline::before,
+  .hero__byline::after { width: 1.7rem; height: 1px; }
   .hero__cue span { display: none; }
   .hero__cue b { height: 1.6rem; }
 }

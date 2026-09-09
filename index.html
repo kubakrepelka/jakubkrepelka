@@ -67,10 +67,12 @@
       <canvas class="hero__canvas" id="heroCanvas"></canvas>
       <div class="hero__grade" aria-hidden="true"></div>
 
+      <!-- the two halves of the mark start apart — JK out to the left, WEBY
+           out to the right — and the scroll walks them into one lockup -->
       <div class="hero__type">
         <h1 class="hero__name">
-          <span class="hero__line" data-split>JAKUB</span>
-          <span class="hero__line" data-split>KŘEPELKA</span>
+          <span class="hero__line hero__line--jk" data-split data-from="left">JK</span>
+          <span class="hero__line hero__line--weby" data-split data-from="right">WEBY</span>
         </h1>
       </div>
 
@@ -79,7 +81,13 @@
       <canvas class="hero__canvas hero__canvas--punch" id="heroPunch" aria-hidden="true"></canvas>
       <div class="hero__vignette" aria-hidden="true"></div>
 
-      <!-- rides above the punch layer so the pitch is always legible -->
+      <!-- both ride above the punch layer so they stay legible.
+           The byline lands once the halves have locked: the mark is the brand,
+           this is the person behind it. -->
+      <p class="hero__byline" id="heroByline">
+        <span data-i18n="hero.byline">Jakub Křepelka</span>
+      </p>
+
       <p class="hero__sub" id="heroSub">
         <span data-i18n="hero.sub">Tvorba webových stránek, aplikací a AI řešení</span>
       </p>
