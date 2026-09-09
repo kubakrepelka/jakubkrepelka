@@ -23,9 +23,9 @@ const STORE = 'jk-lang';
 export const dict = {
   cs: {
     /* ── head ─────────────────────────────────────────────── */
-    'meta.title': 'Jakub Křepelka — weby, aplikace a AI řešení',
-    'meta.desc': 'Jakub Křepelka — tvořím weby, aplikace a AI řešení pro firmy i jednotlivce. Návrh, závazná cena předem, spuštění na vaší doméně a starost o web i potom.',
-    'ref.meta.title': 'Reference — Jakub Křepelka',
+    'meta.title': 'JK WEBY — weby, aplikace a AI řešení',
+    'meta.desc': 'JK WEBY — tvořím weby, aplikace a AI řešení pro firmy i jednotlivce. Návrh, závazná cena předem, spuštění na vaší doméně a starost o web i potom.',
+    'ref.meta.title': 'Reference — JK WEBY',
     'ref.meta.desc': 'Připravuji první projekty. Tady bude jejich místo.',
 
     /* ── nav ──────────────────────────────────────────────── */
@@ -130,7 +130,7 @@ export const dict = {
     'nav.faq': 'FAQ',
 
     /* ── stránka blog ─────────────────────────────────────── */
-    'blog.meta.title': 'Blog — Jakub Křepelka',
+    'blog.meta.title': 'Blog — JK WEBY',
     'blog.meta.desc': 'Zápisky o tom, jak weby vznikají — co funguje, co ne a proč.',
     'blog.eyebrow': 'Zápisky',
     'blog.title': 'Blog',
@@ -141,7 +141,7 @@ export const dict = {
     'blog.cta.text': 'Napište mi a dám vám vědět. Žádný spam, jen když bude co číst.',
 
     /* ── stránka FAQ ──────────────────────────────────────── */
-    'faq.meta.title': 'Časté dotazy — Jakub Křepelka',
+    'faq.meta.title': 'Časté dotazy — JK WEBY',
     'faq.meta.desc': 'Kolik to stojí, jak dlouho to trvá a co se děje po spuštění.',
     'faq.eyebrow': 'Časté dotazy',
     'faq.title': 'FAQ',
@@ -191,7 +191,7 @@ export const dict = {
     'form.sent.text': 'Zpráva je předvyplněná ve vašem e-mailovém klientovi — stačí ji odeslat. Kdyby se nic neotevřelo, napište mi rovnou na adresu níž.',
 
     /* ── stránka zaměření ─────────────────────────────────── */
-    'zam.meta.title': 'Zaměření — Jakub Křepelka',
+    'zam.meta.title': 'Zaměření — JK WEBY',
     'zam.meta.desc': 'Weby, aplikace, AI automatizace a školení — co konkrétně stavím a kdy co dává smysl.',
     'zam.eyebrow': 'Co stavím',
     'zam.title': 'Zaměření',
@@ -239,9 +239,9 @@ export const dict = {
 
   en: {
     /* ── head ─────────────────────────────────────────────── */
-    'meta.title': 'Jakub Křepelka — websites, apps and AI solutions',
-    'meta.desc': 'Jakub Křepelka — I build websites, apps and AI solutions for companies and individuals. A proposal, a fixed price up front, launch on your domain and care for the site afterwards.',
-    'ref.meta.title': 'References — Jakub Křepelka',
+    'meta.title': 'JK WEBY — websites, apps and AI solutions',
+    'meta.desc': 'JK WEBY — I build websites, apps and AI solutions for companies and individuals. A proposal, a fixed price up front, launch on your domain and care for the site afterwards.',
+    'ref.meta.title': 'References — JK WEBY',
     'ref.meta.desc': "I'm building the first projects right now. This is where they'll live.",
 
     /* ── nav ──────────────────────────────────────────────── */
@@ -345,7 +345,7 @@ export const dict = {
     'nav.faq': 'FAQ',
 
     /* ── blog page ────────────────────────────────────────── */
-    'blog.meta.title': 'Blog — Jakub Křepelka',
+    'blog.meta.title': 'Blog — JK WEBY',
     'blog.meta.desc': 'Notes on how websites actually get made — what works, what doesn\'t, and why.',
     'blog.eyebrow': 'Notes',
     'blog.title': 'Blog',
@@ -356,7 +356,7 @@ export const dict = {
     'blog.cta.text': "Drop me a line and I'll tell you. No spam — only when there's something worth reading.",
 
     /* ── FAQ page ─────────────────────────────────────────── */
-    'faq.meta.title': 'FAQ — Jakub Křepelka',
+    'faq.meta.title': 'FAQ — JK WEBY',
     'faq.meta.desc': 'What it costs, how long it takes, and what happens after launch.',
     'faq.eyebrow': 'Common questions',
     'faq.title': 'FAQ',
@@ -406,7 +406,7 @@ export const dict = {
     'form.sent.text': "The message is waiting there, filled in — just hit send. If nothing opened, write to the address below instead.",
 
     /* ── focus page ───────────────────────────────────────── */
-    'zam.meta.title': 'Focus — Jakub Křepelka',
+    'zam.meta.title': 'Focus — JK WEBY',
     'zam.meta.desc': 'Websites, apps, AI automation and training — what I actually build, and when each one makes sense.',
     'zam.eyebrow': 'What I build',
     'zam.title': 'Focus',

@@ -1,4 +1,4 @@
-# Jakub Křepelka — cinematic scroll portfolio
+# JK WEBY — cinematic scroll portfolio
 
 Ink-black / emerald / cream scroll-driven portfolio. The hero is a 360° camera
 orbit around Jakub, scrubbed frame-by-frame off a canvas as you scroll — the
@@ -54,16 +54,26 @@ Measured on a 1440×900 desktop viewport:
 
 ### The "type behind him" trick
 
-The name renders in normal DOM above the canvas, then the *same frame* is drawn
+The mark renders in normal DOM above the canvas, then the *same frame* is drawn
 again into a second canvas stacked on top with `mix-blend-mode: lighten`.
 Lighten keeps the letters wherever the footage is black (the void, his dark
 polo) and lets his lit face, arms and emerald rim light win — so he occludes the
 type without needing an alpha matte.
 
 On phones the 16:9 frame is cropped so hard in portrait that he fills the
-screen, which would bury the name completely. There the punch layer is dropped
+screen, which would bury the mark completely. There the punch layer is dropped
 for a scrim, the resting type is stronger, and only every 2nd frame loads
 (72 frames, half the payload).
+
+### The mark
+
+**JK** over **WEBY**, and the two halves start apart — JK out to the left, WEBY
+out to the right — closing on each other as you scroll until they lock over the
+portrait. Two glyphs over four would read as a stub above a bar, so the width
+axis does the levelling rather than the size alone: JK runs at `'wdth' 118`,
+WEBY at `60`, and `--mark-weby` drives both through a measured `1.273×`. Both
+lines land on the same ink width, flush left and right. Below them the emerald
+line carries **Jakub Křepelka** — the mark is the brand, that is the person.
 
 ## Adjusting the frame sequence
 
