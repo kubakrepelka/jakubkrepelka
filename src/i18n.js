@@ -93,7 +93,7 @@ export const dict = {
     'finale.title': 'Váš web nemusí být jen představa!',
     'finale.cta1': 'Pojďme do toho',
     'finale.cta2': 'Reference',
-    'finale.mail': 'mailto:jk.krepjak@gmail.com?subject=Popt%C3%A1vka%20webu&body=Dobr%C3%BD%20den%2C%20r%C3%A1d%20bych%20probral...',
+    'finale.mail': 'mailto:info@jkweby.cz?subject=Popt%C3%A1vka%20webu&body=Dobr%C3%BD%20den%2C%20r%C3%A1d%20bych%20probral...',
 
     /* ── footer ───────────────────────────────────────────── */
     'footer.email': 'E-mail',
@@ -308,7 +308,7 @@ export const dict = {
     'finale.title': "Your website doesn't have to stay an idea!",
     'finale.cta1': "Let's do it",
     'finale.cta2': 'References',
-    'finale.mail': 'mailto:jk.krepjak@gmail.com?subject=Website%20enquiry&body=Hi%20Jakub%2C%20I%27d%20like%20to%20talk%20about...',
+    'finale.mail': 'mailto:info@jkweby.cz?subject=Website%20enquiry&body=Hi%20Jakub%2C%20I%27d%20like%20to%20talk%20about...',
 
     /* ── footer ───────────────────────────────────────────── */
     'footer.email': 'Email',

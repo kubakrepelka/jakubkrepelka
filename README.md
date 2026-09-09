@@ -195,7 +195,7 @@ I inferred these; confirm them in `index.html`:
 
 | Where | Current value | Note |
 |---|---|---|
-| Footer + primary CTA | `jk.krepjak@gmail.com` | Your personal address — swap for a business one if you'd rather |
+| Footer + primary CTA | `info@jkweby.cz` | Business address — make sure the mailbox actually receives before you publish |
 | Stats block | `24 h` · `0 Kč` · `14 dní` · `100 %` | Promises, not a track record — they replaced the invented project counts. Only keep the ones you can actually hold to |
 | `/faq/` answers | 8 questions | Written from what the rest of the site already promises (24h reply, 2 weeks, fixed price, hosting after launch) — **read them and make sure you agree** |
 | `/zamereni/` | apps + AI automation lists | The four website types are yours verbatim; the other two lists I drafted |
