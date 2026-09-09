@@ -39,18 +39,45 @@ instead.
 **144 JPEGs** at 1440px wide into `public/frames/hero/`. They total ~4.3 MB —
 the black-void footage compresses hard.
 
-All frames are preloaded and decoded behind the loader gate, so nothing decodes
-mid-scroll. `state.frame` is then scrubbed linearly by GSAP ScrollTrigger over
-the hero's 620vh, and painted once per index change via the GSAP ticker.
+All frames are fetched behind the loader gate. `state.frame` is then scrubbed
+linearly by GSAP ScrollTrigger over the hero's 300vh, and painted once per index
+change via the GSAP ticker.
 
-Measured on a 1440×900 desktop viewport:
+They are **not** all decoded up front, and cannot be: a decoded 1440×810 frame is
+4.45 MB, so the 72 a phone loads would be 320 MB of bitmaps. The browser keeps a
+small fraction of that, which means the scrub decodes the frame it lands on,
+mid-scroll — which is what the portrait set below is for.
 
-| | |
-|---|---|
-| Composite cost (base + punch canvas) | **0.65 ms** — 3.9% of a 60fps frame |
-| Scroll → frame mapping | **0.978 frames per 32px, zero variance** |
-| Non-monotonic steps | **0** |
-| Long frames (>20ms) during scrub | **0** |
+Scroll driven in 32px steps:
+
+| | 1440×900 desktop | 390×844 phone |
+|---|---|---|
+| Scroll → frame mapping | 2.542 frames / 32px | 1.346 frames / 32px |
+| Variance | 0 | 0 |
+| Non-monotonic steps | 0 | 0 |
+
+### Why phones get their own frames
+
+`public/frames/hero-portrait/` is the same orbit cropped to **562×1080** at build
+time (`npm run media hero-portrait`). A phone draws the hero into a portrait
+window, so `cover` was throwing three quarters of each 16:9 frame away and
+upscaling the sliver left over — paying full decode cost for pixels it never
+showed, on every frame the scrub touched. That is what made the entry animation
+stutter.
+
+| | landscape set | portrait set |
+|---|---|---|
+| Pixels per frame | 1.17 M | 0.61 M |
+| Decode, 4× CPU throttle | 1.75 ms | 1.05 ms |
+
+The crop also carries *more* real detail than before, because it comes out of the
+master's native 1920×1080 rather than being upscaled from a 1440-wide downscale.
+With a 562px-wide source the canvas caps its backing store at 1.5× dpr, since a
+2× one would only resolve detail that isn't there.
+
+The set is picked once at load by `(max-width: 48rem) and (max-aspect-ratio: 3/5)`.
+Tablets and landscape phones keep the landscape set, where that crop would be
+wrong; rotating a phone after load does not re-pick it.
 
 ### The "type behind him" trick
 
@@ -63,7 +90,10 @@ type without needing an alpha matte.
 On phones the 16:9 frame is cropped so hard in portrait that he fills the
 screen, which would bury the mark completely. There the punch layer is dropped
 for a scrim, the resting type is stronger, and only every 2nd frame loads
-(72 frames, half the payload).
+(72 frames, half the payload). The entry animates on transform and opacity
+alone there too — a blur is the one property in it that cannot ride the
+compositor, and re-rasterising six full-width glyphs per frame over a canvas
+that is already repainting is what a phone cannot afford.
 
 ### The mark
 
@@ -166,7 +196,6 @@ I inferred these; confirm them in `index.html`:
 | Where | Current value | Note |
 |---|---|---|
 | Footer + primary CTA | `jk.krepjak@gmail.com` | Your personal address — swap for a business one if you'd rather |
-| Footer Instagram | `instagram.com/kubakrepelka` | Inferred from a local IG export folder — **verify** |
 | Stats block | `24 h` · `0 Kč` · `14 dní` · `100 %` | Promises, not a track record — they replaced the invented project counts. Only keep the ones you can actually hold to |
 | `/faq/` answers | 8 questions | Written from what the rest of the site already promises (24h reply, 2 weeks, fixed price, hosting after launch) — **read them and make sure you agree** |
 | `/zamereni/` | apps + AI automation lists | The four website types are yours verbatim; the other two lists I drafted |

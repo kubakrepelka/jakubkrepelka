@@ -12,9 +12,21 @@ import { initChrome } from './chrome.js';
 gsap.registerPlugin(ScrollTrigger);
 
 const FRAME_COUNT = 144;                       // hero orbit frames — keep in sync with scripts/build-media.mjs
-const framePath = i => `/frames/hero/${String(i + 1).padStart(4, '0')}.jpg`;
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const NARROW  = window.matchMedia('(max-width: 48rem)').matches;
+
+/* A phone shows the hero in a portrait window, where `cover` throws away about
+   three quarters of a 16:9 frame before drawing it. Decoding all of that costs
+   the same as decoding the part you can see, and 320 MB of decoded frames is
+   far past anything a phone keeps cached — so every frame the scrub lands on
+   is decoded again, mid-scroll. There is a set cut to portrait at build time;
+   half the pixels, and more real detail, because it is cropped out of the
+   master's native height instead of upscaled from a downscaled one.
+   Tablets and landscape phones stay on the landscape set — the crop is only
+   right for a tall window. */
+const PORTRAIT = window.matchMedia('(max-width: 48rem) and (max-aspect-ratio: 3/5)').matches;
+const framePath = i =>
+  `/frames/${PORTRAIT ? 'hero-portrait' : 'hero'}/${String(i + 1).padStart(4, '0')}.jpg`;
 
 /* phones take every second frame — half the payload, and the shorter scroll
    range means the orbit still advances well under 3 frames per repaint */
@@ -69,7 +81,9 @@ let currentFrame = -1;
 const state = { frame: 0 };
 
 function resizeCanvas() {
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  /* the portrait frames are 562px wide, so a 780px backing store would spend
+     raster and commit time resolving detail the source does not carry */
+  const dpr = Math.min(window.devicePixelRatio || 1, PORTRAIT ? 1.5 : 2);
   const { clientWidth: w, clientHeight: h } = canvas;
   for (const c of [canvas, punch]) {
     c.width = Math.round(w * dpr);
@@ -239,16 +253,25 @@ function buildScene() {
   const cue = document.getElementById('heroCue');
   const degOut = document.getElementById('orbitDeg');
 
+  /* Blur is the one property here that cannot ride the compositor: animating it
+     re-rasterises all six glyphs every frame, on top of a hero canvas that is
+     already repainting. Desktops absorb that; phones do not, and it is the
+     entry animation — the first thing anyone sees — that stutters for it. So
+     phones do the same move on transform and opacity alone, and lean on a
+     lower resting opacity to read as unresolved instead. */
+  const ghost = NARROW
+    ? { opacity: .34 }
+    // no punch layer on phones either, so elsewhere the ghost sits against a
+    // black void rather than a lit subject and can afford to be fainter still
+    : { opacity: .26, filter: 'blur(9px)' };
+
   gsap.set(heroChars, {
     x: (i, el) => el._x0,
     y: (i, el) => el._y0,
     /* stretched along the direction of travel — reads as speed, and it
        squares up as the halves settle */
     scaleX: SMEAR,
-    // phones have no punch layer, so the resting ghost has to hold its own
-    // against a lit subject rather than a black void
-    opacity: NARROW ? .5 : .26,
-    filter: NARROW ? 'blur(5px)' : 'blur(9px)',
+    ...ghost,
   });
   gsap.set(heroByline, { y: 18, opacity: 0 });   /* hairlines and word together */
   gsap.set(heroSub, { yPercent: 0, opacity: .55 });
@@ -288,7 +311,7 @@ function buildScene() {
       y: 0,
       scaleX: 1,
       opacity: 1,
-      filter: 'blur(0px)',
+      ...(NARROW ? {} : { filter: 'blur(0px)' }),
       ease: 'power3.out',
       duration: .30,
       stagger: { each: .014, from: dir < 0 ? 'end' : 'start' },
