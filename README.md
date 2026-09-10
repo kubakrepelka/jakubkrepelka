@@ -153,27 +153,60 @@ page `main.js` catches same-page ones and hands them to Lenis; arriving from
 elsewhere, the hash jump is re-made after the loader gate clears, since the gate
 would otherwise swallow it.
 
-## Contact popup
+## Kontaktní formulář (Resend)
 
-Every primary CTA carries `data-contact` on top of a working `mailto:` href.
-`src/contact.js` intercepts the click and opens a native `<dialog>` with the
-form; without JS the plain mailto still works.
+Stávající CTA s `data-contact` otevírají český dialog v `src/contact.js`.
+Vite + čistý JavaScript a vlastní CSS zůstávají zachované. Sdílená validace
+je v `shared/contact.js`, Vercel endpoint v `api/contact.js` a serverové
+odesílání v `server/contact.js`. Prohlížeč volá pouze `/api/contact`.
 
-There's no backend of our own: on submit the answers POST as JSON to
-[Web3Forms](https://web3forms.com), which mails them to `info@jkweby.cz`. The
-`ACCESS_KEY` at the top of `src/contact.js` is public by design — it only names
-the mailbox a message lands in — so it belongs in client code. Free plan caps at
-250 submissions a month; the dashboard is where you change the recipient, add an
-autoresponder or plug in Slack/Sheets.
+### Nastavení před nasazením
 
-Two endings, both real: the POST succeeds and the pane says so (`form.ok.*`), or
-it fails — offline, blocked, service down, slower than the 10 s timeout — and the
-answers go to the visitor's own mail client, prefilled, under the older
-`form.sent.*` copy. A hidden `botcheck` checkbox rides along as a honeypot;
-Web3Forms drops anything that arrives with it ticked.
+1. V Resend → Domains přidejte `mail.jkweby.cz`. U poskytovatele DNS ručně
+   vložte přesně záznamy, které Resend zobrazí, a počkejte na ověření.
+   Neměňte stávající MX záznamy pro příjem pošty na `jkweby.cz`.
+2. Vytvořte API klíč s oprávněním Sending access pro ověřenou doménu.
+3. Zkopírujte `.env.example` do `.env.local` a vyplňte klíč. Stejné hodnoty
+   nastavte ve Vercel projektu `jkweby` → Settings → Environment Variables:
+   - `RESEND_API_KEY`: vytvořený tajný klíč (pouze server).
+   - `CONTACT_EMAIL`: `info@jkweby.cz`.
+   - `CONTACT_FROM_EMAIL`: `JK WEBY <web@mail.jkweby.cz>`.
+   - `CONTACT_SEND_CONFIRMATION`: `true` (nebo `false` pro vypnutí potvrzení).
+4. Nastavte hodnoty pro Production a případně Preview, potom nasaďte nový build.
+   Žádný tajný klíč nesmí mít prefix `VITE_` ani být commitovaný.
 
-**To move to another service**, swap `ENDPOINT` and the payload keys in `post()`
-at the top of `src/contact.js` — everything else is service-agnostic.
+### Spam a Turnstile
+
+Honeypot, limit velikosti, serverová validace a kontrola Origin jsou aktivní.
+Základní limit je 5 validních pokusů za 10 minut na IP v jedné instanci.
+Je pouze orientační: při škálování/restartu Vercelu není globální. Pro veřejný
+provoz doporučujeme zapnout připravený Turnstile nebo limit na Vercel Firewallu.
+Bez Turnstile může útočník zneužívat i potvrzovací e-maily; ty lze vypnout.
+
+V Cloudflare Turnstile vytvořte widget pro `jkweby.cz` a `www.jkweby.cz`.
+Nastavte společně `VITE_TURNSTILE_SITE_KEY` (veřejný) a `TURNSTILE_SECRET_KEY`
+(tajný), poté rebuild. `TURNSTILE_HOSTNAMES=jkweby.cz,www.jkweby.cz` je seznam
+povolených hostname; pro lokální test přidejte localhost také do widgetu i seznamu.
+Server kontroluje token, hostname a action `contact`. Bez obou klíčů widget
+nezapínejte. DNS se při implementaci automaticky nemění.
+
+### Chování a testování
+
+`formulář → /api/contact → validace a spam kontrola → Resend → e-mail`.
+Návštěvník je `replyTo`, odesílatel je ověřená adresa. E-maily jsou prostý text,
+takže uživatelský obsah není interpretován jako HTML. Chyby zachovávají formulář.
+Resend idempotency klíče chrání opakování stejné poptávky během jeho 24h okna.
+Potvrzení se posílá až po přijetí hlavní zprávy Resendem; jeho chyba se loguje
+bez osobních údajů a nevrací návštěvníkovi neúspěch hlavní poptávky.
+Úspěch API znamená přijetí Resendem, nikoli ověřené doručení do schránky.
+
+- `node --test tests/contact.test.js`: serverové testy bez skutečných e-mailů.
+- `npm run build`: produkční frontend.
+- `npx vercel dev`: lokální frontend i Vercel API s `.env.local` (vyžaduje Vercel CLI).
+  Samotné `npm run dev` spouští jen Vite, bez serverového endpointu.
+- Po konfiguraci otevřete web, klikněte na CTA, vyplňte vlastní e-mail a odešlete
+  jednu poptávku. Zkontrolujte hlavní schránku, potvrzení a stav Delivered v Resendu.
+  Kliknutí na Odpovědět má směřovat návštěvníkovi.
 
 ## Favicon
 

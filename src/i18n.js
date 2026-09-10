@@ -174,26 +174,6 @@ export const dict = {
     'nav.menu.open': 'Otevřít menu',
 
     /* ── kontaktní formulář ───────────────────────────────── */
-    'form.eyebrow': 'Kontakt',
-    'form.title': 'Pojďme do toho',
-    'form.text': 'Napište mi pár vět o tom, co potřebujete. Ozvu se do 24 hodin.',
-    'form.name': 'Jméno',
-    'form.name.ph': 'Jan Novák',
-    'form.email': 'E-mail',
-    'form.email.ph': 'jan@firma.cz',
-    'form.msg': 'Co potřebujete?',
-    'form.msg.ph': 'Potřebuji web pro…',
-    'form.send': 'Odeslat',
-    'form.sending': 'Odesílám…',
-    'form.or': 'Nebo mi napište přímo:',
-    'form.close': 'Zavřít',
-    'form.sent.eyebrow': 'Skoro hotovo',
-    'form.sent.title': 'Otevřel se váš e-mail',
-    'form.sent.text': 'Zpráva je předvyplněná ve vašem e-mailovém klientovi — stačí ji odeslat. Kdyby se nic neotevřelo, napište mi rovnou na adresu níž.',
-    /* ── formulář prošel přes Web3Forms ───────────────────── */
-    'form.ok.eyebrow': 'Odesláno',
-    'form.ok.title': 'Zpráva je na cestě',
-    'form.ok.text': 'Přišla mi do schránky. Ozvu se do 24 hodin.',
 
     /* ── stránka zaměření ─────────────────────────────────── */
     'zam.meta.title': 'Zaměření — JK WEBY',
@@ -394,25 +374,6 @@ export const dict = {
     'nav.menu.open': 'Open menu',
 
     /* ── contact form ─────────────────────────────────────── */
-    'form.eyebrow': 'Contact',
-    'form.title': "Let's do it",
-    'form.text': "Tell me a few sentences about what you need. I'll get back to you within 24 hours.",
-    'form.name': 'Name',
-    'form.name.ph': 'Jane Doe',
-    'form.email': 'Email',
-    'form.email.ph': 'jane@company.com',
-    'form.msg': 'What do you need?',
-    'form.msg.ph': 'I need a website for…',
-    'form.send': 'Send',
-    'form.sending': 'Sending…',
-    'form.or': 'Or email me directly:',
-    'form.close': 'Close',
-    'form.sent.eyebrow': 'Almost there',
-    'form.sent.title': 'Your email app is open',
-    'form.sent.text': "The message is waiting there, filled in — just hit send. If nothing opened, write to the address below instead.",
-    'form.ok.eyebrow': 'Sent',
-    'form.ok.title': 'Your message is on its way',
-    'form.ok.text': "It's in my inbox. I'll get back to you within 24 hours.",
 
     /* ── focus page ───────────────────────────────────────── */
     'zam.meta.title': 'Focus — JK WEBY',

@@ -1,206 +1,138 @@
-/* ═══════════════════════════════════════════════════════════════
-   CONTACT — the CTA's popup form
-   ═══════════════════════════════════════════════════════════════
+import { SERVICES, validateContact } from '../shared/contact.js';
 
-   Every primary CTA on the site is a `mailto:` link carrying
-   `data-contact`. This intercepts the click and opens a native
-   <dialog> instead — so the form is the path, and the plain mailto
-   stays the fallback if the script never runs.
-
-   There's still no backend of our own. Submissions POST as JSON to
-   Web3Forms, which forwards them to MAIL. The access key is public by
-   design — it only names the mailbox a message lands in, it reads
-   nothing back — so it belongs in client code. Free plan: 250 a month.
-
-   If that request fails — offline, blocked, service down, slow — the
-   handler hands the answers to the visitor's own mail client instead,
-   prefilled, so nothing they typed is lost.
-   ═══════════════════════════════════════════════════════════════ */
-
-import { dict, lang } from './i18n.js';
-
-const ENDPOINT   = 'https://api.web3forms.com/submit';
-const ACCESS_KEY = 'bc2f1fed-cd3e-4a72-9bff-b34305ecd12e';   // public key from the Web3Forms dashboard
-const MAIL       = 'info@jkweby.cz';
-const TIMEOUT    = 10000;               // ms — past this we stop waiting and open the mail client
-
+const siteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+const field = (name, label, attributes) => `<label class="field"><span class="field__label">${label}</span><input class="field__input" name="${name}" aria-describedby="contact-${name}-error" ${attributes}><span class="field__error" id="contact-${name}-error"></span></label>`;
 const html = `
-<dialog class="modal" id="contact">
-  <form class="modal__box" method="dialog">
-    <button class="modal__x" type="button" data-close data-i18n-label="form.close" aria-label="Zavřít">×</button>
-
-    <div class="modal__pane" data-pane="form">
-      <p class="eyebrow" data-i18n="form.eyebrow">Kontakt</p>
-      <h2 class="modal__title" data-i18n="form.title">Pojďme do toho</h2>
-      <p class="modal__text" data-i18n="form.text">Napište mi pár vět o tom, co potřebujete. Ozvu se do 24 hodin.</p>
-
-      <label class="field">
-        <span class="field__label" data-i18n="form.name">Jméno</span>
-        <input class="field__input" name="name" type="text" required autocomplete="name"
-               data-i18n-ph="form.name.ph" placeholder="Jan Novák" />
+<dialog class="modal" id="contact" lang="cs" aria-labelledby="contact-title" data-lenis-prevent>
+  <form class="modal__box" novalidate>
+    <button class="modal__x" type="button" data-close aria-label="Zavřít">×</button>
+    <div data-pane="form">
+      <p class="eyebrow">Kontakt</p>
+      <h2 class="modal__title" id="contact-title">Poptat službu</h2>
+      <p class="modal__text">Napište mi, co potřebujete. Co nejdříve se vám ozvu.</p>
+      ${field('name', 'Jméno', 'type="text" required maxlength="100" autocomplete="name" placeholder="Jan Novák"')}
+      ${field('email', 'E-mail', 'type="email" required maxlength="254" autocomplete="email" placeholder="jan@firma.cz"')}
+      ${field('phone', 'Telefon (nepovinný)', 'type="tel" maxlength="30" autocomplete="tel" placeholder="+420 777 123 456"')}
+      <label class="field"><span class="field__label">Typ služby</span>
+        <select class="field__input" name="service" required aria-describedby="contact-service-error">
+          <option value="">Vyberte službu</option>${SERVICES.map(s => `<option>${s}</option>`).join('')}
+        </select><span class="field__error" id="contact-service-error"></span>
       </label>
-      <label class="field">
-        <span class="field__label" data-i18n="form.email">E-mail</span>
-        <input class="field__input" name="email" type="email" required autocomplete="email"
-               data-i18n-ph="form.email.ph" placeholder="jan@firma.cz" />
+      <label class="field"><span class="field__label">Zpráva</span>
+        <textarea class="field__input" name="message" rows="4" required maxlength="5000" aria-describedby="contact-message-error" placeholder="Potřebuji web pro…"></textarea>
+        <span class="field__error" id="contact-message-error"></span>
       </label>
-      <label class="field">
-        <span class="field__label" data-i18n="form.msg">Co potřebujete?</span>
-        <textarea class="field__input" name="message" rows="4" required
-                  data-i18n-ph="form.msg.ph" placeholder="Potřebuji web pro…"></textarea>
-      </label>
-
-      <!-- honeypot: no visitor can see or tab into it, a bot ticks it and
-           Web3Forms drops the submission on its side -->
-      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true" />
-
+      <div hidden aria-hidden="true"><label>Web<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div data-turnstile></div>
+      <p class="modal__error" role="alert" tabindex="-1" hidden></p>
       <div class="modal__actions">
-        <button class="btn btn--primary" type="submit" data-send>
-          <span data-i18n="form.send">Odeslat</span><i aria-hidden="true">→</i>
-        </button>
-        <p class="modal__alt">
-          <span data-i18n="form.or">Nebo mi napište přímo:</span>
-          <a href="mailto:${MAIL}">${MAIL}</a>
-        </p>
+        <button class="btn btn--primary" type="submit" data-send><span>Odeslat poptávku</span><i aria-hidden="true">→</i></button>
+        <p class="modal__alt">Nebo mi napište přímo: <a href="mailto:info@jkweby.cz">info@jkweby.cz</a></p>
       </div>
     </div>
-
-    <div class="modal__pane" data-pane="done" hidden>
-      <p class="eyebrow" data-i18n="form.ok.eyebrow">Odesláno</p>
-      <h2 class="modal__title" data-i18n="form.ok.title">Zpráva je na cestě</h2>
-      <p class="modal__text" data-i18n="form.ok.text">Přišla mi do schránky. Ozvu se do 24 hodin.</p>
-      <p class="modal__alt">
-        <span data-i18n="form.or">Nebo mi napište přímo:</span>
-        <a href="mailto:${MAIL}">${MAIL}</a>
-      </p>
-      <div class="modal__actions">
-        <button class="btn btn--ghost" type="button" data-close><span data-i18n="form.close">Zavřít</span></button>
-      </div>
+    <div data-pane="done" hidden tabindex="-1" role="status">
+      <p class="eyebrow">Odesláno</p><h2 class="modal__title">Děkuji!</h2>
+      <p class="modal__text">Poptávka byla úspěšně odeslána. Co nejdříve se vám ozvu.</p>
+      <div class="modal__actions"><button class="btn btn--ghost" type="button" data-close>Zavřít</button></div>
     </div>
   </form>
 </dialog>`;
 
-/* the two ways this can end, as i18n keys: the POST went through, or the
-   visitor's own mail client took over */
-const ENDING = {
-  ok:   ['form.ok.eyebrow',   'form.ok.title',   'form.ok.text'],
-  mail: ['form.sent.eyebrow', 'form.sent.title', 'form.sent.text'],
-};
-
-/* re-labels an element *and* re-keys it, so a later language switch
-   re-translates whichever ending is on screen */
-function paint(el, key) {
-  if (!el) return;
-  el.dataset.i18n = key;
-  const v = dict[lang]?.[key] ?? dict.cs[key];
-  if (v != null) el.textContent = v;
-}
-
-async function post(data) {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), TIMEOUT);
-  try {
-    const res = await fetch(ENDPOINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify({
-        ...data,                        // name · email · message (+ botcheck, if a bot ticked it)
-        access_key: ACCESS_KEY,
-        from_name: data.name,
-        replyto: data.email,            // hitting Reply in the inbox writes back to them
-        subject: lang === 'en'
-          ? `Website enquiry — ${data.name}`
-          : `Poptávka z webu — ${data.name}`,
-      }),
-      signal: ctrl.signal,
-    });
-    const out = await res.json().catch(() => ({}));
-    return res.ok && out.success === true;
-  } catch {
-    return false;                       // offline, blocked, aborted — the caller falls back
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-function handOver(data) {
-  const subject = lang === 'en'
-    ? `Website enquiry — ${data.name}`
-    : `Poptávka z webu — ${data.name}`;
-  const body = `${data.message}\n\n—\n${data.name}\n${data.email}`;
-  window.location.href =
-    `mailto:${MAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+let turnstileLoader;
+function loadTurnstile() {
+  if (!turnstileLoader) turnstileLoader = new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    script.async = true;
+    script.onload = () => resolve(window.turnstile);
+    script.onerror = () => { turnstileLoader = null; script.remove(); reject(new Error('turnstile')); };
+    document.head.append(script);
+  });
+  return turnstileLoader;
 }
 
 export function initContact() {
   document.body.insertAdjacentHTML('beforeend', html);
-
   const dlg = document.getElementById('contact');
   const form = dlg.querySelector('form');
-  const panes = {
-    form: dlg.querySelector('[data-pane="form"]'),
-    done: dlg.querySelector('[data-pane="done"]'),
+  const pane = dlg.querySelector('[data-pane="form"]');
+  const done = dlg.querySelector('[data-pane="done"]');
+  const error = dlg.querySelector('.modal__error');
+  const btn = dlg.querySelector('[data-send]');
+  let busy = false, widget, token = '', requestId = crypto.randomUUID(), closing;
+  const showError = message => { error.textContent = message; error.hidden = false; error.focus(); };
+  const clearErrors = () => {
+    error.hidden = true;
+    form.querySelectorAll('.field__error').forEach(el => { el.textContent = ''; });
+    form.querySelectorAll('[aria-invalid]').forEach(el => el.removeAttribute('aria-invalid'));
   };
-
-  const show = which => {
-    panes.form.hidden = which !== 'form';
-    panes.done.hidden = which !== 'done';
+  const fieldErrors = errors => {
+    for (const [name, message] of Object.entries(errors)) {
+      const input = form.elements.namedItem(name);
+      const feedback = document.getElementById(`contact-${name}-error`);
+      if (input && feedback) { input.setAttribute('aria-invalid', 'true'); feedback.textContent = message; }
+    }
+    form.querySelector('[aria-invalid]')?.focus();
   };
-
-  const finish = kind => {
-    const [eyebrow, title, text] = ENDING[kind];
-    paint(panes.done.querySelector('.eyebrow'), eyebrow);
-    paint(panes.done.querySelector('.modal__title'), title);
-    paint(panes.done.querySelector('.modal__text'), text);
-    show('done');
-  };
-
-  const open = () => {
-    show('form');
-    dlg.showModal();
-    /* let the animation start from closed */
+  const open = async () => {
+    clearTimeout(closing);
+    pane.hidden = false; done.hidden = true;
+    if (!dlg.open) dlg.showModal();
     requestAnimationFrame(() => dlg.classList.add('is-open'));
+    if (siteKey && widget === undefined) {
+      try {
+        const api = await loadTurnstile();
+        if (widget !== undefined) return;
+        widget = api.render(dlg.querySelector('[data-turnstile]'), {
+          sitekey: siteKey, action: 'contact', language: 'cs', theme: 'dark', size: 'flexible',
+          callback: value => { token = value; },
+          'expired-callback': () => { token = ''; },
+          'error-callback': () => { token = ''; showError('Ochranu proti spamu se nepodařilo načíst. Zkuste formulář znovu otevřít.'); },
+        });
+      } catch { showError('Ochranu proti spamu se nepodařilo načíst. Zkuste formulář znovu otevřít.'); }
+    } else if (widget !== undefined && !token && !busy) window.turnstile.reset(widget);
   };
-  const close = () => {
-    dlg.classList.remove('is-open');
-    setTimeout(() => dlg.close(), 240);
-  };
-
-  /* every CTA on the page — the href stays a working mailto if this
-     script never gets the chance to run */
+  const close = () => { dlg.classList.remove('is-open'); closing = setTimeout(() => dlg.close(), 240); };
   document.addEventListener('click', e => {
-    const trigger = e.target.closest('[data-contact]');
-    if (!trigger) return;
-    e.preventDefault();
-    open();
+    if (!e.target.closest('[data-contact]')) return;
+    e.preventDefault(); open();
   });
-
-  dlg.addEventListener('click', e => {
-    if (e.target.closest('[data-close]')) close();
-    else if (e.target === dlg) close();           // the backdrop
-  });
+  dlg.addEventListener('click', e => { if (e.target.closest('[data-close]') || e.target === dlg) close(); });
   dlg.addEventListener('cancel', e => { e.preventDefault(); close(); });
-
   form.addEventListener('submit', async e => {
     e.preventDefault();
-    if (!form.reportValidity()) return;
-
-    const data = Object.fromEntries(new FormData(form));
-    const btn = form.querySelector('[data-send]');
-    const label = btn.querySelector('span');
-
-    btn.disabled = true;
-    paint(label, 'form.sending');
-
-    const sent = await post(data);
-
-    btn.disabled = false;
-    paint(label, 'form.send');
-    form.reset();
-
-    if (sent) finish('ok');
-    else { handOver(data); finish('mail'); }
+    if (busy) return;
+    clearErrors();
+    const input = Object.fromEntries(new FormData(form));
+    const checked = validateContact(input);
+    if (!checked.valid) { fieldErrors(checked.errors); return; }
+    if (siteKey && !token) { showError('Počkejte prosím na ověření proti spamu.'); return; }
+    busy = true; btn.disabled = true; form.setAttribute('aria-busy', 'true');
+    btn.querySelector('span').textContent = 'Odesílám…';
+    // Freeze fields so an in-flight success cannot erase newly typed changes.
+    const fields = [...form.querySelectorAll('input, select, textarea')];
+    fields.forEach(el => { el.disabled = true; });
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ ...checked.data, website: input.website, requestId, turnstileToken: token }),
+        signal: AbortSignal.timeout(25000),
+      });
+      const result = await response.json();
+      if (!response.ok || result.success !== true) {
+        showError(result.error || 'Odeslání se nepodařilo. Zkuste to prosím znovu.');
+        if (result.errors) fieldErrors(result.errors);
+        return;
+      }
+      form.reset(); requestId = crypto.randomUUID();
+      pane.hidden = true; done.hidden = false; done.focus();
+    } catch { showError('Odeslání se nepodařilo potvrdit. Zkuste to znovu, nebo napište na info@jkweby.cz.'); }
+    finally {
+      busy = false; btn.disabled = false; form.removeAttribute('aria-busy');
+      fields.forEach(el => { el.disabled = false; });
+      btn.querySelector('span').textContent = 'Odeslat poptávku';
+      if (widget !== undefined) { token = ''; window.turnstile.reset(widget); }
+    }
   });
-
   return { open, close };
 }

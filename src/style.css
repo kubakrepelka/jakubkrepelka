@@ -1595,3 +1595,16 @@ ol, ul { padding: 0; list-style: none; }
   .nav__mark i { animation: none; }
   * { scroll-behavior: auto !important; }
 }
+
+/* Inquiry form: use the existing dialog and field palette. */
+#contact { max-height: calc(100dvh - 2rem); overflow-y: auto; overscroll-behavior: contain; }
+#contact .field__input { min-width: 0; }
+#contact select.field__input { color-scheme: dark; }
+#contact .field__error, #contact .modal__error { color: #ffb8a8; font-family: var(--text); font-size: .88rem; line-height: 1.5; }
+#contact .field__error:empty { display: none; }
+#contact .field__error { display: block; margin-top: .35rem; }
+#contact .modal__error { margin-top: 1rem; }
+#contact [aria-invalid="true"] { border-color: #ffb8a8; }
+#contact [data-turnstile]:not(:empty) { margin-top: 1rem; }
+#contact :focus-visible { outline: 2px solid var(--emerald); outline-offset: 3px; }
+#contact button:disabled { opacity: .6; cursor: wait; }
