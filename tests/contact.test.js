@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { createContactHandler } from '../server/contact.js';
+import { createContactHandler, resendErrorCode } from '../server/contact.js';
 import { validateContact } from '../shared/contact.js';
 const input = { name: 'Jan Novák', email: 'jan@example.com', phone: '+420 777 123 456', service: 'Webové stránky', message: 'Potřebuji nový web.', requestId: '12345678-1234-1234-1234-123456789abc' };
 const env = { RESEND_API_KEY: 'test-only', CONTACT_EMAIL: 'info@jkweby.cz', CONTACT_FROM_EMAIL: 'JK WEBY <web@mail.jkweby.cz>', NODE_ENV: 'production' };
@@ -46,4 +46,11 @@ test('Turnstile fails closed and checks action and hostname', async () => {
   assert.equal((await run(input,options)).code,400);
   assert.equal((await run({...input,turnstileToken:'test'},options)).code,200);
   assert.equal((await run({...input,turnstileToken:'test'},{...options,fetcher:async()=>({ok:true,json:async()=>({success:true,hostname:'evil.example',action:'contact'})})})).code,400);
+});
+
+test('provider diagnostic codes do not include private error details', () => {
+  assert.equal(resendErrorCode({message:'API key is invalid'}),'api_key_invalid');
+  assert.equal(resendErrorCode({message:'The example.com domain is not verified.'}),'sender_domain_unverified');
+  assert.equal(resendErrorCode({message:'Invalid from field: private@example.com'}),'sender_address_invalid');
+  assert.equal(resendErrorCode({message:'unrecognized private content'}),'provider_rejected');
 });

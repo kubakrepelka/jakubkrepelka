@@ -14,6 +14,17 @@ function allowed(ip) {
   return ++value.count <= 5;
 }
 
+// Reduce provider messages to fixed diagnostic codes, without logging user data.
+export function resendErrorCode(error) {
+  const message = String(error?.message || '').toLowerCase();
+  if (/api.?key/.test(message)) return 'api_key_invalid';
+  if (/domain.*(not verified|verify)|verify.*domain/.test(message)) return 'sender_domain_unverified';
+  if (/from.*(invalid|format)|invalid.*from/.test(message)) return 'sender_address_invalid';
+  if (/testing emails|own email/.test(message)) return 'sender_test_mode';
+  if (/quota|limit/.test(message)) return 'provider_limit';
+  return 'provider_rejected';
+}
+
 export function createContactHandler({ env = process.env, send, fetcher = fetch, limit = allowed } = {}) {
   return async function handler(req, res) {
     res.setHeader('Cache-Control', 'no-store');
@@ -62,7 +73,15 @@ export function createContactHandler({ env = process.env, send, fetcher = fetch,
         subject: 'Nová poptávka z jkweby.cz',
         text: `Nová poptávka z jkweby.cz\n\nJméno: ${data.name}\nE-mail: ${data.email}\nTelefon: ${data.phone || 'Neuveden'}\nSlužba: ${data.service}\n\nZpráva:\n${data.message}`,
       }, { idempotencyKey: `contact-${id}` });
-      if (main.error || !main.data?.id) throw new Error('inquiry_send_failed');
+      if (main.error || !main.data?.id) {
+        // Log only provider error metadata, never payloads, addresses or secrets.
+        console.error('contact_resend_rejected', {
+          name: String(main.error?.name || 'missing_email_id').replace(/[^a-zA-Z_]/g, '').slice(0, 80),
+          statusCode: Number(main.error?.statusCode) || null,
+          reason: resendErrorCode(main.error),
+        });
+        throw new Error('inquiry_send_failed');
+      }
       // Main inquiry is already accepted. Confirmation failure must not prompt a resubmit.
       if (env.CONTACT_SEND_CONFIRMATION !== 'false') {
         try {
