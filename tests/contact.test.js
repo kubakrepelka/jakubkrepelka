@@ -54,3 +54,22 @@ test('provider diagnostic codes do not include private error details', () => {
   assert.equal(resendErrorCode({message:'Invalid from field: private@example.com'}),'sender_address_invalid');
   assert.equal(resendErrorCode({message:'unrecognized private content'}),'provider_rejected');
 });
+
+test('sender copied with .env quotes is normalized for both emails', async () => {
+  const calls = [];
+  const result = await run(input, {
+    env: { ...env, CONTACT_FROM_EMAIL: '  "JK WEBY <web@mail.jkweby.cz>"  ' },
+    send: async payload => { calls.push(payload); return { data: { id: 'ok' } }; },
+  });
+  assert.equal(result.code, 200);
+  assert.equal(calls.length, 2);
+  assert.ok(calls.every(payload => payload.from === env.CONTACT_FROM_EMAIL));
+});
+test('malformed sender configuration never calls Resend', async () => {
+  for (const from of ['JK WEBY web@mail.jkweby.cz', 'not-an-email', 'a@example.com,b@example.com', 'JK\nWEBY <web@mail.jkweby.cz>']) {
+    let calls = 0;
+    const result = await run(input, { env: {...env, CONTACT_FROM_EMAIL: from}, send: async () => { calls++; } });
+    assert.equal(result.code, 503);
+    assert.equal(calls, 0);
+  }
+});

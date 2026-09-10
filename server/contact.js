@@ -25,6 +25,18 @@ export function resendErrorCode(error) {
   return 'provider_rejected';
 }
 
+// Dashboard values can accidentally include the enclosing quotes used in .env files.
+export function normalizeSender(value) {
+  let sender = typeof value === 'string' ? value.trim() : '';
+  if ((sender.startsWith('"') && sender.endsWith('"')) || (sender.startsWith("'") && sender.endsWith("'"))) {
+    sender = sender.slice(1, -1).trim();
+  }
+  const mailbox = /^[^\s<>@",;]+@[^\s<>@",;]+\.[^\s<>@",;]+$/;
+  const named = sender.match(/^([^<>\r\n]+) <([^<>]+)>$/);
+  if (/[\r\n]/.test(sender) || !(mailbox.test(sender) || (named && mailbox.test(named[2])))) return null;
+  return sender;
+}
+
 export function createContactHandler({ env = process.env, send, fetcher = fetch, limit = allowed } = {}) {
   return async function handler(req, res) {
     res.setHeader('Cache-Control', 'no-store');
@@ -55,6 +67,11 @@ export function createContactHandler({ env = process.env, send, fetcher = fetch,
       return respond(429, { error: 'Odesíláte příliš často. Zkuste to prosím za 10 minut.' });
     }
     if (!env.RESEND_API_KEY || !env.CONTACT_EMAIL || !env.CONTACT_FROM_EMAIL) return respond(503, { error: 'Formulář je dočasně nedostupný. Napište prosím na info@jkweby.cz.' });
+    const from = normalizeSender(env.CONTACT_FROM_EMAIL);
+    if (!from) {
+      console.error('contact_configuration_invalid', { field: 'CONTACT_FROM_EMAIL' });
+      return respond(503, { error: 'Formulář je dočasně nedostupný. Napište prosím na info@jkweby.cz.' });
+    }
     try {
       if (env.TURNSTILE_SECRET_KEY) {
         if (typeof input.turnstileToken !== 'string' || input.turnstileToken.length > 2048 || !input.turnstileToken) return respond(400, { error: 'Potvrďte prosím ochranu proti spamu.' });
@@ -69,7 +86,7 @@ export function createContactHandler({ env = process.env, send, fetcher = fetch,
       // Stable payload and key across retries, including after an ambiguous timeout.
       const id = createHash('sha256').update(JSON.stringify([input.requestId, data])).digest('hex');
       const main = await sendEmail({
-        from: env.CONTACT_FROM_EMAIL, to: env.CONTACT_EMAIL, replyTo: data.email,
+        from, to: env.CONTACT_EMAIL, replyTo: data.email,
         subject: 'Nová poptávka z jkweby.cz',
         text: `Nová poptávka z jkweby.cz\n\nJméno: ${data.name}\nE-mail: ${data.email}\nTelefon: ${data.phone || 'Neuveden'}\nSlužba: ${data.service}\n\nZpráva:\n${data.message}`,
       }, { idempotencyKey: `contact-${id}` });
@@ -86,7 +103,7 @@ export function createContactHandler({ env = process.env, send, fetcher = fetch,
       if (env.CONTACT_SEND_CONFIRMATION !== 'false') {
         try {
           const confirmation = await sendEmail({
-            from: env.CONTACT_FROM_EMAIL, to: data.email, replyTo: env.CONTACT_EMAIL,
+            from, to: data.email, replyTo: env.CONTACT_EMAIL,
             subject: 'Děkuji za vaši poptávku — JK WEBY',
             text: 'Dobrý den,\n\nděkuji za vaši poptávku. Zprávu jsem přijal a co nejdříve se vám ozvu.\n\nJakub\nJK WEBY\nhttps://jkweby.cz',
           }, { idempotencyKey: `contact-confirmation-${id}` });

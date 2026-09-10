@@ -170,7 +170,8 @@ odesílání v `server/contact.js`. Prohlížeč volá pouze `/api/contact`.
    nastavte ve Vercel projektu `jkweby` → Settings → Environment Variables:
    - `RESEND_API_KEY`: vytvořený tajný klíč (pouze server).
    - `CONTACT_EMAIL`: `info@jkweby.cz`.
-   - `CONTACT_FROM_EMAIL`: `JK WEBY <web@mail.jkweby.cz>`.
+   - `CONTACT_FROM_EMAIL`: `JK WEBY <web@mail.jkweby.cz>` — ve Vercelu bez vnějších uvozovek.
+     Uvozovky v `.env.example` jsou syntaxe souboru, ne součást hodnoty v dashboardu.
    - `CONTACT_SEND_CONFIRMATION`: `true` (nebo `false` pro vypnutí potvrzení).
 4. Nastavte hodnoty pro Production a případně Preview, potom nasaďte nový build.
    Žádný tajný klíč nesmí mít prefix `VITE_` ani být commitovaný.
