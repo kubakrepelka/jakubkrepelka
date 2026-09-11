@@ -74,9 +74,11 @@ export function initContact() {
     }
     form.querySelector('[aria-invalid]')?.focus();
   };
-  const open = async () => {
+  const open = async service => {
     clearTimeout(closing);
     pane.hidden = false; done.hidden = true;
+    // A CTA on one of the four zaměření pages names its service up front.
+    if (SERVICES.includes(service)) form.elements.namedItem('service').value = service;
     if (!dlg.open) dlg.showModal();
     requestAnimationFrame(() => dlg.classList.add('is-open'));
     if (siteKey && widget === undefined) {
@@ -94,8 +96,9 @@ export function initContact() {
   };
   const close = () => { dlg.classList.remove('is-open'); closing = setTimeout(() => dlg.close(), 240); };
   document.addEventListener('click', e => {
-    if (!e.target.closest('[data-contact]')) return;
-    e.preventDefault(); open();
+    const trigger = e.target.closest('[data-contact]');
+    if (!trigger) return;
+    e.preventDefault(); open(trigger.dataset.contact);
   });
   dlg.addEventListener('click', e => { if (e.target.closest('[data-close]') || e.target === dlg) close(); });
   dlg.addEventListener('cancel', e => { e.preventDefault(); close(); });

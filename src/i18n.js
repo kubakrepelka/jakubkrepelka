@@ -2,7 +2,7 @@
    i18n — čeština / English
    ═══════════════════════════════════════════════════════════════
 
-   Every visible string on both pages lives here, so the two languages
+   Every visible string on every page lives here, so the two languages
    can't drift apart. The markup is authored in Czech and carries the
    key that reaches back into this table:
 
@@ -175,51 +175,62 @@ export const dict = {
 
     /* ── kontaktní formulář ───────────────────────────────── */
 
-    /* ── stránka zaměření ─────────────────────────────────── */
-    'zam.meta.title': 'Zaměření — JK WEBY',
-    'zam.meta.desc': 'Weby, aplikace, AI automatizace a školení — co konkrétně stavím a kdy co dává smysl.',
-    'zam.eyebrow': 'Co stavím',
-    'zam.title': 'Zaměření',
-    'zam.lead': 'Čtyři oblasti. U každé najdete, co konkrétně umím postavit — ať víte, do čeho jdete, ještě než se ozvete.',
+    /* ── čtyři stránky zaměření ───────────────────────────── */
+    /* the page names double as the nav cards and the sibling links, so
+       each lives under one key; the one-liners come from focus.N.p */
+    'svc.more': 'Další zaměření',
+    'svc.cta.title': 'Nevíte, do které škatulky patříte?',
+    'svc.cta.text': 'Nevadí. Napište mi, co potřebujete, a vymyslím, jak na to.',
 
-    'zam.web.title': 'Webové stránky',
-    'zam.web.lead': 'Od jednoduché vizitky po filmový zážitek. Vždycky na míru, bez šablon.',
-    'zam.web.1.h': 'Jednoduchý statický web',
-    'zam.web.1.p': 'Vizitka, služby, kontakt. Rychlý, levný a hotový během pár dní.',
-    'zam.web.2.h': 'Animované weby s parallaxem',
-    'zam.web.2.p': 'Vrstvy, které se hýbou se scrollem. Web, který působí draze.',
-    'zam.web.3.h': '3D weby (Three.js, WebGL)',
-    'zam.web.3.p': 'Skutečný prostor přímo v prohlížeči — produkt, který si návštěvník otočí v ruce.',
-    'zam.web.4.h': 'Cinematic scroll weby',
-    'zam.web.4.p': 'Filmová režie ve scrollu. Přesně jako tenhle web.',
+    /* /tvorba-webovych-stranek/ */
+    'web.meta.title': 'Tvorba webových stránek — JK WEBY',
+    'web.meta.desc': 'Tvorba webových stránek na míru: od jednoduché vizitky přes parallax a 3D až po cinematic scroll. Bez šablon, závazná cena předem, spuštění na vaší doméně.',
+    'web.title': 'Tvorba webových stránek',
+    'web.lead': 'Od jednoduché vizitky po filmový zážitek. Vždycky na míru, bez šablon.',
+    'web.1.h': 'Jednoduchý statický web',
+    'web.1.p': 'Vizitka, služby, kontakt. Rychlý, levný a hotový během pár dní.',
+    'web.2.h': 'Animované weby s parallaxem',
+    'web.2.p': 'Vrstvy, které se hýbou se scrollem. Web, který působí draze.',
+    'web.3.h': '3D weby (Three.js, WebGL)',
+    'web.3.p': 'Skutečný prostor přímo v prohlížeči — produkt, který si návštěvník otočí v ruce.',
+    'web.4.h': 'Cinematic scroll weby',
+    'web.4.p': 'Filmová režie ve scrollu. Přesně jako tenhle web.',
 
-    'zam.app.title': 'Aplikace',
-    'zam.app.lead': 'Když web nestačí a potřebujete, aby něco doopravdy fungovalo.',
-    'zam.app.1.h': 'E-shop',
-    'zam.app.1.p': 'Prodej, sklad, platby i doprava. Napojený na to, co už používáte.',
-    'zam.app.2.h': 'Rezervační systém',
-    'zam.app.2.p': 'Kalendář, obsazenost, potvrzení e-mailem. Bez telefonování tam a zpět.',
-    'zam.app.3.h': 'Objednávkový systém',
-    'zam.app.3.p': 'Objednávka skončí tam, kde ji najdete — ne v přeplněné schránce.',
-    'zam.app.4.h': 'Katalog',
-    'zam.app.4.p': 'Produkty nebo služby, které si spravujete sami, bez volání programátorovi.',
+    /* /webove-aplikace/ */
+    'app.meta.title': 'Webové aplikace — JK WEBY',
+    'app.meta.desc': 'Webové aplikace na míru: e-shop, rezervační a objednávkový systém nebo katalog. Napojené na to, co už používáte, se závaznou cenou předem.',
+    'app.title': 'Webové aplikace',
+    'app.lead': 'Když web nestačí a potřebujete, aby něco doopravdy fungovalo.',
+    'app.1.h': 'E-shop',
+    'app.1.p': 'Prodej, sklad, platby i doprava. Napojený na to, co už používáte.',
+    'app.2.h': 'Rezervační systém',
+    'app.2.p': 'Kalendář, obsazenost, potvrzení e-mailem. Bez telefonování tam a zpět.',
+    'app.3.h': 'Objednávkový systém',
+    'app.3.p': 'Objednávka skončí tam, kde ji najdete — ne v přeplněné schránce.',
+    'app.4.h': 'Katalog',
+    'app.4.p': 'Produkty nebo služby, které si spravujete sami, bez volání programátorovi.',
 
-    'zam.ai.title': 'AI automatizace',
-    'zam.ai.lead': 'Opakující se práci zvládne stroj. Vy zůstanete u toho, co má smysl.',
-    'zam.ai.1.h': 'Zpracování poptávek a e-mailů',
-    'zam.ai.1.p': 'Roztřídit, shrnout, připravit odpověď k odeslání.',
-    'zam.ai.2.h': 'Generování nabídek a dokumentů',
-    'zam.ai.2.p': 'Z pár údajů hotový dokument — pokaždé stejně a bez překlepů.',
-    'zam.ai.3.h': 'Napojení na tabulky a nástroje',
-    'zam.ai.3.p': 'Data si putují sama mezi tím, co už ve firmě máte.',
-    'zam.ai.4.h': 'Asistent na webu',
-    'zam.ai.4.p': 'Odpovídá na časté dotazy vašimi slovy, ne obecnými frázemi.',
+    /* /ai-automatizace/ */
+    'ai.meta.title': 'AI automatizace — JK WEBY',
+    'ai.meta.desc': 'AI automatizace pro firmy: zpracování poptávek a e-mailů, generování nabídek a dokumentů, napojení na tabulky a nástroje, asistent na webu.',
+    'ai.title': 'AI automatizace',
+    'ai.lead': 'Opakující se práci zvládne stroj. Vy zůstanete u toho, co má smysl.',
+    'ai.1.h': 'Zpracování poptávek a e-mailů',
+    'ai.1.p': 'Roztřídit, shrnout, připravit odpověď k odeslání.',
+    'ai.2.h': 'Generování nabídek a dokumentů',
+    'ai.2.p': 'Z pár údajů hotový dokument — pokaždé stejně a bez překlepů.',
+    'ai.3.h': 'Napojení na tabulky a nástroje',
+    'ai.3.p': 'Data si putují sama mezi tím, co už ve firmě máte.',
+    'ai.4.h': 'Asistent na webu',
+    'ai.4.p': 'Odpovídá na časté dotazy vašimi slovy, ne obecnými frázemi.',
 
-    'zam.edu.title': 'AI školení',
-    'zam.edu.lead': 'Připravuji. Až bude hotové, najdete tady obsah i termíny.',
-
-    'zam.cta.title': 'Nevíte, do které škatulky patříte?',
-    'zam.cta.text': 'Nevadí. Napište mi, co potřebujete, a vymyslím, jak na to.',
+    /* /ai-skoleni/ — připravuje se, stránka to říká rovnou */
+    'edu.meta.title': 'AI školení — JK WEBY',
+    'edu.meta.desc': 'AI školení pro firmy i jednotlivce. Připravuji — obsah i termíny najdete tady, jakmile budou hotové.',
+    'edu.title': 'AI školení',
+    'edu.lead': 'Připravuji. Až bude hotové, najdete tady obsah i termíny.',
+    'edu.cta.title': 'Chcete vědět, až školení spustím?',
+    'edu.cta.text': 'Napište mi a dám vám vědět. Žádný spam, jen až bude co nabídnout.',
   },
 
   en: {
@@ -375,51 +386,60 @@ export const dict = {
 
     /* ── contact form ─────────────────────────────────────── */
 
-    /* ── focus page ───────────────────────────────────────── */
-    'zam.meta.title': 'Focus — JK WEBY',
-    'zam.meta.desc': 'Websites, apps, AI automation and training — what I actually build, and when each one makes sense.',
-    'zam.eyebrow': 'What I build',
-    'zam.title': 'Focus',
-    'zam.lead': "Four areas. Each one spells out what I can actually build — so you know what you're getting into before you get in touch.",
+    /* ── the four focus pages ─────────────────────────────── */
+    'svc.more': 'Other areas',
+    'svc.cta.title': "Not sure which box you're in?",
+    'svc.cta.text': "Doesn't matter. Tell me what you need and I'll work out how to do it.",
 
-    'zam.web.title': 'Websites',
-    'zam.web.lead': 'From a simple calling card to a full cinematic ride. Always custom, never a template.',
-    'zam.web.1.h': 'Simple static site',
-    'zam.web.1.p': 'Who you are, what you do, how to reach you. Fast, affordable, done in days.',
-    'zam.web.2.h': 'Animated sites with parallax',
-    'zam.web.2.p': 'Layers that move as you scroll. A site that feels expensive.',
-    'zam.web.3.h': '3D sites (Three.js, WebGL)',
-    'zam.web.3.p': 'Real space in the browser — a product the visitor can turn over in their hands.',
-    'zam.web.4.h': 'Cinematic scroll sites',
-    'zam.web.4.p': 'Film direction driven by the scrollbar. Exactly like this site.',
+    /* /tvorba-webovych-stranek/ */
+    'web.meta.title': 'Website development — JK WEBY',
+    'web.meta.desc': 'Custom website development: from a simple calling card through parallax and 3D to cinematic scroll. No templates, a fixed price up front, launch on your domain.',
+    'web.title': 'Website development',
+    'web.lead': 'From a simple calling card to a full cinematic ride. Always custom, never a template.',
+    'web.1.h': 'Simple static site',
+    'web.1.p': 'Who you are, what you do, how to reach you. Fast, affordable, done in days.',
+    'web.2.h': 'Animated sites with parallax',
+    'web.2.p': 'Layers that move as you scroll. A site that feels expensive.',
+    'web.3.h': '3D sites (Three.js, WebGL)',
+    'web.3.p': 'Real space in the browser — a product the visitor can turn over in their hands.',
+    'web.4.h': 'Cinematic scroll sites',
+    'web.4.p': 'Film direction driven by the scrollbar. Exactly like this site.',
 
-    'zam.app.title': 'Apps',
-    'zam.app.lead': "For when a site isn't enough and something has to actually work.",
-    'zam.app.1.h': 'E-shop',
-    'zam.app.1.p': 'Selling, stock, payments and delivery. Wired into what you already use.',
-    'zam.app.2.h': 'Booking system',
-    'zam.app.2.p': 'Calendar, availability, confirmation emails. No more phone tag.',
-    'zam.app.3.h': 'Order system',
-    'zam.app.3.p': "Orders land where you'll find them — not in an overflowing inbox.",
-    'zam.app.4.h': 'Catalogue',
-    'zam.app.4.p': 'Products or services you keep up to date yourself, without calling a developer.',
+    /* /webove-aplikace/ */
+    'app.meta.title': 'Web applications — JK WEBY',
+    'app.meta.desc': 'Custom web applications: an e-shop, a booking or order system, or a catalogue. Wired into what you already use, with a fixed price up front.',
+    'app.title': 'Web applications',
+    'app.lead': "For when a site isn't enough and something has to actually work.",
+    'app.1.h': 'E-shop',
+    'app.1.p': 'Selling, stock, payments and delivery. Wired into what you already use.',
+    'app.2.h': 'Booking system',
+    'app.2.p': 'Calendar, availability, confirmation emails. No more phone tag.',
+    'app.3.h': 'Order system',
+    'app.3.p': "Orders land where you'll find them — not in an overflowing inbox.",
+    'app.4.h': 'Catalogue',
+    'app.4.p': 'Products or services you keep up to date yourself, without calling a developer.',
 
-    'zam.ai.title': 'AI automation',
-    'zam.ai.lead': 'A machine can handle the work that repeats. You stay on the work that matters.',
-    'zam.ai.1.h': 'Enquiries and email',
-    'zam.ai.1.p': 'Sorted, summarised, and a reply drafted ready to send.',
-    'zam.ai.2.h': 'Quotes and documents',
-    'zam.ai.2.p': 'A few fields in, a finished document out — the same every time, no typos.',
-    'zam.ai.3.h': 'Wiring up your tools',
-    'zam.ai.3.p': 'Data moves itself between the systems you already have.',
-    'zam.ai.4.h': 'Assistant on your site',
-    'zam.ai.4.p': 'Answers the usual questions in your words, not in generic filler.',
+    /* /ai-automatizace/ */
+    'ai.meta.title': 'AI automation — JK WEBY',
+    'ai.meta.desc': 'AI automation for businesses: enquiries and email handled, quotes and documents generated, your tools wired together, an assistant on your site.',
+    'ai.title': 'AI automation',
+    'ai.lead': 'A machine can handle the work that repeats. You stay on the work that matters.',
+    'ai.1.h': 'Enquiries and email',
+    'ai.1.p': 'Sorted, summarised, and a reply drafted ready to send.',
+    'ai.2.h': 'Quotes and documents',
+    'ai.2.p': 'A few fields in, a finished document out — the same every time, no typos.',
+    'ai.3.h': 'Wiring up your tools',
+    'ai.3.p': 'Data moves itself between the systems you already have.',
+    'ai.4.h': 'Assistant on your site',
+    'ai.4.p': 'Answers the usual questions in your words, not in generic filler.',
 
-    'zam.edu.title': 'AI training',
-    'zam.edu.lead': "In the works. Once it's ready, the content and dates will be here.",
-
-    'zam.cta.title': "Not sure which box you're in?",
-    'zam.cta.text': "Doesn't matter. Tell me what you need and I'll work out how to do it.",
+    /* /ai-skoleni/ — in the works, and the page says so */
+    'edu.meta.title': 'AI training — JK WEBY',
+    'edu.meta.desc': "AI training for companies and individuals. In the works — the content and dates will be here once they're ready.",
+    'edu.title': 'AI training',
+    'edu.lead': "In the works. Once it's ready, the content and dates will be here.",
+    'edu.cta.title': 'Want to know when the training opens?',
+    'edu.cta.text': "Drop me a line and I'll tell you. No spam — only once there's something to offer.",
   },
 };
 

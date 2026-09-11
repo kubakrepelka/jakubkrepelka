@@ -195,14 +195,18 @@ ol, ul { padding: 0; list-style: none; }
   letter-spacing: .18em;
   text-transform: uppercase;
 }
-.nav__links > a {
+.nav__links > a,
+.nav__group-btn {
   position: relative;
   padding-block: .3rem;
   opacity: .55;
   transition: opacity .4s var(--ease), color .4s var(--ease);
 }
-.nav__links > a:hover { opacity: 1; color: var(--emerald); }
-.nav__links > a::after {
+.nav__links > a:hover,
+.nav__group-btn:hover,
+.nav__group.is-open .nav__group-btn { opacity: 1; color: var(--emerald); }
+.nav__links > a::after,
+.nav__group-btn::after {
   content: '';
   position: absolute;
   left: 0; bottom: 0;
@@ -212,7 +216,67 @@ ol, ul { padding: 0; list-style: none; }
   transform-origin: right;
   transition: transform .5s var(--ease);
 }
-.nav__links > a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav__links > a:hover::after,
+.nav__group-btn:hover::after,
+.nav__group.is-open .nav__group-btn::after { transform: scaleX(1); transform-origin: left; }
+
+/* ── zaměření: one word in the row, four cards underneath ───── */
+/* the word is a button, not a link — there is no page behind it any
+   more, only the four it opens. Hover, click and keyboard all land on
+   the same `is-open`, which chrome.js owns */
+.nav__group-btn {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding-inline: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+.nav__group-btn i {
+  display: inline-block;
+  width: .36rem; height: .36rem;
+  margin-left: .5rem;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-.15rem) rotate(45deg);
+  transition: transform .45s var(--ease);
+}
+.nav__group.is-open .nav__group-btn i { transform: translateY(.1rem) rotate(225deg); }
+.nav__cards-label { display: none; }
+
+.nav__cards {
+  position: absolute;
+  top: 100%; left: 0; right: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: .6rem;
+  padding: .15rem var(--gut) 1rem;
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-.4rem);
+  transition: opacity .35s var(--ease), transform .5s var(--ease), visibility 0s linear .35s;
+}
+/* an invisible bridge over the bar's own bottom padding, so the pointer
+   can travel from the word down to the cards without the hover breaking */
+.nav__cards::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: 100%;
+  height: 1.3rem;
+}
+.nav__group.is-open .nav__cards {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  transition: opacity .35s var(--ease), transform .5s var(--ease), visibility 0s;
+}
+/* four abreast needs ~68rem; below that they pair up */
+@media (min-width: 60rem) and (max-width: 72rem) {
+  .nav__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 /* the one thing that never sleeps */
 .nav__cta {
@@ -298,6 +362,33 @@ ol, ul { padding: 0; list-style: none; }
   }
   .nav__links .lang { padding-top: 1.1rem; }
   .nav__cta { margin-left: auto; }
+
+  /* no flyout here — the word becomes a label and the cards are simply
+     the next four rows of the sheet */
+  .nav__group { padding: .95rem 0 1.05rem; border-top: 1px solid var(--cream-08); }
+  .nav__group-btn { display: none; }
+  .nav__cards-label {
+    display: block;
+    grid-column: 1 / -1;
+    margin-bottom: .3rem;
+    font-size: .58rem;
+    letter-spacing: .24em;
+    color: var(--cream-45);
+  }
+  .nav__cards {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .5rem;
+    padding: 0;
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .nav__cards::before { display: none; }
+  .nav__cards .card { padding: .8rem .85rem .85rem; }
+  .nav__cards .card__title { font-size: .98rem; }
+  .nav__cards .card__text { display: none; }
 }
 @media (max-width: 26rem) {
   .nav__cta { padding: .55rem .85rem; font-size: .55rem; letter-spacing: .1em; }
@@ -968,6 +1059,83 @@ ol, ul { padding: 0; list-style: none; }
 .btn--ghost::before { background: var(--cream); }
 .btn--ghost:hover { color: var(--ink); border-color: var(--cream); }
 
+/* ── card: one of the four areas, as a tile ──────────────────── */
+/* worn by the nav flyout, the phone sheet and the "other areas" row on
+   the four pages. Sits over anything, so it carries its own ground */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: .3rem;
+  padding: 1rem 2.6rem 1.05rem 1.1rem;
+  border: 1px solid var(--cream-18);
+  border-radius: .9rem;
+  background: rgba(10, 10, 11, .92);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  color: var(--cream);
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  opacity: 1;
+  transition: border-color .45s var(--ease), background .45s var(--ease), transform .45s var(--ease);
+}
+.card__num {
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .2em;
+  color: var(--emerald);
+}
+.card__title {
+  margin-top: .45rem;
+  font-family: var(--display);
+  font-variation-settings: 'wdth' 74, 'wght' 800;
+  font-size: clamp(1.02rem, 1.2vw, 1.18rem);
+  line-height: 1.08;
+  letter-spacing: -.02em;
+  transition: color .4s var(--ease);
+}
+.card__text {
+  font-family: var(--text);
+  font-size: .86rem;
+  line-height: 1.45;
+  color: var(--cream-70);
+}
+.card__go,
+.card__tag {
+  position: absolute;
+  top: .95rem; right: 1rem;
+}
+.card__go {
+  font-style: normal;
+  font-size: 1rem;
+  line-height: 1;
+  color: var(--emerald);
+  opacity: 0;
+  transform: translateX(-.5rem);
+  transition: opacity .45s var(--ease), transform .5s var(--ease);
+}
+.card__tag {
+  font-family: var(--mono);
+  font-size: .5rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--emerald);
+  border: 1px solid var(--emerald-15);
+  border-radius: 999px;
+  padding: .32em .6em;
+  white-space: nowrap;
+}
+.card--soon .card__title,
+.card--soon .card__text { opacity: .55; }
+.card--soon .card__go { display: none; }
+@media (hover: hover) {
+  .card:hover { border-color: rgba(0, 232, 143, .5); background: rgba(13, 15, 14, .96); transform: translateY(-2px); }
+  .card:hover .card__title { color: var(--emerald); }
+  .card:hover .card__go { opacity: 1; transform: none; }
+}
+@media (hover: none) { .card__go { opacity: .5; transform: none; } }
+
 /* ── footer ─────────────────────────────────────────────────── */
 .footer {
   width: 100%;
@@ -1041,6 +1209,9 @@ ol, ul { padding: 0; list-style: none; }
 .page__head { max-width: 60rem; }
 .page__title {
   margin-top: .9rem;
+  /* Czech capitals carry carons (Š, Ř) that rise above the tight line box —
+     the em of padding keeps them out of the eyebrow at any size */
+  padding-top: .12em;
   font-variation-settings: 'wdth' 64, 'wght' 900;
   font-size: clamp(2.8rem, 11vw, 9rem);
   line-height: .84;
@@ -1191,7 +1362,7 @@ ol, ul { padding: 0; list-style: none; }
 
 .page__footer { margin-top: clamp(3rem, 9vh, 6rem); }
 
-/* ═══ focus rows link into /zamereni ════════════════════════════ */
+/* ═══ focus rows link into the four zaměření pages ══════════════ */
 .build__item { position: relative; transition: color .45s var(--ease); }
 .build__link { display: inline-block; }
 /* the whole row is the hit area, but only the heading carries the link */
@@ -1321,49 +1492,13 @@ ol, ul { padding: 0; list-style: none; }
 .field__input:focus { outline: none; border-color: var(--emerald); }
 .field__input::placeholder { color: rgba(242, 237, 227, .26); }
 
-/* ═══ /zamereni — the four areas ════════════════════════════════ */
-.area {
-  padding-top: clamp(2.8rem, 8vh, 5rem);
-  scroll-margin-top: clamp(4.5rem, 11vh, 7rem);
-}
-.area__head {
-  position: relative;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--cream-18);
-  max-width: 62rem;
-}
-.area__head::before {
-  content: '';
-  position: absolute;
-  top: -1px; left: 0;
-  width: 0; height: 1px;
-  background: var(--emerald);
-  transition: width 1s var(--ease);
-}
-.area.is-target .area__head::before { width: 100%; }
-.area__num {
-  font-family: var(--mono);
-  font-size: .68rem;
-  letter-spacing: .22em;
-  color: var(--emerald);
-}
-.area__title {
-  margin-top: .6rem;
-  font-variation-settings: 'wdth' 66, 'wght' 900;
-  font-size: clamp(1.9rem, 6vw, 4rem);
-  line-height: .9;
-  letter-spacing: -.035em;
-  text-transform: uppercase;
-}
-.area__lead {
-  margin-top: .9rem;
-  font-family: var(--text);
-  font-size: clamp(1rem, 1.2vw, 1.12rem);
-  line-height: 1.65;
-  color: var(--cream-70);
-  max-width: 52ch;
-}
-.area__tag {
+/* ═══ the four zaměření pages ═══════════════════════════════════ */
+/* each is a quiet page: the head, then the offers straight under it */
+.page__title--long { font-size: clamp(2.4rem, 8.6vw, 7rem); text-wrap: balance; }
+.page__head + .offers { margin-top: clamp(2.5rem, 7vh, 4.5rem); }
+
+/* "připravuji" — said on the page, next to the lead */
+.page__tag {
   display: inline-block;
   margin-top: 1.4rem;
   padding: .45em .95em;
@@ -1375,6 +1510,16 @@ ol, ul { padding: 0; list-style: none; }
   text-transform: uppercase;
   color: var(--emerald);
 }
+
+/* the other three, so no page is a dead end */
+.more { margin-top: clamp(3.5rem, 10vh, 6.5rem); }
+.more__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: .8rem;
+  margin-top: 1.1rem;
+}
+@media (max-width: 52rem) { .more__grid { grid-template-columns: 1fr; } }
 
 .offers {
   display: grid;
@@ -1521,11 +1666,13 @@ ol, ul { padding: 0; list-style: none; }
 
 /* ═══ reveal on first sight ═════════════════════════════════════ */
 /* scoped to .js so a scriptless visit still reads everything */
+/* the "other areas" row lands as one block, so the tiles inside keep
+   their own hover lift */
 .js .offer,
 .js .post,
 .js .qa,
 .js .notes__col,
-.js .area__head {
+.js .more {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity .8s var(--ease), transform .8s var(--ease);
@@ -1534,7 +1681,7 @@ ol, ul { padding: 0; list-style: none; }
 .js .post.is-in,
 .js .qa.is-in,
 .js .notes__col.is-in,
-.js .area__head.is-in { opacity: 1; transform: none; }
+.js .more.is-in { opacity: 1; transform: none; }
 
 /* ═══ cookies ═══════════════════════════════════════════════════ */
 .cookie {

@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title data-i18n="ref.meta.title">Reference — JK WEBY</title>
-<meta name="description" data-i18n-content="ref.meta.desc" content="Připravuji první projekty. Tady bude jejich místo." />
+<title data-i18n="app.meta.title">Webové aplikace — JK WEBY</title>
+<meta name="description" data-i18n-content="app.meta.desc" content="Webové aplikace na míru: e-shop, rezervační a objednávkový systém nebo katalog. Napojené na to, co už používáte, se závaznou cenou předem." />
 <meta name="theme-color" content="#050505" />
-<meta name="robots" content="noindex" />
 
 <link rel="icon" href="/favicon.ico" sizes="48x48" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
@@ -23,7 +22,6 @@
 <div class="grain" aria-hidden="true"></div>
 <div class="scanline" aria-hidden="true"></div>
 
-<!-- ── nav ────────────────────────────────────────────────────── -->
 <header class="nav" id="nav">
   <a class="nav__mark" href="/#hero" data-link>JK<i></i></a>
 
@@ -87,70 +85,75 @@
 <main class="page__main">
 
   <header class="page__head">
-    <span class="eyebrow" data-i18n="ref.eyebrow">Portfolio</span>
-    <h1 class="page__title" data-i18n="ref.title">Reference</h1>
-    <p class="page__lead" data-i18n="ref.lead">Právě stavím první projekty. Zatím tu žádnou hotovou zakázku nenajdete — a vymýšlet si nebudu. Místa níže jsou volná a čekají na první klienty.</p>
+    <span class="eyebrow">02 — <span data-i18n="nav.focus">Zaměření</span></span>
+    <h1 class="page__title" data-i18n="app.title">Webové aplikace</h1>
+    <p class="page__lead" data-i18n="app.lead">Když web nestačí a potřebujete, aby něco doopravdy fungovalo.</p>
   </header>
 
-  <!-- ── carousel of open slots ───────────────────────────────── -->
-  <section class="carousel" aria-roledescription="carousel" data-i18n-label="ref.title" aria-label="Reference">
-    <div class="carousel__track" id="track" tabindex="0">
-
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">01</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.1.h">Webové stránky</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">02</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.2.h">E-shop</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">03</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.3.h">Rezervační aplikace</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">04</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.4.h">AI automatizace</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">05</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.5.h">Scroll-cinematic web</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-    </div>
-
-    <div class="carousel__ui">
-      <div class="carousel__dots" id="dots"></div>
-      <div class="carousel__arrows">
-        <button class="arrow" type="button" data-car="prev" data-i18n-label="ref.prev" aria-label="Předchozí">←</button>
-        <button class="arrow" type="button" data-car="next" data-i18n-label="ref.next" aria-label="Další">→</button>
+  <ol class="offers">
+    <li class="offer" data-reveal>
+      <span class="offer__num">02.1</span>
+      <div class="offer__body">
+        <h2 class="offer__title" data-i18n="app.1.h">E-shop</h2>
+        <p class="offer__text" data-i18n="app.1.p">Prodej, sklad, platby i doprava. Napojený na to, co už používáte.</p>
       </div>
-    </div>
-  </section>
+    </li>
+    <li class="offer" data-reveal>
+      <span class="offer__num">02.2</span>
+      <div class="offer__body">
+        <h2 class="offer__title" data-i18n="app.2.h">Rezervační systém</h2>
+        <p class="offer__text" data-i18n="app.2.p">Kalendář, obsazenost, potvrzení e-mailem. Bez telefonování tam a zpět.</p>
+      </div>
+    </li>
+    <li class="offer" data-reveal>
+      <span class="offer__num">02.3</span>
+      <div class="offer__body">
+        <h2 class="offer__title" data-i18n="app.3.h">Objednávkový systém</h2>
+        <p class="offer__text" data-i18n="app.3.p">Objednávka skončí tam, kde ji najdete — ne v přeplněné schránce.</p>
+      </div>
+    </li>
+    <li class="offer" data-reveal>
+      <span class="offer__num">02.4</span>
+      <div class="offer__body">
+        <h2 class="offer__title" data-i18n="app.4.h">Katalog</h2>
+        <p class="offer__text" data-i18n="app.4.p">Produkty nebo služby, které si spravujete sami, bez volání programátorovi.</p>
+      </div>
+    </li>
+  </ol>
 
-  <!-- ── closer ───────────────────────────────────────────────── -->
-  <section class="page__cta">
-    <h2 class="page__cta-title" data-i18n="ref.cta.title">Chcete tu být první?</h2>
-    <p class="page__cta-text" data-i18n="ref.cta.text">První projekty beru s péčí, kterou si zaslouží — a s cenou, která to zohledňuje.</p>
-    <div class="finale__ctas">
-      <a class="btn btn--primary" data-contact data-i18n-href="finale.mail" href="mailto:info@jkweby.cz?subject=Popt%C3%A1vka%20webu">
-        <span data-i18n="ref.cta.btn">Pojďme do toho</span><i aria-hidden="true">→</i>
+  <nav class="more" aria-labelledby="moreTitle">
+    <span class="eyebrow" id="moreTitle" data-i18n="svc.more">Další zaměření</span>
+    <div class="more__grid">
+      <a class="card" href="/tvorba-webovych-stranek/">
+        <span class="card__num">01</span>
+        <span class="card__title" data-i18n="web.title">Tvorba webových stránek</span>
+        <span class="card__text" data-i18n="focus.1.p">pro firmy i jednotlivce</span>
+        <i class="card__go" aria-hidden="true">→</i>
       </a>
-      <a class="btn btn--ghost" href="/"><span data-i18n="ref.cta.back">Zpět na web</span></a>
+      <a class="card" href="/ai-automatizace/">
+        <span class="card__num">03</span>
+        <span class="card__title" data-i18n="ai.title">AI automatizace</span>
+        <span class="card__text" data-i18n="focus.3.p">ušetření času na opakujících se úkolech</span>
+        <i class="card__go" aria-hidden="true">→</i>
+      </a>
+      <a class="card card--soon" href="/ai-skoleni/">
+        <span class="card__num">04</span>
+        <span class="card__title" data-i18n="edu.title">AI školení</span>
+        <span class="card__text" data-i18n="focus.4.p">připravuji</span>
+        <span class="card__tag" data-i18n="focus.soon">Již brzy</span>
+      </a>
+    </div>
+  </nav>
+
+  <section class="page__cta">
+    <h2 class="page__cta-title" data-i18n="svc.cta.title">Nevíte, do které škatulky patříte?</h2>
+    <p class="page__cta-text" data-i18n="svc.cta.text">Nevadí. Napište mi, co potřebujete, a vymyslím, jak na to.</p>
+    <div class="finale__ctas">
+      <!-- the form opens with this page's service already picked -->
+      <a class="btn btn--primary" data-contact="Aplikace" data-i18n-href="finale.mail" href="mailto:info@jkweby.cz?subject=Popt%C3%A1vka%20webu">
+        <span data-i18n="finale.cta1">Pojďme do toho</span><i aria-hidden="true">→</i>
+      </a>
+      <a class="btn btn--ghost" href="/faq/"><span data-i18n="nav.faq">FAQ</span></a>
     </div>
   </section>
 
@@ -168,6 +171,6 @@
 
 </main>
 
-<script type="module" src="/src/reference.js"></script>
+<script type="module" src="/src/page.js"></script>
 </body>
 </html>

@@ -38,7 +38,41 @@
 
   <nav class="nav__links" data-i18n-label="nav.menu" aria-label="Menu">
     <a href="/" data-i18n="nav.home">Domů</a>
-    <a href="/zamereni/" data-i18n="nav.focus">Zaměření</a>
+
+    <!-- one word in the row; the four cards it opens are the four pages -->
+    <div class="nav__group" data-group>
+      <button class="nav__group-btn" type="button" aria-expanded="false" aria-controls="navCards">
+        <span data-i18n="nav.focus">Zaměření</span><i aria-hidden="true"></i>
+      </button>
+      <div class="nav__cards" id="navCards">
+        <span class="nav__cards-label" data-i18n="nav.focus">Zaměření</span>
+        <a class="card" href="/tvorba-webovych-stranek/">
+          <span class="card__num">01</span>
+          <span class="card__title" data-i18n="web.title">Tvorba webových stránek</span>
+          <span class="card__text" data-i18n="focus.1.p">pro firmy i jednotlivce</span>
+          <i class="card__go" aria-hidden="true">→</i>
+        </a>
+        <a class="card" href="/webove-aplikace/">
+          <span class="card__num">02</span>
+          <span class="card__title" data-i18n="app.title">Webové aplikace</span>
+          <span class="card__text" data-i18n="focus.2.p">e-shopy, rezervace, objednávky nebo katalog</span>
+          <i class="card__go" aria-hidden="true">→</i>
+        </a>
+        <a class="card" href="/ai-automatizace/">
+          <span class="card__num">03</span>
+          <span class="card__title" data-i18n="ai.title">AI automatizace</span>
+          <span class="card__text" data-i18n="focus.3.p">ušetření času na opakujících se úkolech</span>
+          <i class="card__go" aria-hidden="true">→</i>
+        </a>
+        <a class="card card--soon" href="/ai-skoleni/">
+          <span class="card__num">04</span>
+          <span class="card__title" data-i18n="edu.title">AI školení</span>
+          <span class="card__text" data-i18n="focus.4.p">připravuji</span>
+          <span class="card__tag" data-i18n="focus.soon">Již brzy</span>
+        </a>
+      </div>
+    </div>
+
     <a href="/reference/" data-i18n="nav.refs">Reference</a>
     <a href="/blog/" data-i18n="nav.blog">Blog</a>
     <a href="/faq/" data-i18n="nav.faq">FAQ</a>
@@ -132,7 +166,7 @@
     </div>
   </div>
 
-  <!-- ══ 03 · ZAMĚŘENÍ — pinned over clip 2 ═════════════════════ -->
+  <!-- ══ 03 · ZAMĚŘENÍ — pinned over clip 2; each row opens its own page ═ -->
   <section class="chapter chapter--build" id="build">
     <div class="chapter__sticky">
       <video class="chapter__video" data-vid src="/video/builder.mp4" muted loop playsinline preload="auto"></video>
@@ -148,7 +182,7 @@
           <li class="build__item" data-reveal>
             <span class="build__num">01</span>
             <div class="build__body">
-              <h3><a class="build__link" href="/zamereni/#weby" data-i18n="focus.1.h">Webové stránky</a></h3>
+              <h3><a class="build__link" href="/tvorba-webovych-stranek/" data-i18n="focus.1.h">Webové stránky</a></h3>
               <p data-i18n="focus.1.p">pro firmy i jednotlivce</p>
             </div>
             <span class="build__end"><i class="build__go" aria-hidden="true">→</i></span>
@@ -156,7 +190,7 @@
           <li class="build__item" data-reveal>
             <span class="build__num">02</span>
             <div class="build__body">
-              <h3><a class="build__link" href="/zamereni/#aplikace" data-i18n="focus.2.h">Aplikace</a></h3>
+              <h3><a class="build__link" href="/webove-aplikace/" data-i18n="focus.2.h">Aplikace</a></h3>
               <p data-i18n="focus.2.p">e-shopy, rezervace, objednávky nebo katalog</p>
             </div>
             <span class="build__end"><i class="build__go" aria-hidden="true">→</i></span>
@@ -164,7 +198,7 @@
           <li class="build__item" data-reveal>
             <span class="build__num">03</span>
             <div class="build__body">
-              <h3><a class="build__link" href="/zamereni/#ai-automatizace" data-i18n="focus.3.h">AI automatizace</a></h3>
+              <h3><a class="build__link" href="/ai-automatizace/" data-i18n="focus.3.h">AI automatizace</a></h3>
               <p data-i18n="focus.3.p">ušetření času na opakujících se úkolech</p>
             </div>
             <span class="build__end"><i class="build__go" aria-hidden="true">→</i></span>
@@ -172,7 +206,7 @@
           <li class="build__item build__item--soon" data-reveal>
             <span class="build__num">04</span>
             <div class="build__body">
-              <h3><a class="build__link" href="/zamereni/#ai-skoleni" data-i18n="focus.4.h">AI školení</a></h3>
+              <h3><a class="build__link" href="/ai-skoleni/" data-i18n="focus.4.h">AI školení</a></h3>
               <p data-i18n="focus.4.p">připravuji</p>
             </div>
             <span class="build__end">

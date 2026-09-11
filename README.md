@@ -19,16 +19,27 @@ npm run media     # regenerate frames + background clips from assets/
 npm run favicon   # regenerate the JK icon set into public/
 ```
 
-Five pages, each an `index.html` in its own folder and all five listed in
+Eight pages, each an `index.html` in its own folder and all eight listed in
 `vite.config.js`:
 
 | | |
 |---|---|
 | `/` | the scroll film |
-| `/zamereni/` | what I build, four deep-linkable sections |
+| `/tvorba-webovych-stranek/` | zaměření 01 — the four kinds of website |
+| `/webove-aplikace/` | zaměření 02 — e-shop, bookings, orders, catalogue |
+| `/ai-automatizace/` | zaměření 03 — the four automations |
+| `/ai-skoleni/` | zaměření 04 — "připravuji", `noindex` until there is content |
 | `/reference/` | placeholder carousel until there's real work |
 | `/blog/` | empty until the first post; the markup for one is in an HTML comment |
 | `/faq/` | eight answers, `<details>` accordion |
+
+The four zaměření pages share one shape — head, `.offers`, an "other areas"
+row of cards, the closer — and every one of them is reachable from three
+places: the cards in the nav, the rows of section 02 on the home page, and
+the "další zaměření" row at the foot of its three siblings. Their CTA opens
+the contact form with that page's service already picked (`data-contact`
+carries the value). There used to be a single `/zamereni/` page with the four
+as sections; `vercel.json` sends that URL to the home-page section.
 
 There is deliberately **no pricing page** — pricing is answered in the FAQ
 instead.
@@ -141,12 +152,19 @@ First visit picks Czech unless the browser asks for English (`preferredLang()`).
 
 `Domů · Zaměření · Reference · Blog · FAQ`, then the language switch and the
 CTA. The bar is fixed on every page and stays a whisper: no background of its
-own and **no group hover**, so it never lays a panel over the hero. Only the
-item under the pointer lifts. The CTA is the one thing that's always lit.
+own, so it never lays a panel over the hero unasked. Only the item under the
+pointer lifts. The CTA is the one thing that's always lit.
+
+**Zaměření** is a button, not a link — there is no page behind it any more.
+It opens four cards (`.nav__cards`, one `.card` per page) under the bar: on
+hover where there is a pointer, on click everywhere else, and from the
+keyboard with Enter, Tab and Escape. Four abreast from 72rem, two by two
+below that. `initGroup()` in `src/chrome.js` owns the one `is-open` state.
 
 Under 60rem the link row turns into a drop-down sheet behind a burger; the CTA
-stays in the bar. CSS decides row-or-sheet, `initNav()` in `src/chrome.js` only
-flips the state.
+stays in the bar. There the word becomes a label and the four cards are simply
+the next rows of the sheet, always open. CSS decides row-or-sheet, `initNav()`
+only flips the state.
 
 Nav hrefs are absolute, because the same markup ships on every page. On the home
 page `main.js` catches same-page ones and hands them to Lenis; arriving from
@@ -243,7 +261,7 @@ I inferred these; confirm them in `index.html`:
 | Footer + primary CTA | `info@jkweby.cz` | Business address — make sure the mailbox actually receives before you publish |
 | Stats block | `24 h` · `0 Kč` · `14 dní` · `100 %` | Promises, not a track record — they replaced the invented project counts. Only keep the ones you can actually hold to |
 | `/faq/` answers | 8 questions | Written from what the rest of the site already promises (24h reply, 2 weeks, fixed price, hosting after launch) — **read them and make sure you agree** |
-| `/zamereni/` | apps + AI automation lists | The four website types are yours verbatim; the other two lists I drafted |
+| `/webove-aplikace/`, `/ai-automatizace/` | the two offer lists | The four website types on `/tvorba-webovych-stranek/` are yours verbatim; these two lists I drafted |
 | `/reference/` | five empty slots | Placeholders until there's real signed-off work to show |
 
 ## Raw masters (Git LFS)
@@ -275,10 +293,12 @@ src/chrome.js      what every page wears: i18n, nav, popup, cookie bar
 src/i18n.js        every string, both languages
 src/contact.js     the CTA's popup form
 src/consent.js     cookie banner + the hook analytics will hang off
-src/page.js        entry for /zamereni, /blog and /faq
+src/page.js        entry for the four zaměření pages, /blog and /faq
 src/reference.js   placeholder carousel (no GSAP, no Lenis)
 src/style.css      design system + all sections
-zamereni/  reference/  blog/  faq/
+tvorba-webovych-stranek/  webove-aplikace/  ai-automatizace/  ai-skoleni/
+reference/  blog/  faq/
+vercel.json        redirect for the retired /zamereni/ URL
 scripts/build-media.mjs     ffmpeg pipeline
 scripts/build-favicon.mjs   JK mark → svg / ico / png
 ```

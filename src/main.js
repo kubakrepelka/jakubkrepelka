@@ -508,7 +508,7 @@ preload().then(() => {
       loader.remove();
       lenis.start();
       ScrollTrigger.refresh();
-      /* arrived from /zamereni/ with a hash — the browser's own jump was undone
+      /* arrived from another page with a hash — the browser's own jump was undone
          by the loader gate, so make it again now the page is measurable */
       if (location.hash && document.querySelector(location.hash)) {
         lenis.scrollTo(location.hash, { immediate: true });

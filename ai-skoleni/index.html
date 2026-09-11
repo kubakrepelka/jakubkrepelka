@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title data-i18n="ref.meta.title">Reference — JK WEBY</title>
-<meta name="description" data-i18n-content="ref.meta.desc" content="Připravuji první projekty. Tady bude jejich místo." />
+<title data-i18n="edu.meta.title">AI školení — JK WEBY</title>
+<meta name="description" data-i18n-content="edu.meta.desc" content="AI školení pro firmy i jednotlivce. Připravuji — obsah i termíny najdete tady, jakmile budou hotové." />
 <meta name="theme-color" content="#050505" />
 <meta name="robots" content="noindex" />
 
@@ -23,7 +23,6 @@
 <div class="grain" aria-hidden="true"></div>
 <div class="scanline" aria-hidden="true"></div>
 
-<!-- ── nav ────────────────────────────────────────────────────── -->
 <header class="nav" id="nav">
   <a class="nav__mark" href="/#hero" data-link>JK<i></i></a>
 
@@ -87,70 +86,48 @@
 <main class="page__main">
 
   <header class="page__head">
-    <span class="eyebrow" data-i18n="ref.eyebrow">Portfolio</span>
-    <h1 class="page__title" data-i18n="ref.title">Reference</h1>
-    <p class="page__lead" data-i18n="ref.lead">Právě stavím první projekty. Zatím tu žádnou hotovou zakázku nenajdete — a vymýšlet si nebudu. Místa níže jsou volná a čekají na první klienty.</p>
+    <span class="eyebrow">04 — <span data-i18n="nav.focus">Zaměření</span></span>
+    <h1 class="page__title" data-i18n="edu.title">AI školení</h1>
+    <p class="page__lead" data-i18n="edu.lead">Připravuji. Až bude hotové, najdete tady obsah i termíny.</p>
+    <p class="page__tag" data-i18n="focus.soon">Již brzy</p>
   </header>
 
-  <!-- ── carousel of open slots ───────────────────────────────── -->
-  <section class="carousel" aria-roledescription="carousel" data-i18n-label="ref.title" aria-label="Reference">
-    <div class="carousel__track" id="track" tabindex="0">
+  <!-- the offers go here once the training is ready — same <ol class="offers">
+       as the other three pages, keys edu.N.h / edu.N.p -->
 
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">01</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.1.h">Webové stránky</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">02</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.2.h">E-shop</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">03</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.3.h">Rezervační aplikace</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">04</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.4.h">AI automatizace</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-      <article class="slot">
-        <div class="slot__frame"><span class="slot__ghost" aria-hidden="true">05</span></div>
-        <span class="slot__tag" data-i18n="ref.slot">Volné místo</span>
-        <h2 class="slot__title" data-i18n="ref.5.h">Scroll-cinematic web</h2>
-        <p class="slot__note" data-i18n="ref.placeholder">Místo pro váš projekt</p>
-      </article>
-
-    </div>
-
-    <div class="carousel__ui">
-      <div class="carousel__dots" id="dots"></div>
-      <div class="carousel__arrows">
-        <button class="arrow" type="button" data-car="prev" data-i18n-label="ref.prev" aria-label="Předchozí">←</button>
-        <button class="arrow" type="button" data-car="next" data-i18n-label="ref.next" aria-label="Další">→</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── closer ───────────────────────────────────────────────── -->
-  <section class="page__cta">
-    <h2 class="page__cta-title" data-i18n="ref.cta.title">Chcete tu být první?</h2>
-    <p class="page__cta-text" data-i18n="ref.cta.text">První projekty beru s péčí, kterou si zaslouží — a s cenou, která to zohledňuje.</p>
-    <div class="finale__ctas">
-      <a class="btn btn--primary" data-contact data-i18n-href="finale.mail" href="mailto:info@jkweby.cz?subject=Popt%C3%A1vka%20webu">
-        <span data-i18n="ref.cta.btn">Pojďme do toho</span><i aria-hidden="true">→</i>
+  <nav class="more" aria-labelledby="moreTitle">
+    <span class="eyebrow" id="moreTitle" data-i18n="svc.more">Další zaměření</span>
+    <div class="more__grid">
+      <a class="card" href="/tvorba-webovych-stranek/">
+        <span class="card__num">01</span>
+        <span class="card__title" data-i18n="web.title">Tvorba webových stránek</span>
+        <span class="card__text" data-i18n="focus.1.p">pro firmy i jednotlivce</span>
+        <i class="card__go" aria-hidden="true">→</i>
       </a>
-      <a class="btn btn--ghost" href="/"><span data-i18n="ref.cta.back">Zpět na web</span></a>
+      <a class="card" href="/webove-aplikace/">
+        <span class="card__num">02</span>
+        <span class="card__title" data-i18n="app.title">Webové aplikace</span>
+        <span class="card__text" data-i18n="focus.2.p">e-shopy, rezervace, objednávky nebo katalog</span>
+        <i class="card__go" aria-hidden="true">→</i>
+      </a>
+      <a class="card" href="/ai-automatizace/">
+        <span class="card__num">03</span>
+        <span class="card__title" data-i18n="ai.title">AI automatizace</span>
+        <span class="card__text" data-i18n="focus.3.p">ušetření času na opakujících se úkolech</span>
+        <i class="card__go" aria-hidden="true">→</i>
+      </a>
+    </div>
+  </nav>
+
+  <section class="page__cta">
+    <h2 class="page__cta-title" data-i18n="edu.cta.title">Chcete vědět, až školení spustím?</h2>
+    <p class="page__cta-text" data-i18n="edu.cta.text">Napište mi a dám vám vědět. Žádný spam, jen až bude co nabídnout.</p>
+    <div class="finale__ctas">
+      <!-- the form opens with this page's service already picked -->
+      <a class="btn btn--primary" data-contact="AI školení" data-i18n-href="finale.mail" href="mailto:info@jkweby.cz?subject=Popt%C3%A1vka%20webu">
+        <span data-i18n="finale.cta1">Pojďme do toho</span><i aria-hidden="true">→</i>
+      </a>
+      <a class="btn btn--ghost" href="/faq/"><span data-i18n="nav.faq">FAQ</span></a>
     </div>
   </section>
 
@@ -168,6 +145,6 @@
 
 </main>
 
-<script type="module" src="/src/reference.js"></script>
+<script type="module" src="/src/page.js"></script>
 </body>
 </html>
