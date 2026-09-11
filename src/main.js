@@ -236,8 +236,9 @@ function initSplitWords(el) {
 /* what a stat reads once its animation has landed — also what a language
    switch has to repaint, since the unit is part of the string */
 function statFinal(val) {
-  if (val.dataset.count) val.textContent = val.dataset.count + (val.dataset.suffix || '');
-  else if (val.dataset.scramble) val.textContent = val.dataset.scramble;
+  const text = val.dataset.count ? val.dataset.count + (val.dataset.suffix || '') : val.dataset.scramble;
+  val.querySelector('.stat__final').textContent = text;
+  val.querySelector('.stat__visual').textContent = text;
 }
 
 /* ═══ 3 · build the timelines ═══════════════════════════════════ */
@@ -355,7 +356,7 @@ function buildScene() {
             /* the suffix is read live — a language switch mid-count lands
                on the next tick rather than freezing the old unit */
             onUpdate: () => {
-              val.textContent = Math.round(o.n) + (o.n >= target ? (val.dataset.suffix || '') : '');
+              val.querySelector('.stat__visual').textContent = Math.round(o.n) + (o.n >= target ? (val.dataset.suffix || '') : '');
             },
             onComplete: () => { stat.dataset.done = '1'; statFinal(val); },
           });
@@ -454,7 +455,7 @@ function buildScene() {
     document.querySelectorAll('[data-stat]').forEach(stat => {
       const val = stat.querySelector('.stat__val');
       if (stat.dataset.done) statFinal(val);
-      else if (val.dataset.scramble) val.textContent = val.dataset.scramble;
+      else if (val.dataset.scramble) val.querySelector('.stat__visual').textContent = val.dataset.scramble;
     });
     ScrollTrigger.refresh();
   });
@@ -466,6 +467,7 @@ function buildScene() {
 /* the target is re-read every tick, so a language switch landing mid-scramble
    resolves to the new string instead of finishing on the old one */
 function scramble(el, done) {
+  const visual = el.querySelector('.stat__visual');
   const pool = '▚▞ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/∞◆';
   let tick = 0;
   const total = 22;
@@ -473,10 +475,10 @@ function scramble(el, done) {
     tick++;
     const final = el.dataset.scramble || '';
     const chars = Array.from(final);
-    el.textContent = chars
+    visual.textContent = chars
       .map((c, i) => (tick / total) * chars.length > i ? c : pool[(Math.random() * pool.length) | 0])
       .join('');
-    if (tick >= total) { clearInterval(id); el.textContent = final; done?.(); }
+    if (tick >= total) { clearInterval(id); visual.textContent = final; done?.(); }
   }, 26);
 }
 
@@ -487,6 +489,16 @@ if (import.meta.env?.DEV) Object.assign(window, { __lenis: lenis, __st: ScrollTr
 /* chrome first — everything downstream splits, counts or measures the
    text it produces. The cookie bar waits for the loader to clear */
 const { cookies } = initChrome({ deferCookies: true });
+
+// Enhance the existing final HTML value; animate only the decorative copy.
+document.querySelectorAll('.stat__val').forEach(val => {
+  const visual = document.createElement('span');
+  visual.className = 'stat__visual';
+  visual.setAttribute('aria-hidden', 'true');
+  visual.textContent = val.dataset.count ? '0' : val.dataset.scramble;
+  val.append(visual);
+  val.classList.add('stat--animated');
+});
 
 const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
 window.addEventListener('resize', debounce(() => {

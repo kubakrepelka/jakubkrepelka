@@ -552,6 +552,7 @@ ol, ul { padding: 0; list-style: none; }
   text-wrap: balance;
   color: var(--cream);
 }
+.hero__sub { font-weight: 600; }
 .hero__sub span { display: inline-block; will-change: transform; }
 
 /* the rule that used to sit here was decoration; now it carries the name.
@@ -1249,11 +1250,13 @@ ol, ul { padding: 0; list-style: none; }
 
 .slot {
   scroll-snap-align: start;
+}
+.js .slot {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity .9s var(--ease), transform .9s var(--ease);
 }
-.slot.is-in { opacity: 1; transform: none; }
+.js .slot.is-in { opacity: 1; transform: none; }
 
 .slot__frame {
   position: relative;
@@ -1755,3 +1758,23 @@ ol, ul { padding: 0; list-style: none; }
 #contact [data-turnstile]:not(:empty) { margin-top: 1rem; }
 #contact :focus-visible { outline: 2px solid var(--emerald); outline-offset: 3px; }
 #contact button:disabled { opacity: .6; cursor: wait; }
+
+/* Final counter copy stays in the DOM throughout the decorative animation. */
+.stat--animated .stat__final {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+/* The service links also open with CSS if JavaScript is unavailable. */
+html:not(.js) .nav__group:hover .nav__cards,
+html:not(.js) .nav__group:focus-within .nav__cards {
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+}

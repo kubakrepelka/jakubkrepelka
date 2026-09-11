@@ -28,7 +28,7 @@ Eight pages, each an `index.html` in its own folder and all eight listed in
 | `/tvorba-webovych-stranek/` | zaměření 01 — the four kinds of website |
 | `/webove-aplikace/` | zaměření 02 — e-shop, bookings, orders, catalogue |
 | `/ai-automatizace/` | zaměření 03 — the four automations |
-| `/ai-skoleni/` | zaměření 04 — "připravuji", `noindex` until there is content |
+| `/ai-skoleni/` | zaměření 04 — "připravuji", public and indexable |
 | `/reference/` | placeholder carousel until there's real work |
 | `/blog/` | empty until the first post; the markup for one is in an HTML comment |
 | `/faq/` | eight answers, `<details>` accordion |
@@ -146,7 +146,7 @@ things can't just have their text replaced:
   they're re-split and given a fresh ScrollTrigger;
 - a finished stat counter holds `24 h` as one string, so its unit is repainted.
 
-First visit picks Czech unless the browser asks for English (`preferredLang()`).
+First visit uses Czech (`preferredLang()`). English is available by explicit choice.
 
 ## Navigation
 
@@ -306,3 +306,59 @@ scripts/build-favicon.mjs   JK mark → svg / ico / png
 Fonts: Archivo (variable, `wdth` axis for condensed display) for the display
 type, Instrument Sans for running text, Spline Sans Mono for the technical
 labels — all three with `latin-ext` for Czech diacritics.
+
+
+## Technical SEO
+
+The site remains a static Vite multi-page build. `npm run seo` synchronizes Czech
+copy from `src/i18n.js` into every source HTML document and generates metadata,
+JSON-LD, `public/robots.txt` and `public/sitemap.xml`. It runs automatically before
+`npm run dev` and `npm run build`. Edit copy in the translation dictionary, then
+regenerate; do not hand-edit the generated SEO/contact blocks.
+
+`src/seo.js` is the shared inventory for the build inputs and all eight indexable
+pages. Canonicals, Open Graph URLs, the sitemap and internal links consistently
+use `https://jkweby.cz` and the existing directory URLs with trailing slashes.
+Vercel normalizes trailing slashes. No artificial `lastmod` dates are generated.
+
+All FAQ questions/answers, animated section copy, counter targets and the existing
+contact dialog are present in the delivered HTML. Counter animations only update
+an `aria-hidden` visual copy; the final accessible text persists. The hero's
+existing subtitle is the single SEO H1; the large JK WEBY lockup retains its
+classes and character animations. References and the loader have no-JavaScript
+fallbacks. English remains available by explicit choice and is remembered locally;
+a fresh browser/crawler receives Czech regardless of browser language. There are
+no separate English URLs, so no invented hreflang alternates.
+
+Structured data contains Organization, WebSite and WebPage, plus FAQPage on the
+FAQ page. Questions and answers come from the same dictionary as visible copy,
+including after a manual language change. No unverified address, reviews, prices
+or completed projects were added.
+
+`/kontakt` was not an existing page (production returned 404). To honor the request
+not to create pages, `/kontakt` and `/kontakt/` permanently redirect to `/#finale`.
+The existing contact popup is preserved, and its CTA anchors lead to that section
+when scripts are unavailable. A redirect cannot have its own indexable H1 or
+metadata and is deliberately excluded from the sitemap.
+
+Verification: `npm run test:seo` builds the site and checks both source and output
+HTML, unique metadata/H1s, heading levels, canonicals, internal links and anchors,
+FAQ/Organization JSON-LD, static counter values and sitemap/robots. `npm test`
+also runs the existing contact API tests (mocked email provider; no emails sent).
+
+After deployment:
+
+1. Verify `/robots.txt` and `/sitemap.xml` return 200, `/kontakt` redirects to the
+   contact section, and unknown URLs return 404. The local Vite preview does not
+   execute `vercel.json` redirects.
+2. Verify the domain property in Google Search Console, submit
+   `https://jkweby.cz/sitemap.xml`, and inspect/request indexing for the homepage
+   and main pages. Check the rendered HTML and the selected canonical URL.
+3. Keep HTTP → HTTPS and www → apex redirects enabled in hosting. Both already
+   worked during the production audit on 2026-09-11. No X-Robots-Tag blockage was
+   found on the inspected production responses.
+4. Add real references, articles and training details to the existing pages when
+   available. These pages currently have limited or placeholder content; removing
+   their former noindex directives does not guarantee Google will index them.
+
+Reference: [Google's JavaScript SEO guidance](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics).

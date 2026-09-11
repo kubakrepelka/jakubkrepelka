@@ -1,7 +1,26 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
-    { "source": "/zamereni", "destination": "/#build", "permanent": true },
-    { "source": "/zamereni/", "destination": "/#build", "permanent": true }
-  ]
+    {
+      "source": "/zamereni",
+      "destination": "/#build",
+      "permanent": true
+    },
+    {
+      "source": "/zamereni/",
+      "destination": "/#build",
+      "permanent": true
+    },
+    {
+      "source": "/kontakt",
+      "destination": "/#finale",
+      "permanent": true
+    },
+    {
+      "source": "/kontakt/",
+      "destination": "/#finale",
+      "permanent": true
+    }
+  ],
+  "trailingSlash": true
 }

@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title data-i18n="meta.title">JK WEBY — weby, aplikace a AI řešení</title>
-<meta name="description" data-i18n-content="meta.desc" content="JK WEBY — tvořím weby, aplikace a AI řešení pro firmy i jednotlivce. Návrh, závazná cena předem, spuštění na vaší doméně a starost o web i potom." />
+<title data-i18n="meta.title">Tvorba webových stránek na míru | JK WEBY</title>
+<meta name="description" data-i18n-content="meta.desc" content="Tvořím webové stránky na míru pro firmy i jednotlivce. Originální design, závazná cena předem a péče po spuštění. Úvodní konzultace a návrh zdarma." />
 <meta name="theme-color" content="#050505" />
+<noscript><style>#loader { display: none; }</style></noscript>
 
 <link rel="icon" href="/favicon.ico" sizes="48x48" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
@@ -16,6 +17,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..600&family=Spline+Sans+Mono:wght@400..600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/src/style.css" />
+<!-- SEO:generated -->
+<link rel="canonical" href="https://jkweby.cz/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="JK WEBY" />
+<meta property="og:locale" content="cs_CZ" />
+<meta property="og:url" content="https://jkweby.cz/" />
+<meta property="og:title" data-i18n-content="meta.title" content="Tvorba webových stránek na míru | JK WEBY" />
+<meta property="og:description" data-i18n-content="meta.desc" content="Tvořím webové stránky na míru pro firmy i jednotlivce. Originální design, závazná cena předem a péče po spuštění. Úvodní konzultace a návrh zdarma." />
+<meta property="og:image" content="https://jkweby.cz/icon-512.png" />
+<meta property="og:image:width" content="512" />
+<meta property="og:image:height" content="512" />
+<meta property="og:image:alt" content="JK WEBY" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" data-i18n-content="meta.title" content="Tvorba webových stránek na míru | JK WEBY" />
+<meta name="twitter:description" data-i18n-content="meta.desc" content="Tvořím webové stránky na míru pro firmy i jednotlivce. Originální design, závazná cena předem a péče po spuštění. Úvodní konzultace a návrh zdarma." />
+<meta name="twitter:image" content="https://jkweby.cz/icon-512.png" />
+<script type="application/ld+json" id="structured-data">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://jkweby.cz/#organization","name":"JK WEBY","url":"https://jkweby.cz/","logo":"https://jkweby.cz/icon-512.png","email":"info@jkweby.cz","founder":{"@type":"Person","name":"Jakub Křepelka"},"sameAs":["https://www.instagram.com/jk_weby/"]},{"@type":"WebSite","@id":"https://jkweby.cz/#website","url":"https://jkweby.cz/","name":"JK WEBY","publisher":{"@id":"https://jkweby.cz/#organization"}},{"@type":"WebPage","@id":"https://jkweby.cz/#webpage","url":"https://jkweby.cz/","name":"Tvorba webových stránek na míru | JK WEBY","description":"Tvořím webové stránky na míru pro firmy i jednotlivce. Originální design, závazná cena předem a péče po spuštění. Úvodní konzultace a návrh zdarma.","inLanguage":"cs","isPartOf":{"@id":"https://jkweby.cz/#website"},"about":{"@id":"https://jkweby.cz/#organization"}}]}</script>
+<!-- /SEO:generated -->
 </head>
 <body>
 
@@ -24,7 +44,7 @@
 <div class="scanline" aria-hidden="true"></div>
 
 <!-- ── preloader ──────────────────────────────────────────────── -->
-<div class="loader" id="loader">
+<div class="loader" id="loader" aria-hidden="true">
   <div class="loader__inner">
     <div class="loader__label">JK WEBY</div>
     <div class="loader__bar"><span class="loader__fill" id="loaderFill"></span></div>
@@ -83,7 +103,7 @@
     </div>
   </nav>
 
-  <a class="btn btn--sm btn--primary nav__cta" href="mailto:info@jkweby.cz?subject=Popt%C3%A1vka%20webu" data-contact>
+  <a class="btn btn--sm btn--primary nav__cta" href="/#finale" data-contact>
     <span data-i18n="nav.cta">Nezávazná poptávka</span>
   </a>
 
@@ -104,10 +124,10 @@
       <!-- the two halves of the mark start apart — JK out to the left, WEBY
            out to the right — and the scroll walks them into one lockup -->
       <div class="hero__type">
-        <h1 class="hero__name">
+        <div class="hero__name">
           <span class="hero__line hero__line--jk" data-split data-from="left">JK</span>
           <span class="hero__line hero__line--weby" data-split data-from="right">WEBY</span>
-        </h1>
+        </div>
       </div>
 
       <!-- same frame, blended `lighten` — his lit edges punch back through
@@ -122,9 +142,9 @@
         <span data-i18n="hero.byline">Jakub Křepelka</span>
       </p>
 
-      <p class="hero__sub" id="heroSub">
-        <span data-i18n="hero.sub">Tvorba webových stránek, aplikací a AI řešení</span>
-      </p>
+      <h1 class="hero__sub" id="heroSub">
+        <span data-i18n="hero.sub">Tvorba webových stránek na míru</span>
+      </h1>
 
       <div class="hero__hud" aria-hidden="true">
         <span class="hero__hud-l">ORBIT</span>
@@ -141,19 +161,19 @@
   <section class="stats" id="stats">
     <div class="stats__grid">
       <div class="stat" data-stat>
-        <div class="stat__val" data-count="24" data-i18n-suffix="stat.1.suffix" data-suffix=" h">0</div>
+        <div class="stat__val" data-count="24" data-i18n-suffix="stat.1.suffix" data-suffix=" h"><span class="stat__final">24 h</span></div>
         <div class="stat__label" data-i18n="stat.1.label">první odpověď na poptávku</div>
       </div>
       <div class="stat" data-stat>
-        <div class="stat__val" data-i18n-scramble="stat.2.scramble" data-scramble="0 Kč">0 Kč</div>
+        <div class="stat__val" data-i18n-scramble="stat.2.scramble" data-scramble="0 Kč"><span class="stat__final">0 Kč</span></div>
         <div class="stat__label" data-i18n="stat.2.label">úvodní konzultace a návrh</div>
       </div>
       <div class="stat" data-stat>
-        <div class="stat__val" data-count="14" data-i18n-suffix="stat.3.suffix" data-suffix=" dní">0</div>
+        <div class="stat__val" data-count="14" data-i18n-suffix="stat.3.suffix" data-suffix=" dní"><span class="stat__final">14 dní</span></div>
         <div class="stat__label" data-i18n="stat.3.label">typicky od zadání ke spuštění</div>
       </div>
       <div class="stat" data-stat>
-        <div class="stat__val" data-count="100" data-i18n-suffix="stat.4.suffix" data-suffix=" %">0</div>
+        <div class="stat__val" data-count="100" data-i18n-suffix="stat.4.suffix" data-suffix=" %"><span class="stat__final">100 %</span></div>
         <div class="stat__label" data-i18n="stat.4.label">kód na míru, žádné šablony</div>
       </div>
     </div>
@@ -285,7 +305,7 @@
         <h2 class="finale__title" data-split-words data-i18n="finale.title">Váš web nemusí být jen představa!</h2>
 
         <div class="finale__ctas">
-          <a class="btn btn--primary" data-contact data-i18n-href="finale.mail" href="mailto:info@jkweby.cz?subject=Popt%C3%A1vka%20webu">
+          <a class="btn btn--primary" data-contact href="/#finale">
             <span data-i18n="finale.cta1">Pojďme do toho</span><i aria-hidden="true">→</i>
           </a>
           <a class="btn btn--ghost" href="/reference/">
@@ -310,6 +330,42 @@
 
 </main>
 
+<!-- CONTACT:generated -->
+<dialog class="modal" id="contact" lang="cs" aria-labelledby="contact-title" data-lenis-prevent>
+  <form class="modal__box" novalidate>
+    <button class="modal__x" type="button" data-close aria-label="Zavřít">×</button>
+    <div data-pane="form">
+      <p class="eyebrow">Kontakt</p>
+      <h2 class="modal__title" id="contact-title">Poptat službu</h2>
+      <p class="modal__text">Napište mi, co potřebujete. Co nejdříve se vám ozvu.</p>
+      <label class="field"><span class="field__label">Jméno</span><input class="field__input" name="name" aria-describedby="contact-name-error" type="text" required maxlength="100" autocomplete="name" placeholder="Jan Novák"><span class="field__error" id="contact-name-error"></span></label>
+      <label class="field"><span class="field__label">E-mail</span><input class="field__input" name="email" aria-describedby="contact-email-error" type="email" required maxlength="254" autocomplete="email" placeholder="jan@firma.cz"><span class="field__error" id="contact-email-error"></span></label>
+      <label class="field"><span class="field__label">Telefon (nepovinný)</span><input class="field__input" name="phone" aria-describedby="contact-phone-error" type="tel" maxlength="30" autocomplete="tel" placeholder="+420 777 123 456"><span class="field__error" id="contact-phone-error"></span></label>
+      <label class="field"><span class="field__label">Typ služby</span>
+        <select class="field__input" name="service" required aria-describedby="contact-service-error">
+          <option value="">Vyberte službu</option><option>Webové stránky</option><option>Aplikace</option><option>AI automatizace</option><option>AI školení</option>
+        </select><span class="field__error" id="contact-service-error"></span>
+      </label>
+      <label class="field"><span class="field__label">Zpráva</span>
+        <textarea class="field__input" name="message" rows="4" required maxlength="5000" aria-describedby="contact-message-error" placeholder="Potřebuji web pro…"></textarea>
+        <span class="field__error" id="contact-message-error"></span>
+      </label>
+      <div hidden aria-hidden="true"><label>Web<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div data-turnstile></div>
+      <p class="modal__error" role="alert" tabindex="-1" hidden></p>
+      <div class="modal__actions">
+        <button class="btn btn--primary" type="submit" data-send><span>Odeslat poptávku</span><i aria-hidden="true">→</i></button>
+        <p class="modal__alt">Nebo mi napište přímo: <a href="mailto:info@jkweby.cz">info@jkweby.cz</a></p>
+      </div>
+    </div>
+    <div data-pane="done" hidden tabindex="-1" role="status">
+      <p class="eyebrow">Odesláno</p><h2 class="modal__title">Děkuji!</h2>
+      <p class="modal__text">Poptávka byla úspěšně odeslána. Co nejdříve se vám ozvu.</p>
+      <div class="modal__actions"><button class="btn btn--ghost" type="button" data-close>Zavřít</button></div>
+    </div>
+  </form>
+</dialog>
+<!-- /CONTACT:generated -->
 <script type="module" src="/src/main.js"></script>
 </body>
 </html>

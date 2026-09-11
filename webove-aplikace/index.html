@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title data-i18n="app.meta.title">Webové aplikace — JK WEBY</title>
+<title data-i18n="app.meta.title">Webové aplikace na míru | JK WEBY</title>
 <meta name="description" data-i18n-content="app.meta.desc" content="Webové aplikace na míru: e-shop, rezervační a objednávkový systém nebo katalog. Napojené na to, co už používáte, se závaznou cenou předem." />
 <meta name="theme-color" content="#050505" />
 
@@ -16,6 +16,25 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Instrument+Sans:wght@400..600&family=Spline+Sans+Mono:wght@400..600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/src/style.css" />
+<!-- SEO:generated -->
+<link rel="canonical" href="https://jkweby.cz/webove-aplikace/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="JK WEBY" />
+<meta property="og:locale" content="cs_CZ" />
+<meta property="og:url" content="https://jkweby.cz/webove-aplikace/" />
+<meta property="og:title" data-i18n-content="app.meta.title" content="Webové aplikace na míru | JK WEBY" />
+<meta property="og:description" data-i18n-content="app.meta.desc" content="Webové aplikace na míru: e-shop, rezervační a objednávkový systém nebo katalog. Napojené na to, co už používáte, se závaznou cenou předem." />
+<meta property="og:image" content="https://jkweby.cz/icon-512.png" />
+<meta property="og:image:width" content="512" />
+<meta property="og:image:height" content="512" />
+<meta property="og:image:alt" content="JK WEBY" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" data-i18n-content="app.meta.title" content="Webové aplikace na míru | JK WEBY" />
+<meta name="twitter:description" data-i18n-content="app.meta.desc" content="Webové aplikace na míru: e-shop, rezervační a objednávkový systém nebo katalog. Napojené na to, co už používáte, se závaznou cenou předem." />
+<meta name="twitter:image" content="https://jkweby.cz/icon-512.png" />
+<script type="application/ld+json" id="structured-data">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://jkweby.cz/#organization","name":"JK WEBY","url":"https://jkweby.cz/","logo":"https://jkweby.cz/icon-512.png","email":"info@jkweby.cz","founder":{"@type":"Person","name":"Jakub Křepelka"},"sameAs":["https://www.instagram.com/jk_weby/"]},{"@type":"WebSite","@id":"https://jkweby.cz/#website","url":"https://jkweby.cz/","name":"JK WEBY","publisher":{"@id":"https://jkweby.cz/#organization"}},{"@type":"WebPage","@id":"https://jkweby.cz/webove-aplikace/#webpage","url":"https://jkweby.cz/webove-aplikace/","name":"Webové aplikace na míru | JK WEBY","description":"Webové aplikace na míru: e-shop, rezervační a objednávkový systém nebo katalog. Napojené na to, co už používáte, se závaznou cenou předem.","inLanguage":"cs","isPartOf":{"@id":"https://jkweby.cz/#website"},"about":{"@id":"https://jkweby.cz/#organization"}}]}</script>
+<!-- /SEO:generated -->
 </head>
 <body class="page">
 
@@ -72,7 +91,7 @@
     </div>
   </nav>
 
-  <a class="btn btn--sm btn--primary nav__cta" href="mailto:info@jkweby.cz?subject=Popt%C3%A1vka%20webu" data-contact>
+  <a class="btn btn--sm btn--primary nav__cta" href="/#finale" data-contact>
     <span data-i18n="nav.cta">Nezávazná poptávka</span>
   </a>
 
@@ -150,7 +169,7 @@
     <p class="page__cta-text" data-i18n="svc.cta.text">Nevadí. Napište mi, co potřebujete, a vymyslím, jak na to.</p>
     <div class="finale__ctas">
       <!-- the form opens with this page's service already picked -->
-      <a class="btn btn--primary" data-contact="Aplikace" data-i18n-href="finale.mail" href="mailto:info@jkweby.cz?subject=Popt%C3%A1vka%20webu">
+      <a class="btn btn--primary" data-contact="Aplikace" href="/#finale">
         <span data-i18n="finale.cta1">Pojďme do toho</span><i aria-hidden="true">→</i>
       </a>
       <a class="btn btn--ghost" href="/faq/"><span data-i18n="nav.faq">FAQ</span></a>
@@ -171,6 +190,42 @@
 
 </main>
 
+<!-- CONTACT:generated -->
+<dialog class="modal" id="contact" lang="cs" aria-labelledby="contact-title" data-lenis-prevent>
+  <form class="modal__box" novalidate>
+    <button class="modal__x" type="button" data-close aria-label="Zavřít">×</button>
+    <div data-pane="form">
+      <p class="eyebrow">Kontakt</p>
+      <h2 class="modal__title" id="contact-title">Poptat službu</h2>
+      <p class="modal__text">Napište mi, co potřebujete. Co nejdříve se vám ozvu.</p>
+      <label class="field"><span class="field__label">Jméno</span><input class="field__input" name="name" aria-describedby="contact-name-error" type="text" required maxlength="100" autocomplete="name" placeholder="Jan Novák"><span class="field__error" id="contact-name-error"></span></label>
+      <label class="field"><span class="field__label">E-mail</span><input class="field__input" name="email" aria-describedby="contact-email-error" type="email" required maxlength="254" autocomplete="email" placeholder="jan@firma.cz"><span class="field__error" id="contact-email-error"></span></label>
+      <label class="field"><span class="field__label">Telefon (nepovinný)</span><input class="field__input" name="phone" aria-describedby="contact-phone-error" type="tel" maxlength="30" autocomplete="tel" placeholder="+420 777 123 456"><span class="field__error" id="contact-phone-error"></span></label>
+      <label class="field"><span class="field__label">Typ služby</span>
+        <select class="field__input" name="service" required aria-describedby="contact-service-error">
+          <option value="">Vyberte službu</option><option>Webové stránky</option><option>Aplikace</option><option>AI automatizace</option><option>AI školení</option>
+        </select><span class="field__error" id="contact-service-error"></span>
+      </label>
+      <label class="field"><span class="field__label">Zpráva</span>
+        <textarea class="field__input" name="message" rows="4" required maxlength="5000" aria-describedby="contact-message-error" placeholder="Potřebuji web pro…"></textarea>
+        <span class="field__error" id="contact-message-error"></span>
+      </label>
+      <div hidden aria-hidden="true"><label>Web<input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <div data-turnstile></div>
+      <p class="modal__error" role="alert" tabindex="-1" hidden></p>
+      <div class="modal__actions">
+        <button class="btn btn--primary" type="submit" data-send><span>Odeslat poptávku</span><i aria-hidden="true">→</i></button>
+        <p class="modal__alt">Nebo mi napište přímo: <a href="mailto:info@jkweby.cz">info@jkweby.cz</a></p>
+      </div>
+    </div>
+    <div data-pane="done" hidden tabindex="-1" role="status">
+      <p class="eyebrow">Odesláno</p><h2 class="modal__title">Děkuji!</h2>
+      <p class="modal__text">Poptávka byla úspěšně odeslána. Co nejdříve se vám ozvu.</p>
+      <div class="modal__actions"><button class="btn btn--ghost" type="button" data-close>Zavřít</button></div>
+    </div>
+  </form>
+</dialog>
+<!-- /CONTACT:generated -->
 <script type="module" src="/src/page.js"></script>
 </body>
 </html>

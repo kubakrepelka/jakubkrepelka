@@ -1,3 +1,5 @@
+import { seoPages, structuredData } from './seo.js';
+
 /* ═══════════════════════════════════════════════════════════════
    i18n — čeština / English
    ═══════════════════════════════════════════════════════════════
@@ -23,10 +25,10 @@ const STORE = 'jk-lang';
 export const dict = {
   cs: {
     /* ── head ─────────────────────────────────────────────── */
-    'meta.title': 'JK WEBY — weby, aplikace a AI řešení',
-    'meta.desc': 'JK WEBY — tvořím weby, aplikace a AI řešení pro firmy i jednotlivce. Návrh, závazná cena předem, spuštění na vaší doméně a starost o web i potom.',
-    'ref.meta.title': 'Reference — JK WEBY',
-    'ref.meta.desc': 'Připravuji první projekty. Tady bude jejich místo.',
+    'meta.title': 'Tvorba webových stránek na míru | JK WEBY',
+    'meta.desc': 'Tvořím webové stránky na míru pro firmy i jednotlivce. Originální design, závazná cena předem a péče po spuštění. Úvodní konzultace a návrh zdarma.',
+    'ref.meta.title': 'Reference a připravované projekty | JK WEBY',
+    'ref.meta.desc': 'Připravuji první weby, e-shopy a aplikace pro klienty. Podívejte se na zaměření JK WEBY a domluvte si spolupráci na vlastním projektu.',
 
     /* ── nav ──────────────────────────────────────────────── */
     'nav.focus': 'Zaměření',
@@ -37,7 +39,7 @@ export const dict = {
     /* ── 01 hero — the mark and the byline are names, so both languages
        carry them unchanged; only the pitch below them translates ─ */
     'hero.byline': 'Jakub Křepelka',
-    'hero.sub': 'Tvorba webových stránek, aplikací a AI řešení',
+    'hero.sub': 'Tvorba webových stránek na míru',
     'hero.scroll': 'Scroll',
 
     /* ── 02 stats — sliby, ne reference ───────────────────── */
@@ -130,8 +132,8 @@ export const dict = {
     'nav.faq': 'FAQ',
 
     /* ── stránka blog ─────────────────────────────────────── */
-    'blog.meta.title': 'Blog — JK WEBY',
-    'blog.meta.desc': 'Zápisky o tom, jak weby vznikají — co funguje, co ne a proč.',
+    'blog.meta.title': 'Blog o tvorbě webů | JK WEBY',
+    'blog.meta.desc': 'Připravované zápisky z tvorby webových stránek: co funguje, co ne a proč. První článek pro blog JK WEBY právě vzniká.',
     'blog.eyebrow': 'Zápisky',
     'blog.title': 'Blog',
     'blog.lead': 'Jak weby vznikají — co funguje, co ne a proč. Bez marketingové omáčky.',
@@ -141,8 +143,8 @@ export const dict = {
     'blog.cta.text': 'Napište mi a dám vám vědět. Žádný spam, jen když bude co číst.',
 
     /* ── stránka FAQ ──────────────────────────────────────── */
-    'faq.meta.title': 'Časté dotazy — JK WEBY',
-    'faq.meta.desc': 'Kolik to stojí, jak dlouho to trvá a co se děje po spuštění.',
+    'faq.meta.title': 'Časté dotazy k tvorbě webu | JK WEBY',
+    'faq.meta.desc': 'Odpovědi na časté dotazy k tvorbě webu: cena, termín, texty, doména, úpravy obsahu a péče po spuštění. Zjistěte, jak probíhá spolupráce s JK WEBY.',
     'faq.eyebrow': 'Časté dotazy',
     'faq.title': 'FAQ',
     'faq.lead': 'Otázky, které dostávám nejčastěji. Kdyby tu ta vaše nebyla, napište — odpovím do 24 hodin.',
@@ -183,7 +185,7 @@ export const dict = {
     'svc.cta.text': 'Nevadí. Napište mi, co potřebujete, a vymyslím, jak na to.',
 
     /* /tvorba-webovych-stranek/ */
-    'web.meta.title': 'Tvorba webových stránek — JK WEBY',
+    'web.meta.title': 'Tvorba webů: od vizitky po 3D web | JK WEBY',
     'web.meta.desc': 'Tvorba webových stránek na míru: od jednoduché vizitky přes parallax a 3D až po cinematic scroll. Bez šablon, závazná cena předem, spuštění na vaší doméně.',
     'web.title': 'Tvorba webových stránek',
     'web.lead': 'Od jednoduché vizitky po filmový zážitek. Vždycky na míru, bez šablon.',
@@ -197,7 +199,7 @@ export const dict = {
     'web.4.p': 'Filmová režie ve scrollu. Přesně jako tenhle web.',
 
     /* /webove-aplikace/ */
-    'app.meta.title': 'Webové aplikace — JK WEBY',
+    'app.meta.title': 'Webové aplikace na míru | JK WEBY',
     'app.meta.desc': 'Webové aplikace na míru: e-shop, rezervační a objednávkový systém nebo katalog. Napojené na to, co už používáte, se závaznou cenou předem.',
     'app.title': 'Webové aplikace',
     'app.lead': 'Když web nestačí a potřebujete, aby něco doopravdy fungovalo.',
@@ -211,7 +213,7 @@ export const dict = {
     'app.4.p': 'Produkty nebo služby, které si spravujete sami, bez volání programátorovi.',
 
     /* /ai-automatizace/ */
-    'ai.meta.title': 'AI automatizace — JK WEBY',
+    'ai.meta.title': 'AI automatizace pro firmy | JK WEBY',
     'ai.meta.desc': 'AI automatizace pro firmy: zpracování poptávek a e-mailů, generování nabídek a dokumentů, napojení na tabulky a nástroje, asistent na webu.',
     'ai.title': 'AI automatizace',
     'ai.lead': 'Opakující se práci zvládne stroj. Vy zůstanete u toho, co má smysl.',
@@ -225,7 +227,7 @@ export const dict = {
     'ai.4.p': 'Odpovídá na časté dotazy vašimi slovy, ne obecnými frázemi.',
 
     /* /ai-skoleni/ — připravuje se, stránka to říká rovnou */
-    'edu.meta.title': 'AI školení — JK WEBY',
+    'edu.meta.title': 'AI školení pro firmy i jednotlivce | JK WEBY',
     'edu.meta.desc': 'AI školení pro firmy i jednotlivce. Připravuji — obsah i termíny najdete tady, jakmile budou hotové.',
     'edu.title': 'AI školení',
     'edu.lead': 'Připravuji. Až bude hotové, najdete tady obsah i termíny.',
@@ -235,7 +237,7 @@ export const dict = {
 
   en: {
     /* ── head ─────────────────────────────────────────────── */
-    'meta.title': 'JK WEBY — websites, apps and AI solutions',
+    'meta.title': 'Custom website development | JK WEBY',
     'meta.desc': 'JK WEBY — I build websites, apps and AI solutions for companies and individuals. A proposal, a fixed price up front, launch on your domain and care for the site afterwards.',
     'ref.meta.title': 'References — JK WEBY',
     'ref.meta.desc': "I'm building the first projects right now. This is where they'll live.",
@@ -248,7 +250,7 @@ export const dict = {
 
     /* ── 01 hero ──────────────────────────────────────────── */
     'hero.byline': 'Jakub Křepelka',
-    'hero.sub': 'Web development, apps and AI solutions',
+    'hero.sub': 'Custom website development',
     'hero.scroll': 'Scroll',
 
     /* ── 02 stats — promises, not a track record ──────────── */
@@ -341,7 +343,7 @@ export const dict = {
     'nav.faq': 'FAQ',
 
     /* ── blog page ────────────────────────────────────────── */
-    'blog.meta.title': 'Blog — JK WEBY',
+    'blog.meta.title': 'Website development blog | JK WEBY',
     'blog.meta.desc': 'Notes on how websites actually get made — what works, what doesn\'t, and why.',
     'blog.eyebrow': 'Notes',
     'blog.title': 'Blog',
@@ -449,14 +451,11 @@ const store = {
   set(v) { try { localStorage.setItem(STORE, v); } catch { /* fine */ } },
 };
 
-/* stored choice → browser language → Czech */
+/* Public URLs are Czech. English is an explicit visitor preference, never
+   inferred from a crawler's/browser's Accept-Language. */
 export function preferredLang() {
   const saved = store.get();
-  if (LANGS.includes(saved)) return saved;
-  const nav = (navigator.languages || [navigator.language || '']).map(l => l.toLowerCase());
-  return nav.some(l => l.startsWith('cs') || l.startsWith('sk')) ? 'cs'
-    : nav.some(l => l.startsWith('en')) ? 'en'
-    : 'cs';
+  return LANGS.includes(saved) ? saved : 'cs';
 }
 
 export let lang = 'cs';
@@ -492,6 +491,17 @@ export function setLang(next, { persist = true } = {}) {
     btn.classList.toggle('is-on', on);
     btn.setAttribute('aria-pressed', String(on));
   });
+
+  document.querySelectorAll('.stat__val').forEach(el => {
+    const final = el.querySelector('.stat__final');
+    if (final) final.textContent = el.dataset.count
+      ? el.dataset.count + (el.dataset.suffix || '') : el.dataset.scramble;
+  });
+  document.querySelector('[property="og:locale"]')?.setAttribute('content', next === 'cs' ? 'cs_CZ' : 'en_US');
+  const canonical = document.querySelector('link[rel="canonical"]');
+  const page = canonical && seoPages.find(page => new URL(canonical.href).pathname === page.path);
+  const schema = document.getElementById('structured-data');
+  if (page && schema) schema.textContent = JSON.stringify(structuredData(page, t, next));
 
   if (persist) store.set(next);
   document.dispatchEvent(new CustomEvent('langchange', { detail: next }));
