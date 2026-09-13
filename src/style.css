@@ -79,7 +79,10 @@ ol, ul { padding: 0; list-style: none; }
 /* ═══ grain + scanline ══════════════════════════════════════════ */
 .grain {
   position: fixed;
-  inset: -150%;
+  /* the jitter below never moves it more than 3% of its own width, so a 6%
+     bleed keeps the edges covered — at -150% the promoted, blended layer
+     was sixteen viewports of texture composited on every frame */
+  inset: -6%;
   z-index: 9000;
   pointer-events: none;
   opacity: .32;

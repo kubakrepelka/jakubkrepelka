@@ -378,12 +378,21 @@ function buildScene() {
       duration: 26,
       ease: 'none',
       repeat: -1,
+      paused: true,               // the trigger below starts it on first sight
     });
-    /* scroll velocity nudges the belt */
+    /* scroll velocity nudges the belt — one reusable setter rather than a
+       fresh tween allocated on every scroll event. The belt only runs while
+       it is on screen; most of the page's height it is not. */
+    const rate = { v: 1 };
+    const speed = gsap.quickTo(rate, 'v', { duration: .4, onUpdate: () => tween.timeScale(rate.v) });
     ScrollTrigger.create({
+      trigger: m,
+      start: 'top bottom',
+      end: 'bottom top',
+      onToggle: self => (self.isActive ? tween.play() : tween.pause()),
       onUpdate: self => {
         const v = gsap.utils.clamp(-4, 4, self.getVelocity() / 340);
-        gsap.to(tween, { timeScale: 1 + Math.abs(v), duration: .4, overwrite: true });
+        speed(1 + Math.abs(v));
       },
     });
   });
@@ -430,8 +439,14 @@ function buildScene() {
   });
 
   /* ── background clips: slow push, and only decode when visible ─ */
+  /* the markup says preload="none": the three clips are ~3 MB, and fetched
+     alongside the frames they sat on the loader's critical path. The frames
+     are in by the time this runs, so the buffering starts now — well before
+     anyone has scrolled the 300vh of hero that precedes the first clip */
   document.querySelectorAll('[data-vid]').forEach(v => {
     const chapter = v.closest('.chapter');
+    v.preload = 'auto';
+    v.load();
     gsap.fromTo(v,
       { scale: 1.16, yPercent: -3 },
       {
@@ -501,7 +516,17 @@ document.querySelectorAll('.stat__val').forEach(val => {
 });
 
 const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+/* a phone fires resize every time its URL bar slides in or out — mid-scroll,
+   on the page's heaviest section. The sticky frames are sized in svh, so a
+   height-only change moves nothing there; only a width change (rotation,
+   split view) is worth a full re-measure. ScrollTrigger's own listener gets
+   the same rule. */
+ScrollTrigger.config({ ignoreMobileResize: true });
+const COARSE = window.matchMedia('(pointer: coarse)').matches;
+let lastWidth = window.innerWidth;
 window.addEventListener('resize', debounce(() => {
+  if (COARSE && window.innerWidth === lastWidth) return;
+  lastWidth = window.innerWidth;
   resizeCanvas();
   lenis.resize();
   ScrollTrigger.refresh();
