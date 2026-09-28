@@ -33,7 +33,7 @@ for (const directory of ['.', 'dist']) {
       assert.equal([...html.matchAll(/<link\b[^>]*rel="canonical"/g)].length, 1);
       assert.ok(html.includes(`rel="canonical" href="${SITE_URL}${page.path}"`));
       assert.equal(metadata(html, 'property', 'og:url'), SITE_URL + page.path);
-      assert.equal(metadata(html, 'property', 'og:title'), title);
+      assert.equal(metadata(html, 'property', 'og:title'), 'Jakub Křepelka');
       assert.equal(metadata(html, 'property', 'og:description'), desc);
       assert.ok(metadata(html, 'property', 'og:image').startsWith(SITE_URL + '/'));
       assert.equal([...html.matchAll(/<meta\b[^>]*name="robots"/g)].length, 1);
@@ -79,9 +79,9 @@ for (const directory of ['.', 'dist']) {
     assert.equal(descriptions.size, pages.length);
     assert.equal(headings.size, pages.length);
     const home = pages.find(page => page.path === '/').html;
-    assert.equal(text(home.match(/<title\b[^>]*>(.*?)<\/title>/s)[1]), 'Tvorba webových stránek na míru | JK WEBY');
+    assert.equal(text(home.match(/<title\b[^>]*>(.*?)<\/title>/s)[1]), 'Jakub Křepelka');
     assert.deepEqual([...home.matchAll(/class="stat__final">([^<]+)</g)].map(match => match[1]), ['24 h', '0 Kč', '14 dní', '100 %']);
-    assert.ok(home.includes('<div class="hero__name">'), 'brand retains its visual class');
+    assert.ok(home.includes('<h1 class="hero__name"'), 'brand retains its visual class');
     assert.match(home, /<noscript><style>#loader\s*\{\s*display:\s*none;?\s*\}<\/style><\/noscript>/, 'no-JS fallback overrides loader class');
   });
   test(`${directory}: sitemap includes only canonical public pages and robots permits crawling`, async () => {

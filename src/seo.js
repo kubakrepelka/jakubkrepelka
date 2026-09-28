@@ -1,7 +1,7 @@
 // One route inventory for Vite, metadata, structured data and the sitemap.
 export const SITE_URL = 'https://jkweby.cz';
 export const seoPages = [
-  { path: '/', file: 'index.html', key: 'meta', heading: 'hero.sub' },
+  { path: '/', file: 'index.html', key: 'meta', heading: 'hero.name' },
   { path: '/tvorba-webovych-stranek/', file: 'tvorba-webovych-stranek/index.html', key: 'web.meta', heading: 'web.title' },
   { path: '/webove-aplikace/', file: 'webove-aplikace/index.html', key: 'app.meta', heading: 'app.title' },
   { path: '/ai-automatizace/', file: 'ai-automatizace/index.html', key: 'ai.meta', heading: 'ai.title' },
@@ -15,7 +15,7 @@ export function structuredData(page, translations, language = 'cs') {
   const url = SITE_URL + page.path;
   const organization = {
     '@type': 'Organization', '@id': SITE_URL + '/#organization',
-    name: 'JK WEBY', url: SITE_URL + '/',
+    name: 'Jakub Křepelka', url: SITE_URL + '/',
     logo: SITE_URL + '/icon-512.png', email: 'info@jkweby.cz',
     founder: { '@type': 'Person', name: 'Jakub Křepelka' },
     sameAs: ['https://www.instagram.com/jk_weby/'],
@@ -41,7 +41,7 @@ export function structuredData(page, translations, language = 'cs') {
     '@context': 'https://schema.org',
     '@graph': [organization, {
       '@type': 'WebSite', '@id': SITE_URL + '/#website',
-      url: SITE_URL + '/', name: 'JK WEBY',
+      url: SITE_URL + '/', name: 'Jakub Křepelka',
       publisher: { '@id': organization['@id'] },
     }, webpage],
   };

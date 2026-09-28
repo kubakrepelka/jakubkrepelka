@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   JK WEBY — cinematic scroll portfolio
+   Jakub Křepelka — cinematic scroll portfolio
    ink black · emerald · cream — editorial meets cinema
    ═══════════════════════════════════════════════════════════════ */
 
@@ -449,16 +449,9 @@ ol, ul { padding: 0; list-style: none; }
    same flow. These share the measurements instead, and .hero__type reserves
    exactly the room the block below it occupies. */
 .hero {
-  /* JK is two glyphs, WEBY is four. Set at one size the top line would read as
-     a stub over a bar, so the width axis does the levelling: JK runs wide,
-     WEBY condensed, and one dial drives both. Measured, 'wdth' 118 gives two
-     glyphs 1.628em of ink where four condensed ones take 2.072em — 1.273×
-     lands the two lines on the same width at every viewport. The 30vh ceiling
-     keeps the stack inside a short window instead of running under the nav. */
-  --mark-weby:  min(clamp(3.6rem, 16.5vw, 17rem), 30vh);
-  --mark-jk:    calc(var(--mark-weby) * 1.273);
+  /* Responsive name sizing also reserves clearance for the subtitle. */
+  --name-size: min(17vw, 23vh);
   --mark-gap:   clamp(.1rem, 1.1vh, .9rem);
-  --name-size:  var(--mark-weby);
   --sub-size:   clamp(1.05rem, 2.55vw, 2.85rem);
   --sub-lead:   1.16;
   --sub-lines:  1;
@@ -491,6 +484,7 @@ ol, ul { padding: 0; list-style: none; }
 }
 
 .hero__name {
+  margin: 0;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
@@ -507,22 +501,19 @@ ol, ul { padding: 0; list-style: none; }
 }
 .hero__line { display: block; white-space: nowrap; }
 
-/* wide and a size up — two glyphs have to carry a whole line.
-   The margin cancels the trailing letter-space: tracking is added after the
-   last glyph too, so a negative value leaves the ink hanging off the right of
-   the box and the flex centring lands it off-axis. Measured back to centre. */
-.hero__line--jk {
-  font-size: var(--mark-jk);
+/* Scale both name lines to fit desktop and mobile viewports. */
+.hero__line--first-name {
+  font-size: min(22vw, 29vh);
   font-variation-settings: 'wdth' 118, 'wght' 900;
   letter-spacing: -.015em;
   margin-right: .015em;
 }
-/* condensed — four glyphs on the same measure as the two above */
-.hero__line--weby {
-  font-size: var(--mark-weby);
+/* Condensed surname keeps the full name within the viewport. */
+.hero__line--last-name {
+  font-size: min(17vw, 23vh);
   font-variation-settings: 'wdth' 60, 'wght' 900;
   letter-spacing: -.035em;
-  margin-right: .045em;         /* tracking, plus W's heavier left sidebearing */
+  margin-right: .035em;
 }
 
 /* per-character shells produced by JS */
@@ -661,11 +652,8 @@ ol, ul { padding: 0; list-style: none; }
       radial-gradient(92% 48% at 50% 52%, rgba(5,5,5,.44) 0%, rgba(5,5,5,.74) 100%),
       linear-gradient(to bottom, rgba(5,5,5,.62) 0%, rgba(5,5,5,.22) 24%, rgba(5,5,5,.24) 58%, rgba(5,5,5,.95) 100%);
   }
-  /* the pitch wraps to two lines here, so it sits lower and tighter to stay
-     clear of WEBY. The mark goes the other way: two and four glyphs can take
-     far more of the width than a surname could. */
+  /* Reserve room for the two-line subtitle on mobile. */
   .hero {
-    --mark-weby:  min(clamp(3.6rem, 33vw, 12rem), 26vh);
     --mark-gap:   clamp(.1rem, .8vh, .6rem);
     --sub-size:   clamp(1rem, 5.2vw, 1.35rem);
     --sub-lead:   1.14;

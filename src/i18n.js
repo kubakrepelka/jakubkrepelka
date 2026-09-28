@@ -25,10 +25,11 @@ const STORE = 'jk-lang';
 export const dict = {
   cs: {
     /* ── head ─────────────────────────────────────────────── */
-    'meta.title': 'Tvorba webových stránek na míru | JK WEBY',
+    'meta.title': 'Jakub Křepelka',
+    'hero.name': 'JAKUB KŘEPELKA',
     'meta.desc': 'Tvořím webové stránky na míru pro firmy i jednotlivce. Originální design, závazná cena předem a péče po spuštění. Úvodní konzultace a návrh zdarma.',
-    'ref.meta.title': 'Reference a připravované projekty | JK WEBY',
-    'ref.meta.desc': 'Připravuji první weby, e-shopy a aplikace pro klienty. Podívejte se na zaměření JK WEBY a domluvte si spolupráci na vlastním projektu.',
+    'ref.meta.title': 'Reference a připravované projekty | Jakub Křepelka',
+    'ref.meta.desc': 'Připravuji první weby, e-shopy a aplikace pro klienty. Podívejte se na mé zaměření a domluvte si spolupráci na vlastním projektu.',
 
     /* ── nav ──────────────────────────────────────────────── */
     'nav.focus': 'Zaměření',
@@ -132,8 +133,8 @@ export const dict = {
     'nav.faq': 'FAQ',
 
     /* ── stránka blog ─────────────────────────────────────── */
-    'blog.meta.title': 'Blog o tvorbě webů | JK WEBY',
-    'blog.meta.desc': 'Připravované zápisky z tvorby webových stránek: co funguje, co ne a proč. První článek pro blog JK WEBY právě vzniká.',
+    'blog.meta.title': 'Blog o tvorbě webů | Jakub Křepelka',
+    'blog.meta.desc': 'Připravované zápisky z tvorby webových stránek: co funguje, co ne a proč. První článek pro můj blog právě vzniká.',
     'blog.eyebrow': 'Zápisky',
     'blog.title': 'Blog',
     'blog.lead': 'Jak weby vznikají — co funguje, co ne a proč. Bez marketingové omáčky.',
@@ -143,8 +144,8 @@ export const dict = {
     'blog.cta.text': 'Napište mi a dám vám vědět. Žádný spam, jen když bude co číst.',
 
     /* ── stránka FAQ ──────────────────────────────────────── */
-    'faq.meta.title': 'Časté dotazy k tvorbě webu | JK WEBY',
-    'faq.meta.desc': 'Odpovědi na časté dotazy k tvorbě webu: cena, termín, texty, doména, úpravy obsahu a péče po spuštění. Zjistěte, jak probíhá spolupráce s JK WEBY.',
+    'faq.meta.title': 'Časté dotazy k tvorbě webu | Jakub Křepelka',
+    'faq.meta.desc': 'Odpovědi na časté dotazy k tvorbě webu: cena, termín, texty, doména, úpravy obsahu a péče po spuštění. Zjistěte, jak probíhá spolupráce se mnou.',
     'faq.eyebrow': 'Časté dotazy',
     'faq.title': 'FAQ',
     'faq.lead': 'Otázky, které dostávám nejčastěji. Kdyby tu ta vaše nebyla, napište — odpovím do 24 hodin.',
@@ -185,7 +186,7 @@ export const dict = {
     'svc.cta.text': 'Nevadí. Napište mi, co potřebujete, a vymyslím, jak na to.',
 
     /* /tvorba-webovych-stranek/ */
-    'web.meta.title': 'Tvorba webů: od vizitky po 3D web | JK WEBY',
+    'web.meta.title': 'Tvorba webů: od vizitky po 3D web | Jakub Křepelka',
     'web.meta.desc': 'Tvorba webových stránek na míru: od jednoduché vizitky přes parallax a 3D až po cinematic scroll. Bez šablon, závazná cena předem, spuštění na vaší doméně.',
     'web.title': 'Tvorba webových stránek',
     'web.lead': 'Od jednoduché vizitky po filmový zážitek. Vždycky na míru, bez šablon.',
@@ -199,7 +200,7 @@ export const dict = {
     'web.4.p': 'Filmová režie ve scrollu. Přesně jako tenhle web.',
 
     /* /webove-aplikace/ */
-    'app.meta.title': 'Webové aplikace na míru | JK WEBY',
+    'app.meta.title': 'Webové aplikace na míru | Jakub Křepelka',
     'app.meta.desc': 'Webové aplikace na míru: e-shop, rezervační a objednávkový systém nebo katalog. Napojené na to, co už používáte, se závaznou cenou předem.',
     'app.title': 'Webové aplikace',
     'app.lead': 'Když web nestačí a potřebujete, aby něco doopravdy fungovalo.',
@@ -213,7 +214,7 @@ export const dict = {
     'app.4.p': 'Produkty nebo služby, které si spravujete sami, bez volání programátorovi.',
 
     /* /ai-automatizace/ */
-    'ai.meta.title': 'AI automatizace pro firmy | JK WEBY',
+    'ai.meta.title': 'AI automatizace pro firmy | Jakub Křepelka',
     'ai.meta.desc': 'AI automatizace pro firmy: zpracování poptávek a e-mailů, generování nabídek a dokumentů, napojení na tabulky a nástroje, asistent na webu.',
     'ai.title': 'AI automatizace',
     'ai.lead': 'Opakující se práci zvládne stroj. Vy zůstanete u toho, co má smysl.',
@@ -227,7 +228,7 @@ export const dict = {
     'ai.4.p': 'Odpovídá na časté dotazy vašimi slovy, ne obecnými frázemi.',
 
     /* /ai-skoleni/ — připravuje se, stránka to říká rovnou */
-    'edu.meta.title': 'AI školení pro firmy i jednotlivce | JK WEBY',
+    'edu.meta.title': 'AI školení pro firmy i jednotlivce | Jakub Křepelka',
     'edu.meta.desc': 'AI školení pro firmy i jednotlivce. Připravuji — obsah i termíny najdete tady, jakmile budou hotové.',
     'edu.title': 'AI školení',
     'edu.lead': 'Připravuji. Až bude hotové, najdete tady obsah i termíny.',
@@ -237,9 +238,10 @@ export const dict = {
 
   en: {
     /* ── head ─────────────────────────────────────────────── */
-    'meta.title': 'Custom website development | JK WEBY',
-    'meta.desc': 'JK WEBY — I build websites, apps and AI solutions for companies and individuals. A proposal, a fixed price up front, launch on your domain and care for the site afterwards.',
-    'ref.meta.title': 'References — JK WEBY',
+    'meta.title': 'Jakub Křepelka',
+    'hero.name': 'JAKUB KŘEPELKA',
+    'meta.desc': 'Jakub Křepelka — I build websites, apps and AI solutions for companies and individuals. A proposal, a fixed price up front, launch on your domain and care for the site afterwards.',
+    'ref.meta.title': 'References — Jakub Křepelka',
     'ref.meta.desc': "I'm building the first projects right now. This is where they'll live.",
 
     /* ── nav ──────────────────────────────────────────────── */
@@ -343,7 +345,7 @@ export const dict = {
     'nav.faq': 'FAQ',
 
     /* ── blog page ────────────────────────────────────────── */
-    'blog.meta.title': 'Website development blog | JK WEBY',
+    'blog.meta.title': 'Website development blog | Jakub Křepelka',
     'blog.meta.desc': 'Notes on how websites actually get made — what works, what doesn\'t, and why.',
     'blog.eyebrow': 'Notes',
     'blog.title': 'Blog',
@@ -354,7 +356,7 @@ export const dict = {
     'blog.cta.text': "Drop me a line and I'll tell you. No spam — only when there's something worth reading.",
 
     /* ── FAQ page ─────────────────────────────────────────── */
-    'faq.meta.title': 'FAQ — JK WEBY',
+    'faq.meta.title': 'FAQ — Jakub Křepelka',
     'faq.meta.desc': 'What it costs, how long it takes, and what happens after launch.',
     'faq.eyebrow': 'Common questions',
     'faq.title': 'FAQ',
@@ -394,7 +396,7 @@ export const dict = {
     'svc.cta.text': "Doesn't matter. Tell me what you need and I'll work out how to do it.",
 
     /* /tvorba-webovych-stranek/ */
-    'web.meta.title': 'Website development — JK WEBY',
+    'web.meta.title': 'Website development — Jakub Křepelka',
     'web.meta.desc': 'Custom website development: from a simple calling card through parallax and 3D to cinematic scroll. No templates, a fixed price up front, launch on your domain.',
     'web.title': 'Website development',
     'web.lead': 'From a simple calling card to a full cinematic ride. Always custom, never a template.',
@@ -408,7 +410,7 @@ export const dict = {
     'web.4.p': 'Film direction driven by the scrollbar. Exactly like this site.',
 
     /* /webove-aplikace/ */
-    'app.meta.title': 'Web applications — JK WEBY',
+    'app.meta.title': 'Web applications — Jakub Křepelka',
     'app.meta.desc': 'Custom web applications: an e-shop, a booking or order system, or a catalogue. Wired into what you already use, with a fixed price up front.',
     'app.title': 'Web applications',
     'app.lead': "For when a site isn't enough and something has to actually work.",
@@ -422,7 +424,7 @@ export const dict = {
     'app.4.p': 'Products or services you keep up to date yourself, without calling a developer.',
 
     /* /ai-automatizace/ */
-    'ai.meta.title': 'AI automation — JK WEBY',
+    'ai.meta.title': 'AI automation — Jakub Křepelka',
     'ai.meta.desc': 'AI automation for businesses: enquiries and email handled, quotes and documents generated, your tools wired together, an assistant on your site.',
     'ai.title': 'AI automation',
     'ai.lead': 'A machine can handle the work that repeats. You stay on the work that matters.',
@@ -436,7 +438,7 @@ export const dict = {
     'ai.4.p': 'Answers the usual questions in your words, not in generic filler.',
 
     /* /ai-skoleni/ — in the works, and the page says so */
-    'edu.meta.title': 'AI training — JK WEBY',
+    'edu.meta.title': 'AI training — Jakub Křepelka',
     'edu.meta.desc': "AI training for companies and individuals. In the works — the content and dates will be here once they're ready.",
     'edu.title': 'AI training',
     'edu.lead': "In the works. Once it's ready, the content and dates will be here.",

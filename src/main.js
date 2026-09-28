@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   JK WEBY — scroll engine
+   Jakub Křepelka — scroll engine
    Lenis smooth scroll · GSAP ScrollTrigger · canvas frame scrub
    ═══════════════════════════════════════════════════════════════ */
 

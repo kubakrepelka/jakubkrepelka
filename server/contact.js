@@ -104,8 +104,8 @@ export function createContactHandler({ env = process.env, send, fetcher = fetch,
         try {
           const confirmation = await sendEmail({
             from, to: data.email, replyTo: env.CONTACT_EMAIL,
-            subject: 'Děkuji za vaši poptávku — JK WEBY',
-            text: 'Dobrý den,\n\nděkuji za vaši poptávku. Zprávu jsem přijal a co nejdříve se vám ozvu.\n\nJakub\nJK WEBY\nhttps://jkweby.cz',
+            subject: 'Děkuji za vaši poptávku — Jakub Křepelka',
+            text: 'Dobrý den,\n\nděkuji za vaši poptávku. Zprávu jsem přijal a co nejdříve se vám ozvu.\n\nJakub Křepelka\nhttps://jkweby.cz',
           }, { idempotencyKey: `contact-confirmation-${id}` });
           if (confirmation.error || !confirmation.data?.id) console.warn('contact_confirmation_failed');
         } catch { console.warn('contact_confirmation_failed'); }

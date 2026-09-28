@@ -20,24 +20,23 @@ for (const page of seoPages) {
     });
   html = html.replace(/<meta\b[^>]*data-i18n-content="([^"]+)"[^>]*>/g,
     (tag, key) => tag.replace(/\scontent="[^"]*"/, ` content="${escape(dict.cs[key])}"`));
-  const title = escape(dict.cs[page.key + '.title']);
   const description = escape(dict.cs[page.key + '.desc']);
   const url = SITE_URL + page.path;
   const head = `<!-- SEO:generated -->
 <link rel="canonical" href="${url}" />
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="JK WEBY" />
+<meta property="og:site_name" content="Jakub Křepelka" />
 <meta property="og:locale" content="cs_CZ" />
 <meta property="og:url" content="${url}" />
-<meta property="og:title" data-i18n-content="${page.key}.title" content="${title}" />
+<meta property="og:title" content="Jakub Křepelka" />
 <meta property="og:description" data-i18n-content="${page.key}.desc" content="${description}" />
 <meta property="og:image" content="${SITE_URL}/icon-512.png" />
 <meta property="og:image:width" content="512" />
 <meta property="og:image:height" content="512" />
-<meta property="og:image:alt" content="JK WEBY" />
+<meta property="og:image:alt" content="Jakub Křepelka" />
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" data-i18n-content="${page.key}.title" content="${title}" />
+<meta name="twitter:title" content="Jakub Křepelka" />
 <meta name="twitter:description" data-i18n-content="${page.key}.desc" content="${description}" />
 <meta name="twitter:image" content="${SITE_URL}/icon-512.png" />
 <script type="application/ld+json" id="structured-data">${JSON.stringify(structuredData(page, dict.cs)).replaceAll('<', '\\u003c')}</script>
